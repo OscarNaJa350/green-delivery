@@ -1,0 +1,1466 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="theme-color" content="#ebf5ee">
+  <title>ระบบติดตามการปล่อยคาร์บอน - ลดคาร์บอน เพื่อโลกที่ดีกว่า</title>
+  <!-- Google Fonts: Prompt for Thai typography -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Prompt:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Caveat:wght@600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- Mobile / Tablet App Shell Wrapper -->
+  <main class="app-container">
+    
+    <!-- Floating Background Natural Leaves & Eco Elements -->
+    <div class="bg-decorations" aria-hidden="true">
+      <!-- Top right globe illustration -->
+      <div class="decor-top-right">
+        <div class="slogan-container">
+          <span class="sparkle s1">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.5 7.5L22 12l-7.5 2.5L12 22l-2.5-7.5L2 12l7.5-2.5L12 2z"/></svg>
+          </span>
+          <div class="slogan-handwritten">
+            <span>Small Actions</span>
+            <em>Big Impact</em>
+          </div>
+          <span class="sparkle s2">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.5 7.5L22 12l-7.5 2.5L12 22l-2.5-7.5L2 12l7.5-2.5L12 2z"/></svg>
+          </span>
+        </div>
+        
+        <svg class="earth-art" viewBox="0 0 260 210" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="globeGrad" x1="20%" y1="10%" x2="90%" y2="90%">
+              <stop offset="0%" stop-color="#bbf0dc" />
+              <stop offset="45%" stop-color="#72cca9" />
+              <stop offset="100%" stop-color="#3d9b77" />
+            </linearGradient>
+            <radialGradient id="haloGrad" cx="50%" cy="50%" r="50%">
+              <stop offset="50%" stop-color="#e2f6ee" stop-opacity="0.9" />
+              <stop offset="100%" stop-color="#e2f6ee" stop-opacity="0" />
+            </radialGradient>
+          </defs>
+          <!-- Glow / Halo -->
+          <circle cx="165" cy="115" r="85" fill="url(#haloGrad)" />
+          
+          <!-- Trees on top of globe -->
+          <path d="M110 75 C110 60, 125 60, 125 75 Z" fill="#2d6a4f" />
+          <path d="M122 65 C122 50, 138 50, 138 65 Z" fill="#40916c" />
+          <path d="M136 55 C136 38, 155 38, 155 55 Z" fill="#1b4332" />
+          <path d="M152 50 C152 35, 172 35, 172 50 Z" fill="#52b788" />
+          <path d="M174 58 C174 44, 192 44, 192 58 Z" fill="#2d6a4f" />
+          <path d="M192 70 C192 56, 208 56, 208 70 Z" fill="#74c69d" />
+          
+          <!-- Globe Body -->
+          <circle cx="165" cy="120" r="62" fill="url(#globeGrad)" />
+          <!-- Continents / Forests -->
+          <path d="M130 105 Q145 98 158 112 T180 108 Q192 120 198 138 Q175 155 145 142 Z" fill="#2d6a4f" opacity="0.65" />
+          <path d="M125 132 Q142 125 148 145 T175 160 Q152 172 135 160 Z" fill="#1b4332" opacity="0.55" />
+          <path d="M160 80 Q172 92 188 86 T205 102 Q215 96 210 86 Z" fill="#52b788" opacity="0.65" />
+          
+          <!-- Clouds over globe -->
+          <path d="M105 125 Q110 116 122 120 Q128 112 138 116 Q144 124 138 130 Q126 132 110 130 Z" fill="#ffffff" opacity="0.8" />
+          <path d="M178 150 Q186 142 198 146 Q205 139 216 144 Q220 151 212 156 Z" fill="#ffffff" opacity="0.85" />
+          
+          <!-- Leaf branches framing right -->
+          <path d="M195 20 C185 50 215 80 245 85" stroke="#2d6a4f" stroke-width="2.8" stroke-linecap="round" fill="none"/>
+          <path d="M200 38 Q216 32 220 48 Q206 50 200 38 Z" fill="#52b788" />
+          <path d="M216 58 Q232 54 235 68 Q222 72 216 58 Z" fill="#2d6a4f" />
+          <path d="M230 78 Q248 72 250 86 Q238 90 230 78 Z" fill="#74c69d" />
+        </svg>
+      </div>
+
+      <!-- Top Left Leaves -->
+      <div class="decor-top-left">
+        <svg width="190" height="190" viewBox="0 0 190 190" fill="none">
+          <path d="M-10 15 C35 10 75 35 90 85" stroke="#a3d9b8" stroke-width="2.5" stroke-linecap="round"/>
+          <path d="M22 20 C38 24 45 42 35 52 C22 46 16 30 22 20 Z" fill="#c0e6d0"/>
+          <path d="M54 38 C74 42 80 60 68 72 C52 66 48 48 54 38 Z" fill="#9cd3b1"/>
+          <path d="M78 74 C96 80 100 100 86 108 C74 102 70 86 78 74 Z" fill="#7ac096"/>
+        </svg>
+      </div>
+
+      <!-- Bottom Left Leaves -->
+      <div class="decor-bottom-left">
+        <svg width="170" height="170" viewBox="0 0 170 170" fill="none">
+          <path d="M-15 160 C40 145 70 105 65 50" stroke="#74b590" stroke-width="3.2" stroke-linecap="round"/>
+          <path d="M15 138 C32 126 56 132 50 152 C30 156 18 148 15 138 Z" fill="#4d926a"/>
+          <path d="M38 102 C60 90 82 98 76 118 C54 122 40 114 38 102 Z" fill="#2d6a4f"/>
+          <path d="M56 68 C74 56 96 64 90 84 C70 88 58 78 56 68 Z" fill="#52b788"/>
+        </svg>
+      </div>
+
+      <!-- Bottom Right Leaves -->
+      <div class="decor-bottom-right">
+        <svg width="180" height="180" viewBox="0 0 180 180" fill="none">
+          <path d="M190 160 C130 140 100 100 110 40" stroke="#84c9a0" stroke-width="3.2" stroke-linecap="round"/>
+          <path d="M155 135 C132 122 115 136 120 154 C140 154 152 145 155 135 Z" fill="#52b788"/>
+          <path d="M125 100 C102 88 86 102 92 122 C114 122 122 110 125 100 Z" fill="#2d6a4f"/>
+          <path d="M110 60 C90 52 76 64 82 82 C100 82 108 72 110 60 Z" fill="#74c69d"/>
+        </svg>
+      </div>
+    </div>
+    
+    <!-- TAB VIEW 1: HOME (DEFAULT ACTIVE) -->
+    <div id="view-home" class="tab-view active">
+      <!-- TOP HEADER -->
+      <header class="app-header">
+        <div class="header-left">
+          <!-- Leaf Logo Badge -->
+          <div class="brand-logo" title="Logo">
+            <svg viewBox="0 0 28 28" fill="none" class="brand-icon">
+              <path d="M6 21C6 21 7 14 12 9C17 4 22 4 22 4C22 4 22 9 17 14C12 19 6 21 6 21Z" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M10 17L17 10" stroke="white" stroke-width="2.2" stroke-linecap="round"/>
+            </svg>
+          </div>
+          <!-- Title & Slogan -->
+          <div class="brand-text">
+            <h1 class="greeting">สวัสดีครับ <svg class="sprout-emoji" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 20h10"/><path d="M12 20V11"/><path d="M12 11C12 7 9 5 5 5c0 4 3 6 7 6z"/><path d="M12 13c0-3 2.5-5 6-5 0 3-2.5 5-6 5z"/></svg></h1>
+            <p class="tagline">ร่วมกันลดคาร์บอน เพื่อโลกที่ดีกว่า</p>
+          </div>
+        </div>
+
+        <!-- Action Icons Menu -->
+        <nav class="header-actions" aria-label="แถบเมนูด้านบน">
+          <!-- 1. Grid icon (4 rounded dots/squares) -->
+          <button class="icon-btn" id="btn-main-menu" title="เมนูหลัก" aria-label="เมนู">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="4" y="4" width="6.5" height="6.5" rx="2" />
+              <rect x="13.5" y="4" width="6.5" height="6.5" rx="2" />
+              <rect x="4" y="13.5" width="6.5" height="6.5" rx="2" />
+              <rect x="13.5" y="13.5" width="6.5" height="6.5" rx="2" />
+            </svg>
+          </button>
+
+          <!-- 2. Location Pin icon -->
+          <button class="icon-btn" id="btn-location-pin" title="พิกัด" aria-label="พิกัดตำแหน่ง">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M12 21C16 16.5 19 13 19 9A7 7 0 1 0 5 9C5 13 8 16.5 12 21Z" />
+              <circle cx="12" cy="9" r="2.5" />
+            </svg>
+          </button>
+
+          <!-- 3. Delivery Truck icon -->
+          <button class="icon-btn" id="btn-delivery-truck" title="การขนส่ง (ยานพาหนะ)" aria-label="ยานพาหนะและการจัดส่ง">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="1" y="6" width="13" height="10" rx="1.5" />
+              <path d="M14 9H18L21 12V16H14V9Z" />
+              <circle cx="5.5" cy="17.5" r="2.2" />
+              <circle cx="17.5" cy="17.5" r="2.2" />
+            </svg>
+          </button>
+
+          <!-- 4. Exit / Logout icon -->
+          <button class="icon-btn" id="btn-logout" title="ออกจากระบบ" aria-label="ออกจากระบบ" onclick="window.location.href='login.html'">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M14 4H18C19.1 4 20 4.9 20 6V18C20 19.1 19.1 20 18 20H14" stroke-linecap="round"/>
+              <path d="M10 16L14 12L10 8" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M14 12H3" stroke-linecap="round"/>
+            </svg>
+          </button>
+        </nav>
+      </header>
+
+      <!-- SEARCH BAR -->
+      <section class="search-section">
+        <div class="search-box">
+          <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+            <circle cx="11" cy="11" r="7" />
+            <line x1="16.5" y1="16.5" x2="21.5" y2="21.5" stroke-linecap="round" />
+          </svg>
+          <input 
+            type="text" 
+            placeholder="ค้นหาสถานที่ เช่น โรงเรียนสุรศักดิ์มนตรี ตึก 3, ตลาดไท" 
+            aria-label="ค้นหาสถานที่"
+            class="search-input"
+          />
+          <button class="search-submit-btn" aria-label="ค้นหา">
+            <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5">
+              <circle cx="11" cy="11" r="6.5" />
+              <line x1="16" y1="16" x2="20.5" y2="20.5" stroke-linecap="round" />
+            </svg>
+          </button>
+        </div>
+      </section>
+
+      <!-- CURRENT LOCATION CARD -->
+      <section class="card location-card">
+        <div class="location-info">
+          <div class="location-icon-wrapper">
+            <svg viewBox="0 0 24 24" fill="#1b4d32" class="pin-svg">
+              <path d="M12 2C8.13 2 5 5.13 5 9C5 14.25 12 22 12 22C12 22 19 14.25 19 9C19 5.13 15.87 2 12 2ZM12 11.5C10.62 11.5 9.5 10.38 9.5 9C9.5 7.62 10.62 6.5 12 6.5C13.38 6.5 14.5 7.62 14.5 9C14.5 10.38 13.38 11.5 12 11.5Z"/>
+            </svg>
+          </div>
+          <div class="location-details">
+            <div class="location-title-row">
+              <span class="sub-label">ตำแหน่งปัจจุบัน</span>
+              <button class="view-map-pill">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="pill-icon">
+                  <polygon points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6"></polygon>
+                  <line x1="8" y1="2" x2="8" y2="18"></line>
+                  <line x1="16" y1="6" x2="16" y2="22"></line>
+                </svg>
+                <span>ดูแผนที่</span>
+              </button>
+            </div>
+            <h2 class="city-name">กรุงเทพมหานคร</h2>
+            <p class="landmark-name">ใกล้เคียง: อนุสาวรีย์ชัยสมรภูมิ</p>
+          </div>
+        </div>
+
+        <!-- Mini Map Widget Right -->
+        <div class="mini-map-preview" title="แผนที่กรุงเทพมหานคร">
+          <!-- SVG Map Graphic -->
+          <svg class="map-render" viewBox="0 0 170 110" preserveAspectRatio="xMidYMid slice">
+            <!-- Light map background -->
+            <rect width="170" height="110" fill="#f4f7f6" />
+            <!-- River / Water -->
+            <path d="M-10 20 Q50 40 90 25 T180 30" stroke="#c8e4f8" stroke-width="12" fill="none" />
+            <!-- Roads / Expressways -->
+            <path d="M20 -10 L150 120" stroke="#fce4c8" stroke-width="5" fill="none" />
+            <path d="M0 60 L180 50" stroke="#e1e6e3" stroke-width="4" fill="none" />
+            <path d="M60 110 L140 -10" stroke="#d5e2dc" stroke-width="3" fill="none" />
+            <path d="M120 110 L160 0" stroke="#3b82f6" stroke-width="3" stroke-dasharray="4,2" fill="none" />
+            <path d="M-10 85 Q70 70 175 90" stroke="#e5eae7" stroke-width="3" fill="none" />
+            <!-- Building blocks subtle -->
+            <rect x="25" y="30" width="22" height="18" rx="2" fill="#eaf0ec" />
+            <rect x="75" y="65" width="30" height="20" rx="2" fill="#eaf0ec" />
+            <rect x="130" y="30" width="25" height="25" rx="2" fill="#eaf0ec" />
+          </svg>
+          
+          <!-- Interactive Marker Overlay -->
+          <div class="mini-map-pin">
+            <svg viewBox="0 0 24 24" fill="#1b4d32" class="pin-head">
+              <path d="M12 2C8.13 2 5 5.13 5 9C5 14.25 12 22 12 22C12 22 19 14.25 19 9C19 5.13 15.87 2 12 2ZM12 11.5C10.62 11.5 9.5 10.38 9.5 9C9.5 7.62 10.62 6.5 12 6.5C13.38 6.5 14.5 7.62 14.5 9C14.5 10.38 13.38 11.5 12 11.5Z"/>
+            </svg>
+            <span class="pin-label">กรุงเทพมหานคร</span>
+          </div>
+
+          <!-- Expand Button -->
+          <button class="expand-map-btn" aria-label="ขยายแผนที่">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <polyline points="15 3 21 3 21 9"></polyline>
+              <polyline points="9 21 3 21 3 15"></polyline>
+              <line x1="21" y1="3" x2="14" y2="10"></line>
+              <line x1="3" y1="21" x2="10" y2="14"></line>
+            </svg>
+          </button>
+        </div>
+      </section>
+
+      <!-- CARBON EMISSION OVERVIEW CARD -->
+      <section class="card carbon-overview-card">
+        <div class="card-section-title">
+          <span class="badge-leaf-circle">
+            <svg viewBox="0 0 24 24" fill="currentColor">
+              <path d="M17 8C8 10 5.9 16.17 3.82 21.34L5.71 22L6.66 19.7C12 19.5 18 16 20 12C20.5 11 21 9 21 7C21 5 19 5 17 8Z"/>
+            </svg>
+          </span>
+          <h3>ภาพรวมการปล่อยคาร์บอน</h3>
+        </div>
+
+        <div class="overview-content">
+          <!-- Tree silhouette decorative background -->
+          <div class="overview-trees-bg" aria-hidden="true">
+            <svg viewBox="0 0 350 90" fill="none" preserveAspectRatio="none">
+              <!-- Clouds -->
+              <path d="M220 25 Q230 18 240 22 Q248 16 256 22 Q262 28 255 33 Q240 34 225 32 Z" stroke="#a7dbc2" stroke-width="1.2" fill="none" opacity="0.6"/>
+              <!-- Gentle hills -->
+              <path d="M150 90 Q220 55 350 65 L350 90 Z" fill="#dcf3e7" opacity="0.6"/>
+              <!-- Stylized pine and round trees -->
+              <path d="M250 80 L250 55 C244 55 240 45 250 40 C260 45 256 55 250 55 Z" fill="#bce7d1" opacity="0.7"/>
+              <path d="M275 85 L275 60 C265 60 260 48 275 42 C290 48 285 60 275 60 Z" fill="#a0dcbe" opacity="0.7"/>
+              <path d="M305 85 L305 50 C295 50 290 35 305 28 C320 35 315 50 305 50 Z" fill="#88d2ad" opacity="0.7"/>
+              <path d="M328 85 L328 62 C320 62 315 52 328 45 C340 52 335 62 328 62 Z" fill="#b0e3c9" opacity="0.7"/>
+            </svg>
+          </div>
+
+          <!-- Left metric -->
+          <div class="metric-block">
+            <div class="metric-value-row">
+              <span class="huge-number">0</span>
+              <span class="metric-unit">กก./วัน</span>
+            </div>
+            <span class="metric-subtitle">เทียบกับค่าเฉลี่ย</span>
+          </div>
+
+          <!-- Middle plant icon & praise text -->
+          <div class="status-block">
+            <div class="seedling-icon">
+              <svg viewBox="0 0 32 32" fill="none">
+                <path d="M16 28V14" stroke="#2d6a4f" stroke-width="2.5" stroke-linecap="round"/>
+                <path d="M16 20C12 18 7 19 6 15C5 11 11 11 16 16" fill="#52b788" stroke="#2d6a4f" stroke-width="1.8"/>
+                <path d="M16 16C20 14 25 15 26 11C27 7 21 7 16 12" fill="#74c69d" stroke="#2d6a4f" stroke-width="1.8"/>
+              </svg>
+            </div>
+            <div class="status-text">
+              <h4 class="praise-title">ยอดเยี่ยม!</h4>
+              <p class="praise-desc">คุณยังไม่ปล่อยคาร์บอน ในวันนี้</p>
+            </div>
+          </div>
+
+          <!-- Right button -->
+          <div class="action-block">
+            <button class="btn-detail">
+              <span>ดูรายละเอียด</span>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" class="chevron-svg">
+                <polyline points="9 18 15 12 9 6"></polyline>
+              </svg>
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <!-- PERSONAL INFO CARD -->
+      <section class="card personal-info-card">
+        <div class="card-header-row">
+          <div class="card-section-title">
+            <span class="header-icon-user">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                <circle cx="12" cy="7" r="4"></circle>
+              </svg>
+            </span>
+            <h3>ข้อมูลส่วนตัว</h3>
+          </div>
+          <button class="edit-btn">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="edit-svg">
+              <path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"></path>
+            </svg>
+            <span>แก้ไข</span>
+          </button>
+        </div>
+
+        <div class="info-grid">
+          <!-- Col 1: Left -->
+          <div class="info-column">
+            <!-- Item 1: Name -->
+            <div class="info-item">
+              <div class="info-icon-badge">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+                  <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"></path>
+                  <circle cx="12" cy="7" r="4"></circle>
+                </svg>
+              </div>
+              <div class="info-text">
+                <span class="info-label">ชื่อผู้ใช้ / อาคาร</span>
+                <strong class="info-value">ตึก 3</strong>
+              </div>
+            </div>
+
+            <!-- Item 2: School -->
+            <div class="info-item">
+              <div class="info-icon-badge">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+                  <path d="M3 21h18M3 10l9-7 9 7v11H3V10z"></path>
+                  <path d="M9 21V12h6v9"></path>
+                </svg>
+              </div>
+              <div class="info-text">
+                <span class="info-label">โรงเรียน/สถานศึกษา</span>
+                <strong class="info-value">โรงเรียนสุรศักดิ์มนตรี</strong>
+              </div>
+            </div>
+
+            <!-- Item 3: Grade -->
+            <div class="info-item">
+              <div class="info-icon-badge">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+                  <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                  <line x1="16" y1="2" x2="16" y2="6"></line>
+                  <line x1="8" y1="2" x2="8" y2="6"></line>
+                  <line x1="3" y1="10" x2="21" y2="10"></line>
+                </svg>
+              </div>
+              <div class="info-text">
+                <span class="info-label">ระดับชั้น</span>
+                <strong class="info-value">มัธยมศึกษาปีที่ 3</strong>
+              </div>
+            </div>
+          </div>
+
+          <!-- Col 2: Right -->
+          <div class="info-column">
+            <!-- Item 4: User Type -->
+            <div class="info-item">
+              <div class="info-icon-badge">
+                <svg viewBox="0 0 24 24" fill="currentColor">
+                  <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+                </svg>
+              </div>
+              <div class="info-text">
+                <span class="info-label">ประเภทผู้ใช้</span>
+                <strong class="info-value">นักเรียน</strong>
+              </div>
+            </div>
+
+            <!-- Item 5: Province -->
+            <div class="info-item">
+              <div class="info-icon-badge">
+                <svg viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 0 1 0-5 2.5 2.5 0 0 1 0 5z"/>
+                </svg>
+              </div>
+              <div class="info-text">
+                <span class="info-label">จังหวัด</span>
+                <strong class="info-value">กรุงเทพมหานคร</strong>
+              </div>
+            </div>
+
+            <!-- Item 6: CO2 Target -->
+            <div class="info-item">
+              <div class="info-icon-badge badge-co2">
+                <span class="co2-text">CO₂</span>
+              </div>
+              <div class="info-text">
+                <span class="info-label">เป้าหมาย CO₂</span>
+                <strong class="info-value">ลดการปล่อยคาร์บอน</strong>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Watermark Leaves bottom right inside card -->
+        <div class="card-leaf-watermark" aria-hidden="true">
+          <svg width="110" height="110" viewBox="0 0 110 110" fill="none">
+            <path d="M110 110 C80 80 50 45 40 10" stroke="#a3d9b8" stroke-width="2" stroke-linecap="round"/>
+            <path d="M90 95 C65 80 50 95 55 115 C80 115 90 105 90 95 Z" fill="#e2f4ea"/>
+            <path d="M68 65 C45 52 30 65 35 85 C60 85 68 75 68 65 Z" fill="#d1eddc"/>
+            <path d="M48 30 C30 18 18 28 22 45 C42 45 48 38 48 30 Z" fill="#c0e5ce"/>
+          </svg>
+        </div>
+      </section>
+
+      <!-- CARBON EMISSION CATEGORIES -->
+      <section class="card categories-card">
+        <div class="card-header-row">
+          <div class="card-section-title">
+            <span class="badge-leaf-circle">
+              <svg viewBox="0 0 24 24" fill="currentColor">
+                <path d="M17 8C8 10 5.9 16.17 3.82 21.34L5.71 22L6.66 19.7C12 19.5 18 16 20 12C20.5 11 21 9 21 7C21 5 19 5 17 8Z"/>
+              </svg>
+            </span>
+            <h3>หมวดหมู่การปล่อยคาร์บอน</h3>
+          </div>
+          <button class="view-all-pill">
+            <span>ดูทั้งหมด</span>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" class="chevron-svg">
+              <polyline points="9 18 15 12 9 6"></polyline>
+            </svg>
+          </button>
+        </div>
+
+        <!-- 6 Categories Grid (3x2) -->
+        <div class="categories-grid">
+          <!-- 1. Transportation -->
+          <article class="category-box">
+            <div class="cat-icon-container">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="3" y="11" width="18" height="8" rx="2" />
+                <path d="M5 11L7 5H17L19 11" />
+                <circle cx="7.5" cy="16.5" r="1.5" fill="currentColor" />
+                <circle cx="16.5" cy="16.5" r="1.5" fill="currentColor" />
+              </svg>
+            </div>
+            <div class="cat-info">
+              <span class="cat-name">การเดินทาง</span>
+              <div class="cat-emission">
+                <strong class="cat-num">0.55</strong>
+                <span class="cat-rate">กก./กม.</span>
+              </div>
+              <span class="cat-sub">CO₂</span>
+            </div>
+            <span class="cat-chevron">›</span>
+          </article>
+
+          <!-- 2. Food -->
+          <article class="category-box">
+            <div class="cat-icon-container">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+                <path d="M18 2v20M18 6a3 3 0 0 0 3-3V2h-3z"></path>
+                <path d="M6 2v6a3 3 0 0 0 3 3h0a3 3 0 0 0 3-3V2"></path>
+                <line x1="9" y1="11" x2="9" y2="22"></line>
+              </svg>
+            </div>
+            <div class="cat-info">
+              <span class="cat-name">อาหาร</span>
+              <div class="cat-emission">
+                <strong class="cat-num">0.24</strong>
+                <span class="cat-rate">กก./กม.</span>
+              </div>
+              <span class="cat-sub">CO₂</span>
+            </div>
+            <span class="cat-chevron">›</span>
+          </article>
+
+          <!-- 3. Energy Usage -->
+          <article class="category-box">
+            <div class="cat-icon-container">
+              <svg viewBox="0 0 24 24" fill="currentColor">
+                <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
+              </svg>
+            </div>
+            <div class="cat-info">
+              <span class="cat-name">การใช้พลังงาน</span>
+              <div class="cat-emission">
+                <strong class="cat-num">0.09</strong>
+                <span class="cat-rate">กก./กม.</span>
+              </div>
+              <span class="cat-sub">CO₂</span>
+            </div>
+            <span class="cat-chevron">›</span>
+          </article>
+
+          <!-- 4. Goods & Services -->
+          <article class="category-box">
+            <div class="cat-icon-container">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
+                <polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline>
+                <line x1="12" y1="22.08" x2="12" y2="12"></line>
+              </svg>
+            </div>
+            <div class="cat-info">
+              <span class="cat-name">สินค้าและบริการ</span>
+              <div class="cat-emission">
+                <strong class="cat-num">0.15</strong>
+                <span class="cat-rate">กก./กม.</span>
+              </div>
+              <span class="cat-sub">CO₂</span>
+            </div>
+            <span class="cat-chevron">›</span>
+          </article>
+
+          <!-- 5. Housing -->
+          <article class="category-box">
+            <div class="cat-icon-container">
+              <svg viewBox="0 0 24 24" fill="currentColor">
+                <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/>
+              </svg>
+            </div>
+            <div class="cat-info">
+              <span class="cat-name">ที่อยู่อาศัย</span>
+              <div class="cat-emission">
+                <strong class="cat-num">0</strong>
+                <span class="cat-rate">กก./กม.</span>
+              </div>
+              <span class="cat-sub">CO₂</span>
+            </div>
+            <span class="cat-chevron">›</span>
+          </article>
+
+          <!-- 6. Others -->
+          <article class="category-box">
+            <div class="cat-icon-container">
+              <svg viewBox="0 0 24 24" fill="currentColor">
+                <path d="M17 8C8 10 5.9 16.17 3.82 21.34L5.71 22L6.66 19.7C12 19.5 18 16 20 12C20.5 11 21 9 21 7C21 5 19 5 17 8Z"/>
+              </svg>
+            </div>
+            <div class="cat-info">
+              <span class="cat-name">อื่น ๆ</span>
+              <div class="cat-emission">
+                <strong class="cat-num">0.05</strong>
+                <span class="cat-rate">กก./กม.</span>
+              </div>
+              <span class="cat-sub">CO₂</span>
+            </div>
+            <span class="cat-chevron">›</span>
+          </article>
+        </div>
+      </section>
+
+      <!-- SAVED DELIVERY POINTS & MAP PREVIEW -->
+      <section class="card saved-points-card" id="saved-points">
+        <div class="saved-points-layout">
+          
+          <!-- Left Column: Map with Route and Pin -->
+          <div class="route-map-container" id="interactive-route-map">
+            <svg class="route-map-svg" id="map-svg-element" viewBox="0 0 260 210" preserveAspectRatio="none">
+              <!-- Background map beige/gray -->
+              <rect width="260" height="210" fill="#f4f7f5" />
+              <!-- Water canal -->
+              <path d="M-10 40 Q40 50 90 35 T190 45 T280 40" stroke="#d7eaf8" stroke-width="14" fill="none" />
+              <!-- Urban blocks -->
+              <rect x="20" y="20" width="35" height="40" rx="3" fill="#e8eee9" />
+              <rect x="180" y="20" width="60" height="35" rx="3" fill="#e8eee9" />
+              <rect x="160" y="80" width="80" height="55" rx="3" fill="#e8eee9" />
+              <rect x="30" y="140" width="50" height="45" rx="3" fill="#e8eee9" />
+              
+              <!-- Roads -->
+              <path d="M0 120 L260 100" stroke="#ffffff" stroke-width="7" />
+              <path d="M0 120 L260 100" stroke="#f0ebe1" stroke-width="5" />
+              <path d="M70 -10 L130 220" stroke="#ffffff" stroke-width="7" />
+              <path d="M70 -10 L130 220" stroke="#f0ebe1" stroke-width="5" />
+              <path d="M220 220 L120 -10" stroke="#ffffff" stroke-width="6" />
+              <path d="M220 220 L120 -10" stroke="#f0ebe1" stroke-width="4" />
+              <path d="M-10 160 Q100 130 270 180" stroke="#e1e8e3" stroke-width="3" fill="none" />
+
+              <!-- Highlighted Navigation Route (Cyan/Blue) -->
+              <path d="M250 80 L185 130 L135 155 L75 185" stroke="#60a5fa" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round" fill="none" opacity="0.85" />
+            </svg>
+
+            <!-- Map Floating Controls -->
+            <div class="map-controls-floating">
+              <button class="map-ctrl-btn" id="map-zoom-in" title="ซูมเข้า" aria-label="ซูมเข้า">+</button>
+              <button class="map-ctrl-btn" id="map-zoom-out" title="ซูมออก" aria-label="ซูมออก">−</button>
+              <button class="map-ctrl-btn" id="map-reset-view" title="รีเซ็ตมุมมอง" aria-label="รีเซ็ต">⟲</button>
+              <a href="https://www.google.com/maps/dir/?api=1&destination=Surasakmontree+School" target="_blank" class="map-ctrl-btn gmaps-link" title="เปิดแผนที่จริงใน Google Maps" aria-label="Google Maps">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+              </a>
+            </div>
+
+            <!-- Marker Pin for Delivery Point (Clickable) -->
+            <div class="delivery-pin-marker clickable-map-pin" id="map-pin-suankularb" title="คลิกเพื่อดูรายละเอียดจุดส่งของ โรงเรียนสุรศักดิ์มนตรี ตึก 3">
+              <div class="pin-bubble">จุดส่งของ <svg viewBox="0 0 24 24" fill="currentColor" class="pin-bubble-icon"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 0 1 0-5 2.5 2.5 0 0 1 0 5z"/></svg></div>
+              <div class="pin-stem">
+                <svg viewBox="0 0 24 24" fill="#1b4d32" class="marker-icon">
+                  <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 0 1 0-5 2.5 2.5 0 0 1 0 5z"/>
+                </svg>
+              </div>
+            </div>
+
+            <!-- Moving Live EV Vehicle on Route -->
+            <div class="moving-route-truck" id="moving-route-truck" title="คลิกเพื่อดูสถานะรถกระบะไฟฟ้า EV #01 กำลังจัดส่งไป ตึก 3">
+              <div class="truck-pulse-ring"></div>
+              <div class="truck-mini-badge">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+                  <rect x="1" y="6" width="13" height="10" rx="1.5" />
+                  <path d="M14 9H18L21 12V16H14V9Z" />
+                  <circle cx="5.5" cy="17.5" r="2.2" />
+                  <circle cx="17.5" cy="17.5" r="2.2" />
+                </svg>
+              </div>
+            </div>
+
+            <!-- Bottom Left Overlay Tag: Vehicles 4 units -->
+            <div class="vehicle-badge-overlay vehicle-trigger" title="คลิกเพื่อดูรายละเอียดยานพาหนะทั้งหมด 4 คัน">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="truck-icon">
+                <rect x="1" y="6" width="13" height="10" rx="1.5" />
+                <path d="M14 9H18L21 12V16H14V9Z" />
+                <circle cx="5.5" cy="17.5" r="2.2" />
+                <circle cx="17.5" cy="17.5" r="2.2" />
+              </svg>
+              <span>ยานพาหนะ 4 คัน</span>
+            </div>
+
+            <!-- Interactive Map Popup Card -->
+            <div class="map-interactive-popup" id="map-popup" style="display: none;">
+              <div class="popup-top">
+                <div class="popup-title-group">
+                  <strong class="popup-place-name">โรงเรียนสุรศักดิ์มนตรี (ตึก 3)</strong>
+                  <span class="popup-eta"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="popup-eta-icon"><rect x="1" y="6" width="13" height="10" rx="1.5"/><path d="M14 9H18L21 12V16H14V9Z"/><circle cx="5.5" cy="17.5" r="2.2"/><circle cx="17.5" cy="17.5" r="2.2"/></svg> ถึงใน 12 นาที (3.2 กม.)</span>
+                </div>
+                <button class="popup-close-btn" id="close-map-popup" aria-label="ปิด">&times;</button>
+              </div>
+              <div class="popup-actions">
+                <button class="popup-action-btn primary" id="popup-open-route">รายละเอียดเส้นทาง</button>
+                <a href="https://www.google.com/maps/dir/?api=1&destination=Surasakmontree+School" target="_blank" class="popup-action-btn secondary">Google Maps ↗</a>
+              </div>
+            </div>
+          </div>
+
+          <!-- Right Column: Saved Delivery Point Details -->
+          <div class="saved-points-list-wrapper">
+            <div class="card-header-row tight">
+              <div class="card-section-title">
+                <span class="pin-title-icon">
+                  <svg viewBox="0 0 24 24" fill="#1b4d32">
+                    <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 0 1 0-5 2.5 2.5 0 0 1 0 5z"/>
+                  </svg>
+                </span>
+                <h3>จุดส่งของที่บันทึกไว้</h3>
+              </div>
+              <button class="view-all-pill" id="btn-view-all-routes" title="ดูรายการเส้นทางและจุดส่งทั้งหมด">
+                <span>ดูทั้งหมด</span>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" class="chevron-svg">
+                  <polyline points="9 18 15 12 9 6"></polyline>
+                </svg>
+              </button>
+            </div>
+
+            <div class="saved-items-list">
+              <!-- Item 1: School / Market Location (Clickable to open route detail) -->
+              <div class="saved-item-row route-trigger" id="item-route-trigger" title="คลิกเพื่อดูรายละเอียดเส้นทางและจุดส่งของทั้ง 3 จุด">
+                <div class="item-icon-bg">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M3 21h18M3 10l9-7 9 7v11H3V10z"></path>
+                    <path d="M9 21V12h6v9"></path>
+                  </svg>
+                </div>
+                <div class="item-text">
+                  <h4 class="item-heading">โรงเรียนสุรศักดิ์มนตรี, ตลาดไท</h4>
+                  <p class="item-sub">3 จุด • ล่าสุด 12 ก.ย. 2568</p>
+                </div>
+                <span class="item-chevron">›</span>
+              </div>
+
+              <!-- Item 2: Vehicles (Clickable to open vehicle modal) -->
+              <div class="saved-item-row vehicle-trigger" title="คลิกเพื่อดูรายละเอียดยานพาหนะ 4 คัน">
+                <div class="item-icon-bg">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <rect x="1" y="6" width="13" height="10" rx="1.5" />
+                    <path d="M14 9H18L21 12V16H14V9Z" />
+                    <circle cx="5.5" cy="17.5" r="2.2" />
+                    <circle cx="17.5" cy="17.5" r="2.2" />
+                  </svg>
+                </div>
+                <div class="item-text">
+                  <h4 class="item-heading">ยานพาหนะ</h4>
+                  <p class="item-sub">4 คัน • พร้อมใช้งาน</p>
+                </div>
+                <span class="item-chevron">›</span>
+              </div>
+
+              <!-- Item 3: Saved Points (Clickable to open saved places manager) -->
+              <div class="saved-item-row saved-places-trigger" id="item-saved-places" title="คลิกเพื่อจัดการและเพิ่มจุดส่งของที่บันทึกไว้">
+                <div class="item-icon-bg">
+                  <svg viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 0 1 0-5 2.5 2.5 0 0 1 0 5z"/>
+                  </svg>
+                </div>
+                <div class="item-text">
+                  <h4 class="item-heading">จุดที่บันทึกไว้</h4>
+                  <p class="item-sub" id="saved-places-counter">0 จุด (คลิกเพื่อบันทึก)</p>
+                </div>
+                <span class="item-chevron">›</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <!-- TAB VIEW 2: STATS (สถิติ) -->
+    <div id="view-stats" class="tab-view" style="display:none;">
+      <div class="subpage-header">
+        <button class="back-home-btn" onclick="window.switchAppTab('home')">‹ กลับหน้าแรก</button>
+        <h2 class="subpage-title">สถิติการปล่อยคาร์บอน <svg class="subpage-title-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="6" y1="20" x2="6" y2="14"></line></svg></h2>
+      </div>
+
+      <section class="card">
+        <div class="card-section-title" style="margin-bottom: 12px;">
+          <span class="badge-leaf-circle">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17 8C8 10 5.9 16.17 3.82 21.34L5.71 22L6.66 19.7C12 19.5 18 16 20 12C20.5 11 21 9 21 7C21 5 19 5 17 8Z"/></svg>
+          </span>
+          <h3>สรุปการปล่อยคาร์บอนประจำสัปดาห์</h3>
+        </div>
+        <div class="stats-summary-grid">
+          <div class="stat-box">
+            <span class="stat-label">วันนี้</span>
+            <strong class="stat-num">0 <small>กก.</small></strong>
+            <span class="stat-badge green">-100%</span>
+          </div>
+          <div class="stat-box">
+            <span class="stat-label">สัปดาห์นี้</span>
+            <strong class="stat-num">1.2 <small>กก.</small></strong>
+            <span class="stat-badge green">-24%</span>
+          </div>
+          <div class="stat-box">
+            <span class="stat-label">ประหยัดได้</span>
+            <strong class="stat-num">3.8 <small>กก.</small></strong>
+            <span class="stat-badge green">เป้าหมายผ่าน</span>
+          </div>
+        </div>
+      </section>
+
+      <section class="card" style="margin-top: 14px;">
+        <div class="card-section-title" style="margin-bottom: 14px;">
+          <h3>สัดส่วนการปล่อยคาร์บอนตามหมวดหมู่</h3>
+        </div>
+        <div class="bar-progress-list">
+          <div class="progress-item">
+            <div class="prog-info"><span>การเดินทาง (0.55 กก.)</span><span>52%</span></div>
+            <div class="prog-bar"><div class="prog-fill" style="width: 52%; background: #2d6a4f;"></div></div>
+          </div>
+          <div class="progress-item">
+            <div class="prog-info"><span>อาหาร (0.24 กก.)</span><span>23%</span></div>
+            <div class="prog-bar"><div class="prog-fill" style="width: 23%; background: #52b788;"></div></div>
+          </div>
+          <div class="progress-item">
+            <div class="prog-info"><span>สินค้าและบริการ (0.15 กก.)</span><span>14%</span></div>
+            <div class="prog-bar"><div class="prog-fill" style="width: 14%; background: #74c69d;"></div></div>
+          </div>
+          <div class="progress-item">
+            <div class="prog-info"><span>การใช้พลังงาน (0.09 กก.)</span><span>9%</span></div>
+            <div class="prog-bar"><div class="prog-fill" style="width: 9%; background: #95d5b2;"></div></div>
+          </div>
+          <div class="progress-item">
+            <div class="prog-info"><span>อื่น ๆ (0.05 กก.)</span><span>2%</span></div>
+            <div class="prog-bar"><div class="prog-fill" style="width: 5%; background: #b7e4c7;"></div></div>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <!-- TAB VIEW 3: ACTIVITIES (กิจกรรมการมีส่วนร่วม) -->
+    <div id="view-activities" class="tab-view" style="display:none;">
+      <div class="subpage-header">
+        <button class="back-home-btn" onclick="window.switchAppTab('home')">‹ กลับหน้าแรก</button>
+        <h2 class="subpage-title">กิจกรรมการมีส่วนร่วม <svg class="subpage-title-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 20h10"/><path d="M12 20V11"/><path d="M12 11C12 7 9 5 5 5c0 4 3 6 7 6z"/><path d="M12 13c0-3 2.5-5 6-5 0 3-2.5 5-6 5z"/></svg></h2>
+      </div>
+
+      <section class="card">
+        <div class="card-section-title" style="margin-bottom: 12px;">
+          <span class="badge-leaf-circle"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M17 8C8 10 5.9 16.17 3.82 21.34L5.71 22L6.66 19.7C12 19.5 18 16 20 12C20.5 11 21 9 21 7C21 5 19 5 17 8Z"/></svg></span>
+          <h3>ภารกิจลดคาร์บอนประจำสัปดาห์</h3>
+        </div>
+        <div class="activities-list">
+          <div class="activity-card-row">
+            <div class="act-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="5" cy="17" r="3"/><circle cx="19" cy="17" r="3"/><path d="M5 17h5l3-7h4"/><path d="M14 6l2 4h4"/></svg>
+            </div>
+            <div class="act-info">
+              <h4>ปั่นจักรยานหรือเดินไปโรงเรียน</h4>
+              <p>ลดคาร์บอนได้ 0.45 กก./ครั้ง • รับ 50 แต้ม</p>
+            </div>
+            <button class="act-btn" onclick="alert('บันทึกกิจกรรมสำเร็จ!')">เข้าร่วม</button>
+          </div>
+          <div class="activity-card-row">
+            <div class="act-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 8h1a4 4 0 1 1 0 8h-1"/><path d="M3 8h14v9a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4V8z"/><line x1="6" y1="2" x2="6" y2="4"/><line x1="10" y1="2" x2="10" y2="4"/><line x1="14" y1="2" x2="14" y2="4"/></svg>
+            </div>
+            <div class="act-info">
+              <h4>พกแก้วน้ำส่วนตัวมาเอง</h4>
+              <p>ลดขยะพลาสติก 1 ชิ้น • รับ 20 แต้ม</p>
+            </div>
+            <button class="act-btn" onclick="alert('บันทึกกิจกรรมสำเร็จ!')">เข้าร่วม</button>
+          </div>
+          <div class="activity-card-row">
+            <div class="act-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22v-7L9 12"/><path d="M12 15l3-3"/><path d="M12 11C12 6 9 4 5 4c0 5 3 7 7 7z"/><path d="M12 11c0-3 2-5 6-5 0 3-2 5-6 5z"/></svg>
+            </div>
+            <div class="act-info">
+              <h4>ร่วมปลูกต้นไม้ในโรงเรียน</h4>
+              <p>วันศุกร์นี้ ณ สวนเกษตร • รับ 100 แต้ม</p>
+            </div>
+            <button class="act-btn" onclick="alert('ลงทะเบียนร่วมกิจกรรมสำเร็จ!')">ลงทะเบียน</button>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <!-- TAB VIEW 4: NOTIFICATIONS (แจ้งเตือน) -->
+    <div id="view-notifications" class="tab-view" style="display:none;">
+      <div class="subpage-header">
+        <button class="back-home-btn" onclick="window.switchAppTab('home')">‹ กลับหน้าแรก</button>
+        <h2 class="subpage-title">การแจ้งเตือน <svg class="subpage-title-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg></h2>
+      </div>
+
+      <section class="card">
+        <div class="notif-feed">
+          <div class="notif-item unread">
+            <div class="notif-badge-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 20h10"/><path d="M12 20V11"/><path d="M12 11C12 7 9 5 5 5c0 4 3 6 7 6z"/><path d="M12 13c0-3 2.5-5 6-5 0 3-2.5 5-6 5z"/></svg>
+            </div>
+            <div class="notif-content">
+              <h4>ยอดเยี่ยม! วันนี้คุณยังไม่ปล่อยคาร์บอน</h4>
+              <p>ร่วมกันรักษาสิ่งแวดล้อมเพื่อโลกที่ดีกว่า</p>
+              <span class="notif-time">10 นาทีที่แล้ว</span>
+            </div>
+          </div>
+          <div class="notif-item">
+            <div class="notif-badge-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="6" width="13" height="10" rx="1.5"/><path d="M14 9H18L21 12V16H14V9Z"/><circle cx="5.5" cy="17.5" r="2.2"/><circle cx="17.5" cy="17.5" r="2.2"/></svg>
+            </div>
+            <div class="notif-content">
+              <h4>บันทึกจุดส่งของสำเร็จ</h4>
+              <p>โรงเรียนสุรศักดิ์มนตรี, ตลาดไท 3 จุด</p>
+              <span class="notif-time">เมื่อวานนี้</span>
+            </div>
+          </div>
+          <div class="notif-item">
+            <div class="notif-badge-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>
+            </div>
+            <div class="notif-content">
+              <h4>เป้าหมาย CO₂ ประจำสัปดาห์สำเร็จแล้ว 80%</h4>
+              <p>อีกเพียง 20% เพื่อรับเหรียญตรา Eco Champion</p>
+              <span class="notif-time">2 วันที่แล้ว</span>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <!-- TAB VIEW 5: PROFILE (โปรไฟล์) -->
+    <div id="view-profile" class="tab-view" style="display:none;">
+      <div class="subpage-header">
+        <button class="back-home-btn" onclick="window.switchAppTab('home')">‹ กลับหน้าแรก</button>
+        <h2 class="subpage-title">โปรไฟล์ผู้ใช้งาน <svg class="subpage-title-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg></h2>
+      </div>
+
+      <section class="card profile-header-card">
+        <div class="profile-avatar-large">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+            <circle cx="12" cy="7" r="4"></circle>
+          </svg>
+        </div>
+        <h3 class="profile-name">ตึก 3</h3>
+        <p class="profile-role">นักเรียน • โรงเรียนสุรศักดิ์มนตรี</p>
+        <div class="profile-badge-pill"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="profile-badge-icon"><path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10z"/><path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"/></svg> ผู้พิทักษ์สิ่งแวดล้อม ระดับ 2</div>
+      </section>
+
+      <section class="card" style="margin-top: 14px;">
+        <div class="profile-menu-list">
+          <div class="profile-menu-item" onclick="alert('เปิดแก้ไขข้อมูล')">
+            <span class="profile-menu-label"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 3a2.83 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"/></svg> แก้ไขข้อมูลส่วนตัว</span>
+            <span>›</span>
+          </div>
+          <div class="profile-menu-item" onclick="alert('เปิดการตั้งค่าการแจ้งเตือน')">
+            <span class="profile-menu-label"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg> การตั้งค่าการแจ้งเตือน</span>
+            <span>›</span>
+          </div>
+          <div class="profile-menu-item" onclick="alert('เปลี่ยนเป้าหมาย CO₂')">
+            <span class="profile-menu-label"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg> ตั้งค่าเป้าหมายการลดคาร์บอน</span>
+            <span>›</span>
+          </div>
+          <div class="profile-menu-item danger" onclick="window.location.href='login.html'">
+            <span class="profile-menu-label"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg> ออกจากระบบ</span>
+            <span>›</span>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <!-- BOTTOM PADDING SO CONTENT DOESN'T HIDE BEHIND NAV -->
+    <div class="nav-spacer"></div>
+
+  </main>
+
+  <!-- BOTTOM NAVIGATION BAR -->
+  <nav class="bottom-nav" aria-label="แถบนำทางหลัก">
+    <div class="bottom-nav-inner">
+      <!-- 1. หน้าแรก (Active) -->
+      <a href="#home" class="nav-tab active" data-tab="home" aria-current="page">
+        <div class="nav-icon-wrap">
+          <svg viewBox="0 0 24 24" fill="currentColor">
+            <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/>
+          </svg>
+        </div>
+        <span class="nav-label">หน้าแรก</span>
+      </a>
+
+      <!-- 2. สถิติ -->
+      <a href="#stats" class="nav-tab" data-tab="stats">
+        <div class="nav-icon-wrap">
+          <svg viewBox="0 0 24 24" fill="currentColor">
+            <path d="M4 19h4V9H4v10zm6 0h4V5h-4v14zm6 0h4v-7h-4v7z"/>
+          </svg>
+        </div>
+        <span class="nav-label">สถิติ</span>
+      </a>
+
+      <!-- 3. กิจกรรมการมีส่วนร่วม -->
+      <a href="#activities" class="nav-tab" data-tab="activities">
+        <div class="nav-icon-wrap">
+          <svg viewBox="0 0 24 24" fill="currentColor">
+            <path d="M17 8C8 10 5.9 16.17 3.82 21.34L5.71 22L6.66 19.7C12 19.5 18 16 20 12C20.5 11 21 9 21 7C21 5 19 5 17 8Z"/>
+          </svg>
+        </div>
+        <span class="nav-label">กิจกรรมการมีส่วนร่วม</span>
+      </a>
+
+      <!-- 4. แจ้งเตือน -->
+      <a href="#notifications" class="nav-tab" data-tab="notifications">
+        <div class="nav-icon-wrap has-badge">
+          <svg viewBox="0 0 24 24" fill="currentColor">
+            <path d="M12 22c1.1 0 2-.9 2-2h-4c0 1.1.89 2 2 2zm6-6v-5c0-3.07-1.64-5.64-4.5-6.32V4c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5v.68C7.63 5.36 6 7.92 6 11v5l-2 2v1h16v-1l-2-2z"/>
+          </svg>
+          <span class="notif-badge-dot" aria-label="มีการแจ้งเตือนใหม่"></span>
+        </div>
+        <span class="nav-label">แจ้งเตือน</span>
+      </a>
+
+      <!-- 5. โปรไฟล์ -->
+      <a href="#profile" class="nav-tab" data-tab="profile">
+        <div class="nav-icon-wrap">
+          <svg viewBox="0 0 24 24" fill="currentColor">
+            <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+          </svg>
+        </div>
+        <span class="nav-label">โปรไฟล์</span>
+      </a>
+    </div>
+  </nav>
+
+  <!-- 1. DELIVERY ROUTE & STOPS MODAL -->
+  <div id="route-modal" class="modal-overlay" aria-hidden="true" role="dialog" aria-labelledby="modal-route-title">
+    <div class="modal-backdrop" id="route-modal-backdrop"></div>
+    <div class="modal-sheet">
+      <!-- Modal Header -->
+      <div class="modal-header">
+        <div class="modal-header-left">
+          <div class="modal-icon-badge">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 0 1 0-5 2.5 2.5 0 0 1 0 5z"/>
+            </svg>
+          </div>
+          <div>
+            <h3 id="modal-route-title" class="modal-title">เส้นทางจัดส่งสีเขียว (Green Route)</h3>
+            <p class="modal-subtitle">สายส่ง: ตลาดไท <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="arrow-icon"><path d="M5 12h14"/><polyline points="12 5 19 12 12 19"/></svg> โรงเรียนสุรศักดิ์มนตรี <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="arrow-icon"><path d="M5 12h14"/><polyline points="12 5 19 12 12 19"/></svg> ตึก 12 คลองหลวง</p>
+          </div>
+        </div>
+        <button class="modal-close-btn" id="close-route-modal" aria-label="ปิดหน้าต่าง">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+          </svg>
+        </button>
+      </div>
+
+      <!-- Route Status Summary -->
+      <div class="route-summary-bar">
+        <div class="route-stat-item">
+          <span class="r-label">สถานะการจัดส่ง</span>
+          <span class="r-val green-badge" id="route-status-pill"><svg viewBox="0 0 24 24" fill="currentColor" class="status-dot-icon"><circle cx="12" cy="12" r="10"/></svg> กำลังเดินทาง</span>
+        </div>
+        <div class="route-stat-item">
+          <span class="r-label">ความคืบหน้า</span>
+          <span class="r-val" id="route-progress-text">ส่งมอบแล้ว 1 จาก 3 จุด</span>
+        </div>
+        <div class="route-stat-item">
+          <span class="r-label">ระยะทางรวม</span>
+          <span class="r-val">28.5 กม. (-8.6 กก. CO₂)</span>
+        </div>
+      </div>
+
+      <!-- Route Progress Bar -->
+      <div class="route-progress-track">
+        <div class="route-progress-fill" id="route-progress-fill" style="width: 33%;"></div>
+      </div>
+
+      <!-- Stops Timeline List -->
+      <div class="route-stops-list" id="route-stops-container">
+        <!-- Stop 1: Done -->
+        <div class="stop-item-card completed" id="stop-card-1">
+          <div class="stop-indicator">
+            <span class="stop-dot done"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>
+            <div class="stop-line"></div>
+          </div>
+          <div class="stop-content">
+            <div class="stop-top">
+              <h4 class="stop-title">1. ศูนย์คลังสินค้า ตลาดไท (จุดเริ่มต้น)</h4>
+              <span class="stop-badge done"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="stop-badge-icon"><polyline points="20 6 9 17 4 12"/></svg> ออกเดินทาง 10:15 น.</span>
+            </div>
+            <p class="stop-detail">เบิกจ่ายผักปลอดสารโครงการอาหารกลางวัน 120 กก.</p>
+            <div class="stop-meta">
+              <span>ผู้จัดส่ง: สหกรณ์เกษตรอินทรีย์ • ตรวจสอบสินค้าครบถ้วน</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Stop 2: In Progress -->
+        <div class="stop-item-card active" id="stop-card-2">
+          <div class="stop-indicator">
+            <span class="stop-dot pulse">2</span>
+            <div class="stop-line"></div>
+          </div>
+          <div class="stop-content">
+            <div class="stop-top">
+              <h4 class="stop-title">2. โรงเรียนสุรศักดิ์มนตรี (ตึก 3) [จุดปัจจุบัน]</h4>
+              <span class="stop-badge current" id="badge-stop-2"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="stop-badge-icon"><rect x="1" y="6" width="13" height="10" rx="1.5"/><path d="M14 9H18L21 12V16H14V9Z"/><circle cx="5.5" cy="17.5" r="2.2"/><circle cx="17.5" cy="17.5" r="2.2"/></svg> ถึงใน 12 นาที</span>
+            </div>
+            <p class="stop-detail">ฝ่ายโภชนาการ ตึก 3 • นัดส่งผักปลอดสาร 120 กก.</p>
+            <div class="stop-meta">
+              <span>ผู้รับ: อาจารย์สมศรี กิตติพงษ์ • <strong>081-234-5678</strong></span>
+            </div>
+            <div class="stop-actions">
+              <a href="https://www.google.com/maps/dir/?api=1&destination=Surasakmontree+School" target="_blank" class="stop-action-btn primary" title="เปิดแผนที่นำทาง GPS จริง">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="3 11 22 2 13 21 11 13 3 11"/></svg>
+                เปิด GPS นำทางจริง (Google Maps)
+              </a>
+              <button class="stop-action-btn secondary" id="btn-checkin-stop-2" onclick="checkinStop(2)">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+                เช็คอินส่งมอบแล้ว
+              </button>
+              <button class="stop-action-btn tertiary" onclick="showToast('กำลังโทรติดต่อ อาจารย์สมศรี (081-234-5678)...')">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+                โทรหาผู้รับ
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Stop 3: Pending -->
+        <div class="stop-item-card pending" id="stop-card-3">
+          <div class="stop-indicator">
+            <span class="stop-dot">3</span>
+          </div>
+          <div class="stop-content">
+            <div class="stop-top">
+              <h4 class="stop-title">3. ตึก 12 ศูนย์กระจายสินค้า คลองหลวง (จุดสุดท้าย)</h4>
+              <span class="stop-badge pending" id="badge-stop-3">⏳ รอจัดส่งเป็นจุดถัดไป</span>
+            </div>
+            <p class="stop-detail">ส่งมอบบรรจุภัณฑ์รีไซเคิล & ตะกร้าหมุนเวียน 50 ใบ</p>
+            <div class="stop-meta">
+              <span>เวลาคาดการณ์: 13:00 น. • ลดขยะพลาสติก 15 กก.</span>
+            </div>
+            <div class="stop-actions" id="actions-stop-3" style="display: none;">
+              <button class="stop-action-btn secondary" onclick="checkinStop(3)">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+                เช็คอินส่งมอบจุดสุดท้าย
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Add Stop Section -->
+      <div class="add-stop-card">
+        <button class="btn-toggle-add-stop" id="btn-toggle-add-stop">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+          เพิ่มจุดแวะจัดส่งใหม่ในเส้นทางนี้
+        </button>
+        <div class="add-stop-form" id="add-stop-form" style="display: none;">
+          <input type="text" id="new-stop-title" class="add-stop-input" placeholder="ระบุชื่อสถานที่ เช่น ตลาดนัดคลอง 4">
+          <input type="text" id="new-stop-detail" class="add-stop-input" placeholder="รายละเอียดของที่ส่ง เช่น ผลไม้ 50 กก.">
+          <button class="btn-submit-stop" id="btn-submit-stop">บันทึกจุดแวะ</button>
+        </div>
+      </div>
+
+      <!-- Footer -->
+      <div class="modal-footer-row">
+        <button class="v-close-bottom-btn" id="close-route-bottom-btn" style="width: 100%;">ปิดหน้าต่างเส้นทาง</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 2. SAVED PLACES MANAGER MODAL -->
+  <div id="saved-places-modal" class="modal-overlay" aria-hidden="true" role="dialog" aria-labelledby="modal-saved-places-title">
+    <div class="modal-backdrop" id="saved-places-backdrop"></div>
+    <div class="modal-sheet">
+      <!-- Modal Header -->
+      <div class="modal-header">
+        <div class="modal-header-left">
+          <div class="modal-icon-badge">
+            <svg viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 0 1 0-5 2.5 2.5 0 0 1 0 5z"/>
+            </svg>
+          </div>
+          <div>
+            <h3 id="modal-saved-places-title" class="modal-title">จุดที่บันทึกไว้ (Saved Places)</h3>
+            <p class="modal-subtitle">บันทึกและจัดการจุดส่งของที่ใช้งานบ่อย</p>
+          </div>
+        </div>
+        <button class="modal-close-btn" id="close-saved-places-modal" aria-label="ปิดหน้าต่าง">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+          </svg>
+        </button>
+      </div>
+
+      <!-- Saved Places List -->
+      <div class="saved-places-list" id="saved-places-container">
+        <!-- Will be populated by JavaScript -->
+      </div>
+
+      <!-- Add New Saved Place Form Card -->
+      <div class="new-place-card">
+        <h4 class="new-place-heading">+ บันทึกสถานที่ใหม่</h4>
+        <div class="new-place-form">
+          <div class="form-group">
+            <label for="new-place-name">ชื่อสถานที่</label>
+            <input type="text" id="new-place-name" placeholder="เช่น คลังบางนา, ตึก 5 โรงเรียนสุรศักดิ์มนตรี" class="place-input">
+          </div>
+          <div class="form-group">
+            <label for="new-place-addr">ที่อยู่ / จุดสังเกต</label>
+            <input type="text" id="new-place-addr" placeholder="เช่น ซอยสุขุมวิท 101/1 แขวงบางนา" class="place-input">
+          </div>
+          <div class="form-group">
+            <label for="new-place-cat">ประเภทสถานที่</label>
+            <select id="new-place-cat" class="place-select">
+              <option value="school">สถานศึกษา / โรงเรียน</option>
+              <option value="market">ตลาด / แหล่งกระจายสินค้า</option>
+              <option value="warehouse">คลังสินค้า / โรงงาน</option>
+              <option value="home">ที่พักอาศัย / ร้านค้า</option>
+            </select>
+          </div>
+          <button class="btn-save-new-place" id="btn-save-new-place">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:16px;height:16px;"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path><polyline points="17 21 17 13 7 13 7 21"></polyline><polyline points="7 3 7 8 15 8"></polyline></svg>
+            บันทึกสถานที่ลงระบบ
+          </button>
+        </div>
+      </div>
+
+      <!-- Footer -->
+      <div class="modal-footer-row">
+        <button class="v-close-bottom-btn" id="close-saved-places-bottom-btn" style="width: 100%;">ปิดหน้าต่าง</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- VEHICLE & DELIVERY STATUS MODAL -->
+  <div id="vehicle-modal" class="modal-overlay" aria-hidden="true" role="dialog" aria-labelledby="modal-vehicle-title">
+    <div class="modal-backdrop" id="vehicle-modal-backdrop"></div>
+    <div class="modal-sheet">
+      <!-- Modal Header -->
+      <div class="modal-header">
+        <div class="modal-header-left">
+          <div class="modal-icon-badge">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="1" y="6" width="13" height="10" rx="1.5" />
+              <path d="M14 9H18L21 12V16H14V9Z" />
+              <circle cx="5.5" cy="17.5" r="2.2" />
+              <circle cx="17.5" cy="17.5" r="2.2" />
+            </svg>
+          </div>
+          <div>
+            <h3 id="modal-vehicle-title" class="modal-title">สถานะยานพาหนะและการจัดส่ง</h3>
+            <p class="modal-subtitle">ระบบติดตามยานพาหนะพลังงานสะอาด (Green Logistics)</p>
+          </div>
+        </div>
+        <button class="modal-close-btn" id="close-vehicle-modal" aria-label="ปิดหน้าต่าง">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+          </svg>
+        </button>
+      </div>
+
+      <!-- Quick KPI Stats Bar -->
+      <div class="vehicle-kpi-bar">
+        <div class="vehicle-kpi-card">
+          <span class="kpi-num">4</span>
+          <span class="kpi-label">ยานพาหนะทั้งหมด</span>
+          <span class="kpi-sub green"><svg viewBox="0 0 24 24" fill="currentColor" class="status-dot-icon"><circle cx="12" cy="12" r="10"/></svg> 3 คันพร้อมใช้งาน</span>
+        </div>
+        <div class="vehicle-kpi-card">
+          <span class="kpi-num">100%</span>
+          <span class="kpi-label">พลังงานสะอาด</span>
+          <span class="kpi-sub"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="bolt-icon"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg> พลังงานไฟฟ้า (EV)</span>
+        </div>
+        <div class="vehicle-kpi-card highlight">
+          <span class="kpi-num">-18.4</span>
+          <span class="kpi-label">ลด CO₂ วันนี้ (กก.)</span>
+          <span class="kpi-sub"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="sprout-icon"><path d="M7 20h10"/><path d="M12 20V11"/><path d="M12 11C12 7 9 5 5 5c0 4 3 6 7 6z"/><path d="M12 13c0-3 2.5-5 6-5 0 3-2.5 5-6 5z"/></svg> ประหยัดเทียบดีเซล</span>
+        </div>
+      </div>
+
+      <!-- Filter Tabs -->
+      <div class="vehicle-filter-tabs">
+        <button class="v-filter-btn active" data-filter="all">ทั้งหมด (4)</button>
+        <button class="v-filter-btn" data-filter="ready">พร้อมใช้งาน (2)</button>
+        <button class="v-filter-btn" data-filter="delivering">กำลังจัดส่ง (1)</button>
+        <button class="v-filter-btn" data-filter="charging">กำลังชาร์จ (1)</button>
+      </div>
+
+      <!-- Vehicle Cards List -->
+      <div class="vehicle-list">
+        <!-- Vehicle 1: Delivering -->
+        <div class="vehicle-item-card" data-status="delivering">
+          <div class="v-card-top">
+            <div class="v-type-icon ev-truck">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="1" y="6" width="13" height="10" rx="1.5" />
+                <path d="M14 9H18L21 12V16H14V9Z" />
+                <circle cx="5.5" cy="17.5" r="2.2" />
+                <circle cx="17.5" cy="17.5" r="2.2" />
+              </svg>
+            </div>
+            <div class="v-main-info">
+              <div class="v-title-row">
+                <h4 class="v-name">รถกระบะไฟฟ้า EV #01</h4>
+                <span class="v-status-badge status-delivering"><svg viewBox="0 0 24 24" fill="currentColor" class="status-dot-icon"><circle cx="12" cy="12" r="10"/></svg> กำลังจัดส่ง</span>
+              </div>
+              <p class="v-plate">ทะเบียน: <strong>1ผข-4821 กทม.</strong> • คนขับ: นายสมชาย ใจดี</p>
+            </div>
+          </div>
+          
+          <div class="v-route-preview">
+            <span class="route-icon"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 0 1 0-5 2.5 2.5 0 0 1 0 5z"/></svg></span>
+            <span class="route-text">เส้นทาง: <strong>ศูนย์กระจายสินค้า ตลาดไท</strong> <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="arrow-icon"><path d="M5 12h14"/><polyline points="12 5 19 12 12 19"/></svg> <strong>ร.ร. สุรศักดิ์มนตรี (ตึก 3)</strong></span>
+          </div>
+
+          <div class="v-metrics-row">
+            <div class="v-metric">
+              <span class="v-m-label">แบตเตอรี่คงเหลือ</span>
+              <div class="battery-bar-wrap">
+                <div class="battery-bar-fill" style="width: 84%;"></div>
+              </div>
+              <span class="v-m-val">84% (ระยะทางวิ่งได้ 142 กม.)</span>
+            </div>
+            <div class="v-metric">
+              <span class="v-m-label">ประหยัดคาร์บอน</span>
+              <span class="v-m-val green-text">ลดได้ 8.6 กก. CO₂</span>
+            </div>
+          </div>
+
+          <div class="v-actions-row">
+            <button class="v-action-btn primary" onclick="showToast('กำลังเชื่อมต่อระบบ Live GPS คัน 1ผข-4821...')">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"/></svg>
+              ติดตามสด (Live GPS)
+            </button>
+            <button class="v-action-btn secondary" onclick="showToast('กำลังโทรหานายสมชาย ใจดี (089-123-4567)...')">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+              โทรติดต่อ
+            </button>
+          </div>
+        </div>
+
+        <!-- Vehicle 2: Ready -->
+        <div class="vehicle-item-card" data-status="ready">
+          <div class="v-card-top">
+            <div class="v-type-icon ev-truck">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="1" y="6" width="13" height="10" rx="1.5" />
+                <path d="M14 9H18L21 12V16H14V9Z" />
+                <circle cx="5.5" cy="17.5" r="2.2" />
+                <circle cx="17.5" cy="17.5" r="2.2" />
+              </svg>
+            </div>
+            <div class="v-main-info">
+              <div class="v-title-row">
+                <h4 class="v-name">รถบรรทุกไฟฟ้า EV #02</h4>
+                <span class="v-status-badge status-ready"><svg viewBox="0 0 24 24" fill="currentColor" class="status-dot-icon"><circle cx="12" cy="12" r="10"/></svg> พร้อมใช้งาน</span>
+              </div>
+              <p class="v-plate">ทะเบียน: <strong>2ฒค-9032 กทม.</strong> • ความจุบรรทุก 2.5 ตัน</p>
+            </div>
+          </div>
+          
+          <div class="v-route-preview">
+            <span class="route-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18"/><path d="M5 21V7l7-4 7 4v14"/><path d="M9 21v-4h6v4"/></svg></span>
+            <span class="route-text">จอดประจำการ: <strong>ศูนย์กระจายสินค้า ตลาดไท</strong></span>
+          </div>
+
+          <div class="v-metrics-row">
+            <div class="v-metric">
+              <span class="v-m-label">แบตเตอรี่คงเหลือ</span>
+              <div class="battery-bar-wrap">
+                <div class="battery-bar-fill" style="width: 98%;"></div>
+              </div>
+              <span class="v-m-val">98% (ระยะทางวิ่งได้ 220 กม.)</span>
+            </div>
+            <div class="v-metric">
+              <span class="v-m-label">ประหยัดคาร์บอน</span>
+              <span class="v-m-val green-text">ลดได้ 6.2 กก. CO₂</span>
+            </div>
+          </div>
+
+          <div class="v-actions-row">
+            <button class="v-action-btn primary" onclick="showToast('เปิดหน้าต่างสร้างใบงานจัดส่งสำหรับ 2ฒค-9032')">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="12" y1="18" x2="12" y2="12"></line><line x1="9" y1="15" x2="15" y2="15"></line></svg>
+              มอบหมายเส้นทางจัดส่ง
+            </button>
+          </div>
+        </div>
+
+        <!-- Vehicle 3: Ready Bike -->
+        <div class="vehicle-item-card" data-status="ready">
+          <div class="v-card-top">
+            <div class="v-type-icon ev-bike">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="5" cy="17" r="3" />
+                <circle cx="19" cy="17" r="3" />
+                <path d="M5 17h5l3-7h4" />
+                <path d="M14 6l2 4h4" />
+              </svg>
+            </div>
+            <div class="v-main-info">
+              <div class="v-title-row">
+                <h4 class="v-name">มอเตอร์ไซค์ไฟฟ้า Swift #01</h4>
+                <span class="v-status-badge status-ready"><svg viewBox="0 0 24 24" fill="currentColor" class="status-dot-icon"><circle cx="12" cy="12" r="10"/></svg> พร้อมใช้งาน</span>
+              </div>
+              <p class="v-plate">ทะเบียน: <strong>1กข-3104 กทม.</strong> • ผู้ขับ: น.ส. กานดา</p>
+            </div>
+          </div>
+          
+          <div class="v-route-preview">
+            <span class="route-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="bolt-icon"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg></span>
+            <span class="route-text">งานด่วน & พัสดุเอกสาร: <strong>รัศมี 15 กม.</strong></span>
+          </div>
+
+          <div class="v-metrics-row">
+            <div class="v-metric">
+              <span class="v-m-label">แบตเตอรี่คงเหลือ</span>
+              <div class="battery-bar-wrap">
+                <div class="battery-bar-fill" style="width: 76%;"></div>
+              </div>
+              <span class="v-m-val">76% (ระยะทางวิ่งได้ 65 กม.)</span>
+            </div>
+            <div class="v-metric">
+              <span class="v-m-label">ประหยัดคาร์บอน</span>
+              <span class="v-m-val green-text">ลดได้ 2.1 กก. CO₂</span>
+            </div>
+          </div>
+
+          <div class="v-actions-row">
+            <button class="v-action-btn primary" onclick="showToast('เรียกใช้งานมอเตอร์ไซค์ Swift #01 ทันที')">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>
+              เรียกใช้งานด่วน
+            </button>
+          </div>
+        </div>
+
+        <!-- Vehicle 4: Charging -->
+        <div class="vehicle-item-card" data-status="charging">
+          <div class="v-card-top">
+            <div class="v-type-icon ev-bike">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="5" cy="17" r="3" />
+                <circle cx="19" cy="17" r="3" />
+                <path d="M5 17h5l3-7h4" />
+                <path d="M14 6l2 4h4" />
+              </svg>
+            </div>
+            <div class="v-main-info">
+              <div class="v-title-row">
+                <h4 class="v-name">มอเตอร์ไซค์ไฟฟ้า Swift #02</h4>
+                <span class="v-status-badge status-charging"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="bolt-icon"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg> กำลังชาร์จไฟ</span>
+              </div>
+              <p class="v-plate">ทะเบียน: <strong>1กข-3105 กทม.</strong> • ผู้ขับ: นายอนุชา</p>
+            </div>
+          </div>
+          
+          <div class="v-route-preview">
+            <span class="route-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18.36 6.64a9 9 0 1 1-12.73 0"/><line x1="12" y1="2" x2="12" y2="12"/><line x1="12" y1="12" x2="15" y2="15"/></svg></span>
+            <span class="route-text">สถานีชาร์จ SCG Eco Station • <strong>เหลือ 25 นาที</strong></span>
+          </div>
+
+          <div class="v-metrics-row">
+            <div class="v-metric">
+              <span class="v-m-label">กำลังชาร์จไฟ (Fast Charge)</span>
+              <div class="battery-bar-wrap charging">
+                <div class="battery-bar-fill" style="width: 45%;"></div>
+              </div>
+              <span class="v-m-val"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="bolt-icon inline"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg> 45% (เป้าหมาย 90%)</span>
+            </div>
+            <div class="v-metric">
+              <span class="v-m-label">ประหยัดคาร์บอน</span>
+              <span class="v-m-val green-text">ลดได้ 1.5 กก. CO₂</span>
+            </div>
+          </div>
+
+          <div class="v-actions-row">
+            <button class="v-action-btn secondary" onclick="showToast('สถานะการชาร์จ: 7.2 kW • จ่ายไฟปกติ พร้อมใช้งานใน 25 นาที')">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+              รายละเอียดการชาร์จ
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Modal Footer -->
+      <div class="modal-footer-row">
+        <button class="v-add-btn" onclick="showToast('ระบบกำลังเปิดฟอร์มเพิ่มยานพาหนะใหม่...')">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+          เพิ่มยานพาหนะใหม่
+        </button>
+        <button class="v-close-bottom-btn" id="close-vehicle-bottom-btn">ปิดหน้าต่าง</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Script for tab interactivity and feedback -->
+  <script src="script.js"></script>
+</body>
+</html>

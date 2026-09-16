@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="theme-color" content="#ebf5ee">
+  <title>เข้าสู่ระบบ - ระบบติดตามการปล่อยคาร์บอน</title>
+  
+  <!-- Google Fonts: Prompt for Thai typography & Caveat for handwriting -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Prompt:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Caveat:wght@600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="login.css">
+</head>
+<body>
+
+  <!-- Natural Background Elements & Illustrations -->
+  <div class="bg-decorations" aria-hidden="true">
+    <!-- Top Right Earth Artwork -->
+    <div class="decor-top-right">
+      <div class="slogan-container">
+        <span class="sparkle s1">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.5 7.5L22 12l-7.5 2.5L12 22l-2.5-7.5L2 12l7.5-2.5L12 2z"/></svg>
+        </span>
+        <div class="slogan-handwritten">
+          <span>Small Actions</span>
+          <em>Big Impact</em>
+        </div>
+        <span class="sparkle s2">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.5 7.5L22 12l-7.5 2.5L12 22l-2.5-7.5L2 12l7.5-2.5L12 2z"/></svg>
+        </span>
+      </div>
+      <svg class="earth-art" viewBox="0 0 260 210" fill="none">
+        <defs>
+          <linearGradient id="globeGrad" x1="20%" y1="10%" x2="90%" y2="90%">
+            <stop offset="0%" stop-color="#bbf0dc" />
+            <stop offset="45%" stop-color="#72cca9" />
+            <stop offset="100%" stop-color="#3d9b77" />
+          </linearGradient>
+          <radialGradient id="haloGrad" cx="50%" cy="50%" r="50%">
+            <stop offset="50%" stop-color="#e2f6ee" stop-opacity="0.9" />
+            <stop offset="100%" stop-color="#e2f6ee" stop-opacity="0" />
+          </radialGradient>
+        </defs>
+        <circle cx="165" cy="115" r="85" fill="url(#haloGrad)" />
+        <path d="M110 75 C110 60, 125 60, 125 75 Z" fill="#2d6a4f" />
+        <path d="M122 65 C122 50, 138 50, 138 65 Z" fill="#40916c" />
+        <path d="M136 55 C136 38, 155 38, 155 55 Z" fill="#1b4332" />
+        <path d="M152 50 C152 35, 172 35, 172 50 Z" fill="#52b788" />
+        <path d="M174 58 C174 44, 192 44, 192 58 Z" fill="#2d6a4f" />
+        <circle cx="165" cy="120" r="62" fill="url(#globeGrad)" />
+        <path d="M130 105 Q145 98 158 112 T180 108 Q192 120 198 138 Q175 155 145 142 Z" fill="#2d6a4f" opacity="0.65" />
+        <path d="M105 125 Q110 116 122 120 Q128 112 138 116 Q144 124 138 130 Q126 132 110 130 Z" fill="#ffffff" opacity="0.8" />
+      </svg>
+    </div>
+
+    <!-- Top Left Leaves -->
+    <div class="decor-top-left">
+      <svg width="190" height="190" viewBox="0 0 190 190" fill="none">
+        <path d="M-10 15 C35 10 75 35 90 85" stroke="#a3d9b8" stroke-width="2.5" stroke-linecap="round"/>
+        <path d="M22 20 C38 24 45 42 35 52 C22 46 16 30 22 20 Z" fill="#c0e6d0"/>
+        <path d="M54 38 C74 42 80 60 68 72 C52 66 48 48 54 38 Z" fill="#9cd3b1"/>
+      </svg>
+    </div>
+
+    <!-- Bottom Left Leaves -->
+    <div class="decor-bottom-left">
+      <svg width="170" height="170" viewBox="0 0 170 170" fill="none">
+        <path d="M-15 160 C40 145 70 105 65 50" stroke="#74b590" stroke-width="3.2" stroke-linecap="round"/>
+        <path d="M15 138 C32 126 56 132 50 152 C30 156 18 148 15 138 Z" fill="#4d926a"/>
+        <path d="M38 102 C60 90 82 98 76 118 C54 122 40 114 38 102 Z" fill="#2d6a4f"/>
+      </svg>
+    </div>
+
+    <!-- Bottom Right Leaves -->
+    <div class="decor-bottom-right">
+      <svg width="180" height="180" viewBox="0 0 180 180" fill="none">
+        <path d="M190 160 C130 140 100 100 110 40" stroke="#84c9a0" stroke-width="3.2" stroke-linecap="round"/>
+        <path d="M155 135 C132 122 115 136 120 154 C140 154 152 145 155 135 Z" fill="#52b788"/>
+        <path d="M125 100 C102 88 86 102 92 122 C114 122 122 110 125 100 Z" fill="#2d6a4f"/>
+      </svg>
+    </div>
+  </div>
+
+  <!-- Main Login Container -->
+  <main class="login-wrapper">
+    
+    <!-- Branding Header -->
+    <header class="login-header">
+      <div class="brand-logo" title="Logo">
+        <svg viewBox="0 0 28 28" fill="none" class="brand-icon">
+          <path d="M6 21C6 21 7 14 12 9C17 4 22 4 22 4C22 4 22 9 17 14C12 19 6 21 6 21Z" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M10 17L17 10" stroke="white" stroke-width="2.2" stroke-linecap="round"/>
+        </svg>
+      </div>
+      <h1 class="login-title">เข้าสู่ระบบ <svg class="title-sprout" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 20h10"/><path d="M12 20V11"/><path d="M12 11C12 7 9 5 5 5c0 4 3 6 7 6z"/><path d="M12 13c0-3 2.5-5 6-5 0 3-2.5 5-6 5z"/></svg></h1>
+      <p class="login-subtitle">ร่วมกันลดคาร์บอน เพื่อโลกที่ดีกว่า</p>
+    </header>
+
+    <!-- Login Card Form -->
+    <section class="login-card">
+      <form id="loginForm" class="login-form" onsubmit="handleLogin(event)">
+        
+        <!-- Username / Email Input -->
+        <div class="form-group">
+          <label for="username" class="form-label">ชื่อผู้ใช้ / รหัสนักเรียน</label>
+          <div class="input-container">
+            <span class="input-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                <circle cx="12" cy="7" r="4"></circle>
+              </svg>
+            </span>
+            <input 
+              type="text" 
+              id="username" 
+              name="username" 
+              class="form-input" 
+              placeholder="กรอกชื่อผู้ใช้ หรือ ตึก 3" 
+              value="ตึก 3" 
+              required
+            />
+          </div>
+        </div>
+
+        <!-- Password Input -->
+        <div class="form-group">
+          <div class="label-row">
+            <label for="password" class="form-label">รหัสผ่าน</label>
+            <a href="#forgot" class="forgot-link" onclick="showToast('กรุณาติดต่อผู้ดูแลระบบโรงเรียนเพื่อรีเซ็ตรหัสผ่าน')">ลืมรหัสผ่าน?</a>
+          </div>
+          <div class="input-container">
+            <span class="input-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+              </svg>
+            </span>
+            <input 
+              type="password" 
+              id="password" 
+              name="password" 
+              class="form-input" 
+              placeholder="กรอกรหัสผ่านของคุณ" 
+              value="123456" 
+              required
+            />
+            <button type="button" class="toggle-password-btn" onclick="togglePasswordVisibility()" aria-label="แสดง/ซ่อนรหัสผ่าน">
+              <svg id="eyeIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                <circle cx="12" cy="12" r="3"></circle>
+              </svg>
+            </button>
+          </div>
+        </div>
+
+        <!-- Remember Me Checkbox -->
+        <div class="remember-row">
+          <label class="checkbox-container">
+            <input type="checkbox" id="rememberMe" checked />
+            <span class="checkmark"></span>
+            <span class="checkbox-label">จดจำการเข้าสู่ระบบ</span>
+          </label>
+        </div>
+
+        <!-- Submit Button -->
+        <button type="submit" id="submitBtn" class="btn-login-submit">
+          <span class="btn-text">เข้าสู่ระบบ</span>
+          <svg class="btn-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <polyline points="9 18 15 12 9 6"></polyline>
+          </svg>
+          <span class="spinner" aria-hidden="true"></span>
+        </button>
+
+      </form>
+
+      <!-- Quick Mock Presets -->
+      <div class="quick-login-section">
+        <span class="divider-text">หรือเข้าสู่ระบบแบบด่วน</span>
+        <div class="preset-buttons">
+          <button type="button" class="preset-btn" onclick="quickLogin('ตึก 3', 'นักเรียน')">
+            <span class="preset-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 10a4 4 0 0 1 4-4h8a4 4 0 0 1 4 4v7a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2v-7z"/><path d="M8 6V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v1"/><path d="M4 13h16"/><path d="M9 13v3"/><path d="M15 13v3"/></svg>
+            </span>
+            <span class="preset-label">นักเรียน (ตึก 3)</span>
+          </button>
+          <button type="button" class="preset-btn" onclick="quickLogin('อาจารย์สมศักดิ์ (สุรศักดิ์มนตรี)', 'ครู/บุคลากร')">
+            <span class="preset-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18"/><path d="M5 21V7l7-4 7 4v14"/><path d="M9 21v-4h6v4"/><path d="M9 10h.01"/><path d="M15 10h.01"/><path d="M9 14h.01"/><path d="M15 14h.01"/></svg>
+            </span>
+            <span class="preset-label">ครู / บุคลากร (สุรศักดิ์มนตรี)</span>
+          </button>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- Footer Help & Back link -->
+    <footer class="login-footer">
+      <p class="register-hint">
+        ยังไม่มีบัญชีใช้งาน? <a href="#register" class="register-link" onclick="showToast('ระบบรับสมัครผ่านโรงเรียนต้นสังกัด')">ติดต่อฝ่ายวิชาการ</a>
+      </p>
+      <a href="index.html" class="guest-link">‹ ข้ามไปหน้าหลักในฐานะผู้เยี่ยมชม</a>
+    </footer>
+
+  </main>
+
+  <!-- Notification Toast -->
+  <div id="loginToast" class="login-toast" role="alert"></div>
+
+  <script>
+    function togglePasswordVisibility() {
+      const passwordInput = document.getElementById('password');
+      const eyeIcon = document.getElementById('eyeIcon');
+      if (passwordInput.type === 'password') {
+        passwordInput.type = 'text';
+        eyeIcon.innerHTML = `
+          <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path>
+          <line x1="1" y1="1" x2="23" y2="23"></line>
+        `;
+      } else {
+        passwordInput.type = 'password';
+        eyeIcon.innerHTML = `
+          <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+          <circle cx="12" cy="12" r="3"></circle>
+        `;
+      }
+    }
+
+    function handleLogin(event) {
+      event.preventDefault();
+      const submitBtn = document.getElementById('submitBtn');
+      const username = document.getElementById('username').value.trim();
+
+      if (!username) {
+        showToast('กรุณากรอกชื่อผู้ใช้');
+        return;
+      }
+
+      // Show loading spinner
+      submitBtn.classList.add('loading');
+      showToast('กำลังตรวจสอบข้อมูลเข้าสู่ระบบ...');
+
+      setTimeout(() => {
+        showToast(`ยินดีต้อนรับคุณ ${username}! กำลังพาไปหน้าหลัก...`);
+        setTimeout(() => {
+          window.location.href = 'index.html';
+        }, 600);
+      }, 700);
+    }
+
+    function quickLogin(user, role) {
+      document.getElementById('username').value = user;
+      document.getElementById('password').value = '123456';
+      showToast(`เข้าสู่ระบบในฐานะ ${user} (${role})`);
+      setTimeout(() => {
+        window.location.href = 'index.html';
+      }, 500);
+    }
+
+    let toastTimeout;
+    function showToast(message) {
+      const toast = document.getElementById('loginToast');
+      toast.textContent = message;
+      toast.classList.add('show');
+      clearTimeout(toastTimeout);
+      toastTimeout = setTimeout(() => {
+        toast.classList.remove('show');
+      }, 2600);
+    }
+  </script>
+</body>
+</html>
