@@ -116,10 +116,7 @@
         <div class="header-left">
           <!-- Leaf Logo Badge -->
           <div class="brand-logo" title="Logo">
-            <svg viewBox="0 0 28 28" fill="none" class="brand-icon">
-              <path d="M6 21C6 21 7 14 12 9C17 4 22 4 22 4C22 4 22 9 17 14C12 19 6 21 6 21Z" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
-              <path d="M10 17L17 10" stroke="white" stroke-width="2.2" stroke-linecap="round"/>
-            </svg>
+            <img src="assets/logo.svg" alt="Green School Warehouse" class="brand-icon">
           </div>
           <!-- Title & Slogan -->
           <div class="brand-text">
@@ -129,13 +126,16 @@
 
         <!-- Action Icons Menu -->
         <nav class="header-actions" aria-label="แถบเมนูด้านบน">
-          <!-- 1. Grid icon (4 rounded dots/squares) -->
-          <button class="icon-btn" id="btn-main-menu" title="เมนูหลัก" aria-label="เมนู">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <rect x="4" y="4" width="6.5" height="6.5" rx="2" />
-              <rect x="13.5" y="4" width="6.5" height="6.5" rx="2" />
-              <rect x="4" y="13.5" width="6.5" height="6.5" rx="2" />
-              <rect x="13.5" y="13.5" width="6.5" height="6.5" rx="2" />
+          <!-- 1. Theme toggle (light / dark) -->
+          <button class="icon-btn theme-toggle-btn" id="btn-theme-toggle" title="เปลี่ยนธีม สว่าง/มืด" aria-label="เปลี่ยนธีม" aria-pressed="false">
+            <!-- Sun (shown in light mode) -->
+            <svg class="theme-icon theme-icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+              <circle cx="12" cy="12" r="4.2" />
+              <path d="M12 2.5v2.2M12 19.3v2.2M2.5 12h2.2M19.3 12h2.2M5.2 5.2l1.6 1.6M17.2 17.2l1.6 1.6M18.8 5.2l-1.6 1.6M6.8 17.2l-1.6 1.6" />
+            </svg>
+            <!-- Moon (shown in dark mode) -->
+            <svg class="theme-icon theme-icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M20 14.5A8.5 8.5 0 1 1 9.5 4a6.8 6.8 0 0 0 10.5 10.5Z" />
             </svg>
           </button>
 
@@ -242,6 +242,9 @@
             </svg>
             <span class="pin-label">กรุงเทพมหานคร</span>
           </div>
+
+          <!-- Saved-point dots (populated by JS) -->
+          <div class="mini-map-dots" id="mini-map-dots"></div>
 
           <!-- Expand Button -->
           <button class="expand-map-btn" aria-label="ขยายแผนที่">
@@ -582,38 +585,105 @@
           
           <!-- Left Column: Map with Route and Pin -->
           <div class="route-map-container" id="interactive-route-map">
-            <svg class="route-map-svg" id="map-svg-element" viewBox="0 0 260 210" preserveAspectRatio="none">
-              <!-- Background map beige/gray -->
-              <rect width="260" height="210" fill="#f4f7f5" />
-              <!-- Water canal -->
-              <path d="M-10 40 Q40 50 90 35 T190 45 T280 40" stroke="#d7eaf8" stroke-width="14" fill="none" />
-              <!-- Urban blocks -->
-              <rect x="20" y="20" width="35" height="40" rx="3" fill="#e8eee9" />
-              <rect x="180" y="20" width="60" height="35" rx="3" fill="#e8eee9" />
-              <rect x="160" y="80" width="80" height="55" rx="3" fill="#e8eee9" />
-              <rect x="30" y="140" width="50" height="45" rx="3" fill="#e8eee9" />
-              
-              <!-- Roads -->
-              <path d="M0 120 L260 100" stroke="#ffffff" stroke-width="7" />
-              <path d="M0 120 L260 100" stroke="#f0ebe1" stroke-width="5" />
-              <path d="M70 -10 L130 220" stroke="#ffffff" stroke-width="7" />
-              <path d="M70 -10 L130 220" stroke="#f0ebe1" stroke-width="5" />
-              <path d="M220 220 L120 -10" stroke="#ffffff" stroke-width="6" />
-              <path d="M220 220 L120 -10" stroke="#f0ebe1" stroke-width="4" />
-              <path d="M-10 160 Q100 130 270 180" stroke="#e1e8e3" stroke-width="3" fill="none" />
+            <div class="map-zoom-layer" id="map-zoom-layer">
+              <svg class="route-map-svg" id="map-svg-element" viewBox="390 315 260 210" preserveAspectRatio="none">
+                <!-- Base map tint (extends past the viewBox for a safety bleed) -->
+                <rect x="-40" y="-40" width="1120" height="920" fill="#f1f5f2" />
 
-              <!-- Highlighted Navigation Route (Cyan/Blue) -->
-              <path d="M250 80 L185 130 L135 155 L75 185" stroke="#60a5fa" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round" fill="none" opacity="0.85" />
-            </svg>
+                <!-- Water canals running across the extended canvas -->
+                <path d="M-40 120 Q140 165 380 130 T820 150 T1080 120" stroke="#d7eaf8" stroke-width="16" fill="none" />
+                <path d="M-40 700 Q200 745 460 710 T900 730 T1080 700" stroke="#d7eaf8" stroke-width="14" fill="none" />
+
+                <!-- Extended urban blocks across the whole canvas -->
+                <g fill="#e8eee9">
+                  <rect x="40" y="30" width="70" height="55" rx="4" />
+                  <rect x="150" y="20" width="90" height="60" rx="4" />
+                  <rect x="300" y="35" width="80" height="50" rx="4" />
+                  <rect x="700" y="25" width="95" height="65" rx="4" />
+                  <rect x="850" y="30" width="80" height="55" rx="4" />
+                  <rect x="960" y="20" width="60" height="70" rx="4" />
+                  <rect x="35" y="200" width="85" height="70" rx="4" />
+                  <rect x="160" y="215" width="70" height="55" rx="4" />
+                  <rect x="300" y="210" width="75" height="80" rx="4" />
+                  <rect x="720" y="205" width="90" height="65" rx="4" />
+                  <rect x="870" y="215" width="80" height="70" rx="4" />
+                  <rect x="985" y="200" width="55" height="85" rx="4" />
+                  <rect x="40" y="430" width="90" height="75" rx="4" />
+                  <rect x="170" y="440" width="65" height="60" rx="4" />
+                  <rect x="290" y="425" width="85" height="85" rx="4" />
+                  <rect x="720" y="430" width="95" height="70" rx="4" />
+                  <rect x="860" y="440" width="85" height="75" rx="4" />
+                  <rect x="975" y="425" width="70" height="90" rx="4" />
+                  <rect x="45" y="600" width="80" height="75" rx="4" />
+                  <rect x="170" y="610" width="75" height="60" rx="4" />
+                  <rect x="300" y="600" width="70" height="85" rx="4" />
+                  <rect x="720" y="605" width="90" height="70" rx="4" />
+                  <rect x="865" y="615" width="80" height="65" rx="4" />
+                  <rect x="980" y="600" width="60" height="90" rx="4" />
+                </g>
+                <!-- Park / greenery patches -->
+                <rect x="300" y="610" width="70" height="85" rx="12" fill="#dcefe2" opacity="0.8" />
+                <rect x="720" y="210" width="90" height="60" rx="12" fill="#dcefe2" opacity="0.7" />
+
+                <!-- Extended road network (kept clear of the central detailed area) -->
+                <g fill="none" stroke="#ffffff" stroke-width="8">
+                  <path d="M-40 180 L1080 170" />
+                  <path d="M-40 650 L1080 640" />
+                  <path d="M180 -40 L190 880" />
+                  <path d="M300 -40 L295 880" />
+                  <path d="M760 -40 L770 880" />
+                  <path d="M900 -40 L895 880" />
+                </g>
+                <g fill="none" stroke="#f0ebe1" stroke-width="5">
+                  <path d="M-40 180 L1080 170" />
+                  <path d="M-40 650 L1080 640" />
+                  <path d="M180 -40 L190 880" />
+                  <path d="M300 -40 L295 880" />
+                  <path d="M760 -40 L770 880" />
+                  <path d="M900 -40 L895 880" />
+                </g>
+                <g fill="none" stroke="#e1e8e3" stroke-width="3">
+                  <path d="M-40 60 Q120 100 260 70" />
+                  <path d="M700 130 Q850 170 1080 140" />
+                  <path d="M-40 500 Q120 470 250 505" />
+                  <path d="M690 500 Q850 470 1080 505" />
+                  <path d="M240 250 Q360 290 455 255" />
+                  <path d="M680 750 Q850 790 1080 755" />
+                </g>
+
+                <!-- Original detailed map area, centred so it fills the viewport at 100% -->
+                <g transform="translate(390 315)">
+                  <!-- Water canal -->
+                  <path d="M-10 40 Q40 50 90 35 T190 45 T280 40" stroke="#d7eaf8" stroke-width="14" fill="none" />
+                  <!-- Urban blocks -->
+                  <rect x="20" y="20" width="35" height="40" rx="3" fill="#e8eee9" />
+                  <rect x="180" y="20" width="60" height="35" rx="3" fill="#e8eee9" />
+                  <rect x="160" y="80" width="80" height="55" rx="3" fill="#e8eee9" />
+                  <rect x="30" y="140" width="50" height="45" rx="3" fill="#e8eee9" />
+
+                  <!-- Roads -->
+                  <path d="M0 120 L260 100" stroke="#ffffff" stroke-width="7" />
+                  <path d="M0 120 L260 100" stroke="#f0ebe1" stroke-width="5" />
+                  <path d="M70 -10 L130 220" stroke="#ffffff" stroke-width="7" />
+                  <path d="M70 -10 L130 220" stroke="#f0ebe1" stroke-width="5" />
+                  <path d="M220 220 L120 -10" stroke="#ffffff" stroke-width="6" />
+                  <path d="M220 220 L120 -10" stroke="#f0ebe1" stroke-width="4" />
+                  <path d="M-10 160 Q100 130 270 180" stroke="#e1e8e3" stroke-width="3" fill="none" />
+
+                  <!-- Highlighted Navigation Route (Cyan/Blue) -->
+                  <path d="M250 80 L185 130 L135 155 L75 185" stroke="#60a5fa" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round" fill="none" opacity="0.85" />
+                </g>
+              </svg>
+            </div>
 
             <!-- Map Floating Controls -->
             <div class="map-controls-floating">
               <button class="map-ctrl-btn" id="map-zoom-in" title="ซูมเข้า" aria-label="ซูมเข้า">+</button>
               <button class="map-ctrl-btn" id="map-zoom-out" title="ซูมออก" aria-label="ซูมออก">−</button>
               <button class="map-ctrl-btn" id="map-reset-view" title="รีเซ็ตมุมมอง" aria-label="รีเซ็ต">⟲</button>
-              <a href="https://www.google.com/maps/dir/?api=1&destination=Surasakmontree+School" target="_blank" class="map-ctrl-btn gmaps-link" title="เปิดแผนที่จริงใน Google Maps" aria-label="Google Maps">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
-              </a>
+              <button class="map-ctrl-btn gmaps-link" id="map-open-full" title="เปิดแผนที่จุดส่งของ" aria-label="เปิดแผนที่จุดส่งของ">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><polyline points="15 3 21 3 21 9"></polyline><polyline points="9 21 3 21 3 15"></polyline><line x1="21" y1="3" x2="14" y2="10"></line><line x1="3" y1="21" x2="10" y2="14"></line></svg>
+              </button>
             </div>
 
             <!-- Marker Pin for Delivery Point (Clickable) -->
@@ -661,7 +731,7 @@
               </div>
               <div class="popup-actions">
                 <button class="popup-action-btn primary" id="popup-open-route">รายละเอียดเส้นทาง</button>
-                <a href="https://www.google.com/maps/dir/?api=1&destination=Surasakmontree+School" target="_blank" class="popup-action-btn secondary">Google Maps ↗</a>
+                <button class="popup-action-btn secondary" id="popup-open-map">ดูแผนที่จุดส่งของ</button>
               </div>
             </div>
           </div>
@@ -1073,10 +1143,10 @@
               <span>ผู้รับ: อาจารย์สมศรี กิตติพงษ์ • <strong>081-234-5678</strong></span>
             </div>
             <div class="stop-actions">
-              <a href="https://www.google.com/maps/dir/?api=1&destination=Surasakmontree+School" target="_blank" class="stop-action-btn primary" title="เปิดแผนที่นำทาง GPS จริง">
+              <button class="stop-action-btn primary" id="btn-open-map-stop-2" title="เปิดแผนที่นำทางในเว็บ">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="3 11 22 2 13 21 11 13 3 11"/></svg>
-                เปิด GPS นำทางจริง (Google Maps)
-              </a>
+                เปิดแผนที่นำทาง
+              </button>
               <button class="stop-action-btn secondary" id="btn-checkin-stop-2" onclick="checkinStop(2)">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
                 เช็คอินส่งมอบแล้ว
@@ -1225,36 +1295,128 @@
         </button>
       </div>
 
-      <!-- Map Canvas (Google Maps Embed) -->
+      <!-- Map Canvas (interactive SVG map with saved points) -->
       <div class="full-map-viewport" id="full-map-viewport">
-        <iframe
-          id="full-map-iframe"
-          class="full-map-iframe"
-          title="แผนที่โรงเรียนสุรศักดิ์มนตรี"
-          src="https://maps.google.com/maps?q=13.7626,100.5421&hl=th&z=16&output=embed"
-          loading="lazy"
-          referrerpolicy="no-referrer-when-downgrade"
-          allowfullscreen>
-        </iframe>
+        <svg id="full-map-svg" class="full-map-svg" viewBox="0 0 720 420" preserveAspectRatio="xMidYMid slice" aria-label="แผนที่จุดส่งของที่บันทึกไว้">
+          <defs>
+            <linearGradient id="fmWater" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#d6ecfb" />
+              <stop offset="100%" stop-color="#bcdff6" />
+            </linearGradient>
+            <filter id="fmShadow" x="-40%" y="-40%" width="180%" height="180%">
+              <feDropShadow dx="0" dy="2" stdDeviation="2.5" flood-color="#0f2e1d" flood-opacity="0.28" />
+            </filter>
+          </defs>
 
-        <!-- Fixed location badge (anchored to the school) -->
-        <div class="full-map-location-badge">
-          <svg viewBox="0 0 24 24" fill="currentColor">
-            <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 0 1 0-5 2.5 2.5 0 0 1 0 5z"/>
-          </svg>
-          <span>โรงเรียนสุรศักดิ์มนตรี (ตึก 3)</span>
+          <!-- Base -->
+          <rect width="720" height="420" fill="#f2f6f3" />
+
+          <!-- Green zones / parks -->
+          <rect x="40" y="40" width="150" height="110" rx="14" fill="#e3f0e6" />
+          <rect x="520" y="250" width="170" height="130" rx="14" fill="#e3f0e6" />
+          <rect x="300" y="30" width="120" height="80" rx="12" fill="#e8f3ea" />
+
+          <!-- River -->
+          <path d="M-20 300 Q120 250 240 290 T480 250 T760 300" stroke="url(#fmWater)" stroke-width="26" fill="none" stroke-linecap="round" />
+
+          <!-- Roads (network mirrors FM_ROADS in script.js) -->
+          <g stroke-linecap="round">
+            <!-- road casings -->
+            <g stroke="#e3e9e5" fill="none">
+              <path d="M-20 150 L740 120" stroke-width="16" />
+              <path d="M-20 250 L740 235" stroke-width="13" />
+              <path d="M-20 360 L740 340" stroke-width="13" />
+              <path d="M60 -20 L120 440" stroke-width="11" />
+              <path d="M180 -20 L260 440" stroke-width="15" />
+              <path d="M470 -20 L430 440" stroke-width="15" />
+              <path d="M600 -20 L640 440" stroke-width="11" />
+            </g>
+            <!-- road surfaces -->
+            <g stroke="#ffffff" fill="none">
+              <path d="M-20 150 L740 120" stroke-width="13" />
+              <path d="M-20 250 L740 235" stroke-width="10" />
+              <path d="M-20 360 L740 340" stroke-width="10" />
+              <path d="M60 -20 L120 440" stroke-width="8" />
+              <path d="M180 -20 L260 440" stroke-width="12" />
+              <path d="M470 -20 L430 440" stroke-width="12" />
+              <path d="M600 -20 L640 440" stroke-width="8" />
+            </g>
+            <!-- centre lines on the main arterials -->
+            <g stroke="#eef2ef" fill="none" stroke-dasharray="10 9">
+              <path d="M-20 150 L740 120" stroke-width="1.6" />
+              <path d="M180 -20 L260 440" stroke-width="1.6" />
+              <path d="M470 -20 L430 440" stroke-width="1.6" />
+            </g>
+          </g>
+
+          <!-- Building blocks -->
+          <g fill="#e9efeb">
+            <rect x="70" y="180" width="60" height="45" rx="5" />
+            <rect x="150" y="200" width="45" height="60" rx="5" />
+            <rect x="290" y="150" width="70" height="50" rx="5" />
+            <rect x="300" y="230" width="55" height="40" rx="5" />
+            <rect x="500" y="150" width="80" height="55" rx="5" />
+            <rect x="520" y="60" width="60" height="45" rx="5" />
+            <rect x="380" y="330" width="70" height="45" rx="5" />
+            <rect x="120" y="300" width="55" height="40" rx="5" />
+          </g>
+
+          <!-- Route path (drawn by JS) — white casing + blue line, Google Maps style -->
+          <path id="fm-route-casing" d="" fill="none" stroke="#ffffff" stroke-width="11"
+                stroke-linecap="round" stroke-linejoin="round" opacity="0"
+                vector-effect="non-scaling-stroke" />
+          <path id="fm-route-path" d="" fill="none" stroke="#4285f4" stroke-width="6.5"
+                stroke-linecap="round" stroke-linejoin="round" opacity="0"
+                vector-effect="non-scaling-stroke" />
+
+          <!-- Route endpoint markers (drawn by JS) -->
+          <g id="fm-route-endpoints"></g>
+
+          <!-- Markers (populated by JS) -->
+          <g id="fm-markers-layer"></g>
+        </svg>
+
+        <!-- Route summary box (Google Maps style) -->
+        <div class="fm-route-box" id="fm-route-box" hidden>
+          <span class="fm-route-time" id="fm-route-time">—</span>
+          <span class="fm-route-dist" id="fm-route-dist">—</span>
         </div>
+
+        <!-- Zoom / reset controls -->
+        <div class="fm-controls">
+          <button class="fm-ctrl-btn" id="fm-zoom-in" title="ขยาย" aria-label="ขยายแผนที่">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          </button>
+          <button class="fm-ctrl-btn" id="fm-zoom-out" title="ย่อ" aria-label="ย่อแผนที่">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          </button>
+          <button class="fm-ctrl-btn" id="fm-reset" title="รีเซ็ตมุมมอง" aria-label="รีเซ็ตมุมมอง">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M3 12a9 9 0 1 0 3-6.7"/><polyline points="3 4 3 10 9 10"/></svg>
+          </button>
+        </div>
+
+        <!-- Legend -->
+        <div class="fm-legend" id="fm-legend"></div>
       </div>
 
-      <!-- Info strip -->
+      <!-- Saved point toggles -->
+      <div class="fm-points-panel">
+        <div class="fm-points-head">
+          <span class="fm-points-title">จุดที่บันทึกไว้</span>
+          <span class="fm-points-hint">เปิดสวิตช์เพื่อแสดงเส้นทาง</span>
+        </div>
+        <div class="fm-points-list" id="fm-points-list"></div>
+      </div>
+
+      <!-- Info strip (reflects the currently selected point) -->
       <div class="full-map-info-strip">
         <div class="fmi-item">
-          <span class="fmi-icon">
+          <span class="fmi-icon" id="fmi-icon-1">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21C16 16.5 19 13 19 9A7 7 0 1 0 5 9C5 13 8 16.5 12 21Z"/><circle cx="12" cy="9" r="2.5"/></svg>
           </span>
           <div class="fmi-text">
-            <span class="fmi-label">พิกัดจุดส่งของ</span>
-            <span class="fmi-value">13.7626° N, 100.5421° E</span>
+            <span class="fmi-label">จุดที่เลือก</span>
+            <span class="fmi-value" id="fmi-name">— ยังไม่เลือกจุด —</span>
           </div>
         </div>
         <div class="fmi-item">
@@ -1262,8 +1424,8 @@
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18"/><path d="M5 21V7l7-4 7 4v14"/><path d="M9 21v-4h6v4"/></svg>
           </span>
           <div class="fmi-text">
-            <span class="fmi-label">สถานที่</span>
-            <span class="fmi-value">เขตดินแดง กรุงเทพมหานคร</span>
+            <span class="fmi-label">ที่อยู่ / จุดสังเกต</span>
+            <span class="fmi-value" id="fmi-addr">เลือกจุดจากรายการด้านบน</span>
           </div>
         </div>
         <div class="fmi-item">
@@ -1271,18 +1433,18 @@
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
           </span>
           <div class="fmi-text">
-            <span class="fmi-label">เวลาถึงโดยประมาณ</span>
-            <span class="fmi-value">12 นาที (3.2 กม.)</span>
+            <span class="fmi-label">ระยะทาง / เวลา</span>
+            <span class="fmi-value" id="fmi-eta">—</span>
           </div>
         </div>
       </div>
 
       <!-- Footer -->
       <div class="modal-footer-row">
-        <a href="https://www.google.com/maps/dir/?api=1&destination=13.7626,100.5421" target="_blank" class="v-add-btn" style="text-decoration: none;">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
-          เปิดใน Google Maps
-        </a>
+        <button class="v-add-btn" id="fm-focus-selected">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3"/></svg>
+          ซูมไปยังจุดที่เลือก
+        </button>
         <button class="v-close-bottom-btn" id="close-map-bottom-btn">ปิดหน้าต่าง</button>
       </div>
     </div>
