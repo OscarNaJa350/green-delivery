@@ -123,8 +123,7 @@
           </div>
           <!-- Title & Slogan -->
           <div class="brand-text">
-            <h1 class="greeting">สวัสดีครับ <svg class="sprout-emoji" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 20h10"/><path d="M12 20V11"/><path d="M12 11C12 7 9 5 5 5c0 4 3 6 7 6z"/><path d="M12 13c0-3 2.5-5 6-5 0 3-2.5 5-6 5z"/></svg></h1>
-            <p class="tagline">ร่วมกันลดคาร์บอน เพื่อโลกที่ดีกว่า</p>
+            <h1 class="greeting">Green School Warehouse</h1>
           </div>
         </div>
 
@@ -1199,6 +1198,96 @@
     </div>
   </div>
 
+  <!-- FULL MAP VIEWER MODAL -->
+  <div id="map-modal" class="modal-overlay map-modal-overlay" aria-hidden="true" role="dialog" aria-labelledby="modal-map-title">
+    <div class="modal-backdrop" id="map-modal-backdrop"></div>
+    <div class="modal-sheet map-modal-sheet">
+      <!-- Modal Header -->
+      <div class="modal-header">
+        <div class="modal-header-left">
+          <div class="modal-icon-badge">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polygon points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6"></polygon>
+              <line x1="8" y1="2" x2="8" y2="18"></line>
+              <line x1="16" y1="6" x2="16" y2="22"></line>
+            </svg>
+          </div>
+          <div>
+            <h3 id="modal-map-title" class="modal-title">แผนที่จุดส่งของ</h3>
+            <p class="modal-subtitle">โรงเรียนสุรศักดิ์มนตรี (ตึก 3) • เขตดินแดง กรุงเทพมหานคร</p>
+          </div>
+        </div>
+        <button class="modal-close-btn" id="close-map-modal" aria-label="ปิดหน้าต่าง">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+          </svg>
+        </button>
+      </div>
+
+      <!-- Map Canvas (Google Maps Embed) -->
+      <div class="full-map-viewport" id="full-map-viewport">
+        <iframe
+          id="full-map-iframe"
+          class="full-map-iframe"
+          title="แผนที่โรงเรียนสุรศักดิ์มนตรี"
+          src="https://maps.google.com/maps?q=13.7626,100.5421&hl=th&z=16&output=embed"
+          loading="lazy"
+          referrerpolicy="no-referrer-when-downgrade"
+          allowfullscreen>
+        </iframe>
+
+        <!-- Fixed location badge (anchored to the school) -->
+        <div class="full-map-location-badge">
+          <svg viewBox="0 0 24 24" fill="currentColor">
+            <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 0 1 0-5 2.5 2.5 0 0 1 0 5z"/>
+          </svg>
+          <span>โรงเรียนสุรศักดิ์มนตรี (ตึก 3)</span>
+        </div>
+      </div>
+
+      <!-- Info strip -->
+      <div class="full-map-info-strip">
+        <div class="fmi-item">
+          <span class="fmi-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21C16 16.5 19 13 19 9A7 7 0 1 0 5 9C5 13 8 16.5 12 21Z"/><circle cx="12" cy="9" r="2.5"/></svg>
+          </span>
+          <div class="fmi-text">
+            <span class="fmi-label">พิกัดจุดส่งของ</span>
+            <span class="fmi-value">13.7626° N, 100.5421° E</span>
+          </div>
+        </div>
+        <div class="fmi-item">
+          <span class="fmi-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18"/><path d="M5 21V7l7-4 7 4v14"/><path d="M9 21v-4h6v4"/></svg>
+          </span>
+          <div class="fmi-text">
+            <span class="fmi-label">สถานที่</span>
+            <span class="fmi-value">เขตดินแดง กรุงเทพมหานคร</span>
+          </div>
+        </div>
+        <div class="fmi-item">
+          <span class="fmi-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          </span>
+          <div class="fmi-text">
+            <span class="fmi-label">เวลาถึงโดยประมาณ</span>
+            <span class="fmi-value">12 นาที (3.2 กม.)</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Footer -->
+      <div class="modal-footer-row">
+        <a href="https://www.google.com/maps/dir/?api=1&destination=13.7626,100.5421" target="_blank" class="v-add-btn" style="text-decoration: none;">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+          เปิดใน Google Maps
+        </a>
+        <button class="v-close-bottom-btn" id="close-map-bottom-btn">ปิดหน้าต่าง</button>
+      </div>
+    </div>
+  </div>
+
   <!-- VEHICLE & DELIVERY STATUS MODAL -->
   <div id="vehicle-modal" class="modal-overlay" aria-hidden="true" role="dialog" aria-labelledby="modal-vehicle-title">
     <div class="modal-backdrop" id="vehicle-modal-backdrop"></div>
@@ -1449,9 +1538,65 @@
         </div>
       </div>
 
+      <!-- Add New Vehicle Form Card -->
+      <div class="vehicle-form-card" id="vehicle-form-card" style="display: none;">
+        <div class="vehicle-form-head">
+          <div>
+            <h4 class="vehicle-form-title">ยานพาหนะ</h4>
+            <p class="vehicle-form-sub">ตั้งค่าอัตราสิ้นเปลืองน้ำมัน ค่าใช้จ่าย และค่าการปล่อยคาร์บอนของรถแต่ละคัน</p>
+          </div>
+          <button class="vehicle-form-close" id="close-vehicle-form" aria-label="ปิดฟอร์ม">&times;</button>
+        </div>
+
+        <div class="vehicle-form-grid">
+          <div class="form-group">
+            <label for="vf-name">ชื่อรถ</label>
+            <input type="text" id="vf-name" class="place-input" placeholder="เช่น รถกระบะดีเซล #05">
+          </div>
+          <div class="form-group">
+            <label for="vf-fuel">ชนิดเชื้อเพลิง (diesel / gasoline / electric / ngv)</label>
+            <select id="vf-fuel" class="place-select">
+              <option value="diesel">diesel</option>
+              <option value="gasoline">gasoline</option>
+              <option value="electric">electric</option>
+              <option value="ngv">ngv</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="vf-rate">อัตราสิ้นเปลือง (กม./ลิตร)</label>
+            <input type="number" id="vf-rate" class="place-input" value="10" min="0" step="0.1">
+          </div>
+          <div class="form-group">
+            <label for="vf-price">ราคาเชื้อเพลิง (บาท/ลิตร)</label>
+            <input type="number" id="vf-price" class="place-input" value="32" min="0" step="0.01">
+          </div>
+          <div class="form-group">
+            <label for="vf-other">ค่าใช้จ่ายอื่น (บาท/กม.)</label>
+            <input type="number" id="vf-other" class="place-input" value="0" min="0" step="0.01">
+          </div>
+          <div class="form-group">
+            <label for="vf-fixed">ค่าคงที่ต่อรอบ (บาท)</label>
+            <input type="number" id="vf-fixed" class="place-input" value="0" min="0" step="0.01">
+          </div>
+          <div class="form-group">
+            <label for="vf-co2">การปล่อย CO₂ (กก./กม.)</label>
+            <input type="number" id="vf-co2" class="place-input" value="0.25" min="0" step="0.01">
+          </div>
+          <div class="form-group">
+            <label for="vf-capacity">บรรทุกได้ (กก.)</label>
+            <input type="number" id="vf-capacity" class="place-input" placeholder="เช่น 1500" min="0" step="1">
+          </div>
+        </div>
+
+        <button class="btn-save-vehicle" id="btn-save-vehicle">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path><polyline points="17 21 17 13 7 13 7 21"></polyline><polyline points="7 3 7 8 15 8"></polyline></svg>
+          บันทึก
+        </button>
+      </div>
+
       <!-- Modal Footer -->
       <div class="modal-footer-row">
-        <button class="v-add-btn" onclick="showToast('ระบบกำลังเปิดฟอร์มเพิ่มยานพาหนะใหม่...')">
+        <button class="v-add-btn" id="btn-add-vehicle">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
           เพิ่มยานพาหนะใหม่
         </button>

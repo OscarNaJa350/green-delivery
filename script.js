@@ -97,8 +97,21 @@ document.addEventListener('DOMContentLoaded', () => {
   const viewMapBtn = document.querySelector('.view-map-pill');
   if (viewMapBtn) {
     viewMapBtn.addEventListener('click', () => {
-      showToast('กำลังโหลดแผนที่ดาวเทียม กรุงเทพมหานคร...');
+      openMapModal();
     });
+  }
+
+  const expandMapBtn = document.querySelector('.expand-map-btn');
+  if (expandMapBtn) {
+    expandMapBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      openMapModal();
+    });
+  }
+
+  const miniMapPreview = document.querySelector('.mini-map-preview');
+  if (miniMapPreview) {
+    miniMapPreview.addEventListener('click', () => openMapModal());
   }
 
   // 5. Search Bar Functionality
@@ -192,24 +205,194 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // 8. Vehicle Filter Tabs
   const vFilterBtns = document.querySelectorAll('.v-filter-btn');
-  const vehicleCards = document.querySelectorAll('.vehicle-item-card');
+  const vehicleListEl = document.querySelector('.vehicle-list');
+  let activeVehicleFilter = 'all';
+
+  function getVehicleCards() {
+    return vehicleListEl ? Array.from(vehicleListEl.querySelectorAll('.vehicle-item-card')) : [];
+  }
+
+  function applyVehicleFilter() {
+    getVehicleCards().forEach(card => {
+      const cardStatus = card.getAttribute('data-status');
+      card.style.display =
+        activeVehicleFilter === 'all' || cardStatus === activeVehicleFilter ? 'block' : 'none';
+    });
+  }
+
+  function refreshVehicleStats() {
+    const cards = getVehicleCards();
+    const counts = { all: cards.length, ready: 0, delivering: 0, charging: 0 };
+    cards.forEach(card => {
+      const status = card.getAttribute('data-status');
+      if (counts[status] !== undefined) counts[status]++;
+    });
+
+    vFilterBtns.forEach(btn => {
+      const filter = btn.getAttribute('data-filter');
+      const labels = {
+        all: 'ทั้งหมด',
+        ready: 'พร้อมใช้งาน',
+        delivering: 'กำลังจัดส่ง',
+        charging: 'กำลังชาร์จ'
+      };
+      btn.textContent = `${labels[filter] || filter} (${counts[filter] || 0})`;
+    });
+
+    const kpiNum = document.querySelector('.vehicle-kpi-card .kpi-num');
+    if (kpiNum) kpiNum.textContent = counts.all;
+
+    const kpiSub = document.querySelector('.vehicle-kpi-card .kpi-sub.green');
+    if (kpiSub) {
+      kpiSub.innerHTML = `<svg viewBox="0 0 24 24" fill="currentColor" class="status-dot-icon"><circle cx="12" cy="12" r="10"/></svg> ${counts.ready} คันพร้อมใช้งาน`;
+    }
+
+    // Keep the home-screen badges in sync
+    const badgeText = document.querySelector('.vehicle-badge-overlay span');
+    if (badgeText) badgeText.textContent = `ยานพาหนะ ${counts.all} คัน`;
+    const savedItemCount = document.querySelector('.vehicle-trigger .item-sub');
+    if (savedItemCount) savedItemCount.textContent = `${counts.all} คัน • พร้อมใช้งาน`;
+  }
 
   vFilterBtns.forEach(btn => {
     btn.addEventListener('click', () => {
       vFilterBtns.forEach(b => b.classList.remove('active'));
       btn.classList.add('active');
-
-      const filter = btn.getAttribute('data-filter');
-      vehicleCards.forEach(card => {
-        const cardStatus = card.getAttribute('data-status');
-        if (filter === 'all' || cardStatus === filter) {
-          card.style.display = 'block';
-        } else {
-          card.style.display = 'none';
-        }
-      });
+      activeVehicleFilter = btn.getAttribute('data-filter');
+      applyVehicleFilter();
     });
   });
+
+  // 8b. Add New Vehicle Form
+  const vehicleFormCard = document.getElementById('vehicle-form-card');
+  const btnAddVehicle = document.getElementById('btn-add-vehicle');
+  const btnCloseVehicleForm = document.getElementById('close-vehicle-form');
+  const btnSaveVehicle = document.getElementById('btn-save-vehicle');
+
+  function escapeHtml(str) {
+    return String(str).replace(/[&<>"']/g, ch => ({
+      '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+    }[ch]));
+  }
+
+  function toggleVehicleForm(show) {
+    if (!vehicleFormCard) return;
+    vehicleFormCard.style.display = show ? 'block' : 'none';
+    if (show) {
+      vehicleFormCard.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      document.getElementById('vf-name')?.focus();
+    }
+  }
+
+  if (btnAddVehicle) {
+    btnAddVehicle.addEventListener('click', () => {
+      const isHidden = !vehicleFormCard || vehicleFormCard.style.display === 'none';
+      toggleVehicleForm(isHidden);
+    });
+  }
+
+  if (btnCloseVehicleForm) {
+    btnCloseVehicleForm.addEventListener('click', () => toggleVehicleForm(false));
+  }
+
+  const FUEL_LABELS = {
+    diesel: 'ดีเซล',
+    gasoline: 'เบนซิน',
+    electric: 'ไฟฟ้า (EV)',
+    ngv: 'NGV'
+  };
+
+  if (btnSaveVehicle) {
+    btnSaveVehicle.addEventListener('click', () => {
+      const name = document.getElementById('vf-name')?.value.trim();
+      const fuel = document.getElementById('vf-fuel')?.value || 'diesel';
+      const rate = parseFloat(document.getElementById('vf-rate')?.value) || 0;
+      const price = parseFloat(document.getElementById('vf-price')?.value) || 0;
+      const other = parseFloat(document.getElementById('vf-other')?.value) || 0;
+      const fixed = parseFloat(document.getElementById('vf-fixed')?.value) || 0;
+      const co2 = parseFloat(document.getElementById('vf-co2')?.value) || 0;
+      const capacity = parseFloat(document.getElementById('vf-capacity')?.value) || 0;
+
+      if (!name) {
+        showToast('กรุณาระบุชื่อรถ');
+        document.getElementById('vf-name')?.focus();
+        return;
+      }
+
+      const isElectric = fuel === 'electric';
+      const costPerKm = isElectric
+        ? other
+        : (rate > 0 ? price / rate : 0) + other;
+
+      const card = document.createElement('div');
+      card.className = 'vehicle-item-card';
+      card.setAttribute('data-status', 'ready');
+      card.innerHTML = `
+        <div class="v-card-top">
+          <div class="v-type-icon ${isElectric ? 'ev-truck' : 'fuel-truck'}">
+            ${isElectric
+              ? '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="6" width="13" height="10" rx="1.5" /><path d="M14 9H18L21 12V16H14V9Z" /><circle cx="5.5" cy="17.5" r="2.2" /><circle cx="17.5" cy="17.5" r="2.2" /></svg>'
+              : '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="6" width="13" height="10" rx="1.5" /><path d="M14 9H18L21 12V16H14V9Z" /><circle cx="5.5" cy="17.5" r="2.2" /><circle cx="17.5" cy="17.5" r="2.2" /></svg>'}
+          </div>
+          <div class="v-main-info">
+            <div class="v-title-row">
+              <h4 class="v-name">${escapeHtml(name)}</h4>
+              <span class="v-status-badge status-ready"><svg viewBox="0 0 24 24" fill="currentColor" class="status-dot-icon"><circle cx="12" cy="12" r="10"/></svg> พร้อมใช้งาน</span>
+            </div>
+            <p class="v-plate">เชื้อเพลิง: <strong>${FUEL_LABELS[fuel] || fuel}</strong>${capacity > 0 ? ` • บรรทุกได้ ${capacity.toLocaleString('th-TH')} กก.` : ''}</p>
+          </div>
+        </div>
+
+        <div class="v-route-preview">
+          <span class="route-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18"/><path d="M5 21V7l7-4 7 4v14"/><path d="M9 21v-4h6v4"/></svg></span>
+          <span class="route-text">จอดประจำการ: <strong>ศูนย์กระจายสินค้า ตลาดไท</strong></span>
+        </div>
+
+        <div class="v-metrics-row">
+          <div class="v-metric">
+            <span class="v-m-label">ต้นทุนเชื้อเพลิง</span>
+            <span class="v-m-val">${costPerKm.toFixed(2)} บาท/กม.</span>
+          </div>
+          <div class="v-metric">
+            <span class="v-m-label">การปล่อยคาร์บอน</span>
+            <span class="v-m-val ${isElectric ? 'green-text' : ''}">${co2.toFixed(2)} กก. CO₂/กม.</span>
+          </div>
+        </div>
+        ${fixed > 0 ? `<div class="v-route-preview"><span class="route-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></span><span class="route-text">ค่าคงที่ต่อรอบ: <strong>${fixed.toFixed(2)} บาท</strong></span></div>` : ''}
+
+        <div class="v-actions-row">
+          <button class="v-action-btn primary" onclick="showToast('เปิดหน้าต่างสร้างใบงานจัดส่งสำหรับ ${escapeHtml(name)}')">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="12" y1="18" x2="12" y2="12"></line><line x1="9" y1="15" x2="15" y2="15"></line></svg>
+            มอบหมายเส้นทางจัดส่ง
+          </button>
+          <button class="v-action-btn secondary" data-remove-vehicle title="ลบยานพาหนะคันนี้">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
+            ลบ
+          </button>
+        </div>
+      `;
+
+      card.querySelector('[data-remove-vehicle]')?.addEventListener('click', () => {
+        card.remove();
+        refreshVehicleStats();
+        applyVehicleFilter();
+        showToast(`ลบยานพาหนะ "${name}" ออกจากระบบแล้ว`);
+      });
+
+      if (vehicleListEl) vehicleListEl.appendChild(card);
+
+      refreshVehicleStats();
+      applyVehicleFilter();
+
+      // Reset the form for the next entry
+      document.getElementById('vf-name').value = '';
+      document.getElementById('vf-capacity').value = '';
+      toggleVehicleForm(false);
+      showToast(`เพิ่มยานพาหนะ "${name}" สำเร็จ!`);
+    });
+  }
+
+  refreshVehicleStats();
 
   // 9. Top Action Header Buttons
   const btnLocationPin = document.getElementById('btn-location-pin');
@@ -251,15 +434,47 @@ document.addEventListener('DOMContentLoaded', () => {
   const movingTruck = document.getElementById('moving-route-truck');
   const popupOpenRouteBtn = document.getElementById('popup-open-route');
 
+  const routeMapContainer = document.getElementById('interactive-route-map');
+
+  const MAP_MIN_ZOOM = 0.25;
+  const MAP_MAX_ZOOM = 1.8;
   let currentMapZoom = 1;
 
-  function updateMapZoom(zoom) {
-    currentMapZoom = Math.min(Math.max(zoom, 0.8), 1.8);
+  function updateMapZoom(zoom, originX, originY, smooth = true) {
+    currentMapZoom = Math.min(Math.max(zoom, MAP_MIN_ZOOM), MAP_MAX_ZOOM);
     if (mapSvg) {
       mapSvg.style.transform = `scale(${currentMapZoom})`;
-      mapSvg.style.transformOrigin = 'center center';
-      mapSvg.style.transition = 'transform 0.25s ease';
+      mapSvg.style.transformOrigin =
+        originX != null && originY != null ? `${originX}% ${originY}%` : 'center center';
+      mapSvg.style.transition = smooth ? 'transform 0.25s ease' : 'transform 0.08s linear';
     }
+  }
+
+  // Mouse wheel / trackpad zoom, anchored to the cursor position
+  if (routeMapContainer) {
+    let wheelToastTimer = null;
+
+    routeMapContainer.addEventListener(
+      'wheel',
+      (e) => {
+        e.preventDefault();
+
+        const rect = routeMapContainer.getBoundingClientRect();
+        const originX = ((e.clientX - rect.left) / rect.width) * 100;
+        const originY = ((e.clientY - rect.top) / rect.height) * 100;
+
+        // Normalize delta across mouse wheels and trackpads
+        const step = e.deltaY < 0 ? 0.12 : -0.12;
+        updateMapZoom(currentMapZoom + step, originX, originY, false);
+
+        // Debounced feedback so rapid scrolling doesn't spam toasts
+        clearTimeout(wheelToastTimer);
+        wheelToastTimer = setTimeout(() => {
+          showToast(`ซูมแผนที่: ${Math.round(currentMapZoom * 100)}%`);
+        }, 220);
+      },
+      { passive: false }
+    );
   }
 
   if (btnZoomIn) {
@@ -318,6 +533,30 @@ document.addEventListener('DOMContentLoaded', () => {
       openRouteModal();
     });
   }
+
+  // 10b. Full Map Viewer Modal (Google Maps embed)
+  const mapModal = document.getElementById('map-modal');
+  const closeMapModalBtn = document.getElementById('close-map-modal');
+  const closeMapBottomBtn = document.getElementById('close-map-bottom-btn');
+  const mapModalBackdrop = document.getElementById('map-modal-backdrop');
+
+  function openMapModal() {
+    if (!mapModal) return;
+    mapModal.classList.add('active');
+    mapModal.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeMapModal() {
+    if (!mapModal) return;
+    mapModal.classList.remove('active');
+    mapModal.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
+  }
+
+  if (closeMapModalBtn) closeMapModalBtn.addEventListener('click', closeMapModal);
+  if (closeMapBottomBtn) closeMapBottomBtn.addEventListener('click', closeMapModal);
+  if (mapModalBackdrop) mapModalBackdrop.addEventListener('click', closeMapModal);
 
   // 11. Route & Stops Modal Handling
   const routeModal = document.getElementById('route-modal');
@@ -623,6 +862,7 @@ document.addEventListener('DOMContentLoaded', () => {
       if (routeModal && routeModal.classList.contains('active')) closeRouteModal();
       if (savedPlacesModal && savedPlacesModal.classList.contains('active')) closeSavedPlacesModal();
       if (vehicleModal && vehicleModal.classList.contains('active')) closeVehicleModal();
+      if (mapModal && mapModal.classList.contains('active')) closeMapModal();
       if (mapPopup) mapPopup.style.display = 'none';
     }
   });
@@ -635,4 +875,6 @@ document.addEventListener('DOMContentLoaded', () => {
   window.closeRouteModal = closeRouteModal;
   window.openSavedPlacesModal = openSavedPlacesModal;
   window.closeSavedPlacesModal = closeSavedPlacesModal;
+  window.openMapModal = openMapModal;
+  window.closeMapModal = closeMapModal;
 });

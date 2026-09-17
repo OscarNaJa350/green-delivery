@@ -204,13 +204,12 @@ body {
 }
 
 .brand-text .greeting {
-  font-size: 1.3rem;
+  font-size: 1.15rem;
   font-weight: 700;
   color: #11281c;
   line-height: 1.25;
-  display: flex;
-  align-items: center;
-  gap: 5px;
+  letter-spacing: -0.01em;
+  margin: 0;
 }
 
 .sprout-emoji {
@@ -956,6 +955,8 @@ body {
   border: 1px solid #dfede5;
   background: #f4f7f5;
   min-height: 185px;
+  cursor: zoom-in;
+  touch-action: pan-y;
 }
 
 .route-map-svg {
@@ -1926,6 +1927,11 @@ body {
   color: #0284c7;
 }
 
+.v-type-icon.fuel-truck {
+  background: #fef3c7;
+  color: #b45309;
+}
+
 .v-type-icon svg {
   width: 22px;
   height: 22px;
@@ -2095,12 +2101,240 @@ body {
   color: #1e293b;
 }
 
+/* --------------------------------------------------------------------------
+   Full Map Viewer Modal
+   -------------------------------------------------------------------------- */
+.map-modal-sheet {
+  max-width: 720px;
+}
+
+.full-map-viewport {
+  position: relative;
+  width: 100%;
+  height: 340px;
+  border-radius: 18px;
+  overflow: hidden;
+  border: 1px solid #dfede5;
+  background: #f4f7f5;
+  margin-bottom: 16px;
+}
+
+.full-map-iframe {
+  width: 100%;
+  height: 100%;
+  border: 0;
+  display: block;
+}
+
+.full-map-location-badge {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(255, 255, 255, 0.96);
+  backdrop-filter: blur(6px);
+  border: 1px solid rgba(27, 77, 50, 0.15);
+  color: var(--primary-green);
+  font-size: 0.74rem;
+  font-weight: 700;
+  padding: 7px 12px;
+  border-radius: 10px;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.12);
+  z-index: 6;
+  pointer-events: none;
+  max-width: calc(100% - 24px);
+}
+
+.full-map-location-badge svg {
+  width: 15px;
+  height: 15px;
+  flex-shrink: 0;
+}
+
+.full-map-location-badge span {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.full-map-info-strip {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  margin-bottom: 16px;
+}
+
+.fmi-item {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  background: #f8faf8;
+  border: 1px solid #edf4ef;
+  border-radius: 12px;
+  padding: 10px 12px;
+}
+
+.fmi-icon {
+  width: 30px;
+  height: 30px;
+  flex-shrink: 0;
+  border-radius: 9px;
+  background: #e4f5ec;
+  color: var(--primary-green);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.fmi-icon svg {
+  width: 16px;
+  height: 16px;
+}
+
+.fmi-text {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.fmi-label {
+  font-size: 0.66rem;
+  color: var(--text-muted);
+}
+
+.fmi-value {
+  font-size: 0.76rem;
+  font-weight: 700;
+  color: var(--text-main);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+@media (max-width: 640px) {
+  .full-map-viewport {
+    height: 260px;
+  }
+
+  .full-map-info-strip {
+    grid-template-columns: 1fr;
+  }
+}
+
 /* Modal Footer */
 .modal-footer-row {
   display: flex;
   gap: 10px;
   padding-top: 14px;
   border-top: 1px solid #edf4f0;
+}
+
+/* --------------------------------------------------------------------------
+   Add New Vehicle Form Card
+   -------------------------------------------------------------------------- */
+.vehicle-form-card {
+  background: #fbfdfc;
+  border: 1px solid #e6f0eb;
+  border-radius: 18px;
+  padding: 18px;
+  margin-bottom: 18px;
+  box-shadow: 0 2px 10px rgba(27, 77, 50, 0.05);
+  animation: vehicle-form-in 0.25s ease;
+}
+
+@keyframes vehicle-form-in {
+  from { opacity: 0; transform: translateY(-6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.vehicle-form-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.vehicle-form-title {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--text-main);
+  margin: 0;
+}
+
+.vehicle-form-sub {
+  font-size: 0.76rem;
+  color: var(--text-muted);
+  margin: 3px 0 0;
+  line-height: 1.4;
+}
+
+.vehicle-form-close {
+  width: 28px;
+  height: 28px;
+  flex-shrink: 0;
+  border: none;
+  border-radius: 50%;
+  background: #f1f5f9;
+  color: #64748b;
+  font-size: 1.1rem;
+  line-height: 1;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.vehicle-form-close:hover {
+  background: #e2e8f0;
+  color: #1e293b;
+}
+
+.vehicle-form-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 14px 16px;
+  margin-bottom: 16px;
+}
+
+.btn-save-vehicle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  background: var(--primary-green);
+  color: #ffffff;
+  border: none;
+  padding: 11px 22px;
+  border-radius: 12px;
+  font-size: 0.84rem;
+  font-weight: 600;
+  font-family: inherit;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 12px rgba(27, 77, 50, 0.22);
+}
+
+.btn-save-vehicle:hover {
+  background: var(--primary-green-hover);
+  transform: translateY(-1px);
+}
+
+.btn-save-vehicle svg {
+  width: 16px;
+  height: 16px;
+}
+
+@media (max-width: 640px) {
+  .vehicle-form-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (max-width: 420px) {
+  .vehicle-form-grid {
+    grid-template-columns: 1fr;
+  }
 }
 
 .v-add-btn {
