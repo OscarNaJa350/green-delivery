@@ -630,11 +630,7 @@ document.addEventListener('DOMContentLoaded', () => {
     return 2 * 6371 * Math.asin(Math.sqrt(s));
   }
 
-  /* ===== Google Maps embed (no API key, standard iframe embed) ===== */
-
-  function gmapsEmbedUrl(lat, lng, z = 15) {
-    return `https://www.google.com/maps?q=${lat},${lng}&z=${z}&output=embed`;
-  }
+  /* ===== Leaflet + OpenStreetMap (no API key, scroll-to-zoom, no Ctrl needed) ===== */
 
   // Directions deep-link (opens Google Maps site / app, no API key needed)
   function gmapsDirUrl(origin, destination, waypoints) {
@@ -647,30 +643,70 @@ document.addEventListener('DOMContentLoaded', () => {
     return `https://www.google.com/maps/dir/?${p.toString()}`;
   }
 
-  // Create (once) or update the responsive Google Maps iframe inside a container
+  // Create (once) or update a Leaflet map inside a container.
+  // scrollWheelZoom: true => plain mouse-wheel / trackpad scroll zooms, no Ctrl.
   function setMapIframe(el, lat, lng, z = 15) {
     if (!el) return;
-    let iframe = el.querySelector('iframe.gmaps-embed');
-    if (!iframe) {
-      el.innerHTML = '';
-      iframe = document.createElement('iframe');
-      iframe.className = 'gmaps-embed';
-      iframe.loading = 'lazy';
-      iframe.referrerPolicy = 'no-referrer-when-downgrade';
-      iframe.allowFullscreen = true;
-      iframe.title = 'แผนที่ Google Maps';
-      el.appendChild(iframe);
+    // Fallback to Google embed if Leaflet failed to load (offline CDN)
+    if (typeof L === 'undefined') {
+      let iframe = el.querySelector('iframe.gmaps-embed');
+      if (!iframe) {
+        el.innerHTML = '';
+        iframe = document.createElement('iframe');
+        iframe.className = 'gmaps-embed';
+        iframe.loading = 'lazy';
+        iframe.referrerPolicy = 'no-referrer-when-downgrade';
+        iframe.allowFullscreen = true;
+        iframe.title = 'แผนที่ Google Maps';
+        el.appendChild(iframe);
+      }
+      const src = `https://www.google.com/maps?q=${lat},${lng}&z=${z}&output=embed`;
+      if (iframe.getAttribute('src') !== src) iframe.src = src;
+      return;
     }
-    const src = gmapsEmbedUrl(lat, lng, z);
-    if (iframe.getAttribute('src') !== src) iframe.src = src;
+    let map = el._leafletMap;
+    if (!map) {
+      el.innerHTML = '';
+      map = L.map(el, {
+        scrollWheelZoom: true, // <-- plain scroll zooms, no Ctrl required
+        dragging: true,
+        touchZoom: true,
+        doubleClickZoom: true,
+        boxZoom: true,
+        keyboard: true,
+        zoomControl: true,
+        attributionControl: true
+      });
+      L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        maxZoom: 19,
+        attribution: '&copy; OpenStreetMap'
+      }).addTo(map);
+      el._leafletMap = map;
+    }
+    map.setView([lat, lng], z, { animate: true });
+    if (el._leafletMarker) {
+      el._leafletMarker.setLatLng([lat, lng]);
+    } else {
+      el._leafletMarker = L.marker([lat, lng]).addTo(map);
+    }
+    // Fix grey tiles when the container just became visible (modal / tab)
+    setTimeout(() => map.invalidateSize(), 60);
   }
 
   // ---- Home map (small, embedded in the saved-points card) ----
   function ensureHomeMap() {
     if (!homeMapEl) return;
     setMapIframe(homeMapEl, MAP_ORIGIN.lat, MAP_ORIGIN.lng, 15);
-    // Tap the map to open the delivery popup card (same behaviour as before)
-    homeMapEl.onclick = () => { if (mapPopup) mapPopup.style.display = 'block'; };
+    // Open the delivery popup only when the pin is tapped — not on drag/zoom,
+    // so scroll-zoom and panning never trigger the popup.
+    const marker = homeMapEl._leafletMarker;
+    if (marker && !marker._popupWired) {
+      marker._popupWired = true;
+      marker.on('click', (e) => {
+        if (window.L && L.DomEvent) L.DomEvent.stopPropagation(e);
+        if (mapPopup) mapPopup.style.display = 'block';
+      });
+    }
   }
 
   // Create the map once the card becomes visible
@@ -734,10 +770,13 @@ document.addEventListener('DOMContentLoaded', () => {
   let fmSelectedId = null;
 
   // Show the selected place (or the origin when nothing is selected) on the
-  // embedded Google Maps iframe. Primary location only — no route drawing.
+  // Leaflet map. Primary location only — no route drawing.
   function showFmMap(place) {
     const target = place || MAP_ORIGIN;
     setMapIframe(fullMapEl, target.lat, target.lng, 15);
+    if (fullMapEl && fullMapEl._leafletMap) {
+      setTimeout(() => fullMapEl._leafletMap.invalidateSize(), 80);
+    }
     if (fmRouteBox) fmRouteBox.hidden = true;
   }
 
