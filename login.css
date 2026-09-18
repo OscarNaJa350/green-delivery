@@ -26,6 +26,79 @@
   --radius-pill: 9999px;
 }
 
+/* --------------------------------------------------------------------------
+   Dark theme — same tokens as style.css (synced via localStorage key
+   'flukeblind-theme' + html[data-theme="dark"])
+   -------------------------------------------------------------------------- */
+html[data-theme="dark"] {
+  --primary-green: #4ade80;
+  --primary-green-hover: #22c55e;
+  --accent-green: #34d399;
+  --accent-light: #16301f;
+  --mint-bg: #0b120e;
+  --card-bg: #141c17;
+  --border-card: #24322a;
+  --border-input: #2b3a31;
+  --text-main: #e6f0e9;
+  --text-muted: #9db3a6;
+  --shadow-card: 0 8px 30px rgba(0, 0, 0, 0.45), 0 2px 6px rgba(0, 0, 0, 0.3);
+}
+
+html[data-theme="dark"] body {
+  background-image:
+    radial-gradient(circle at 15% 10%, rgba(34, 90, 60, 0.35) 0%, transparent 45%),
+    radial-gradient(circle at 85% 15%, rgba(28, 78, 52, 0.4) 0%, transparent 45%),
+    radial-gradient(circle at 95% 90%, rgba(26, 72, 48, 0.32) 0%, transparent 45%),
+    radial-gradient(circle at 5% 90%, rgba(30, 82, 54, 0.32) 0%, transparent 45%);
+  color-scheme: dark;
+}
+
+/* Theme toggle button (top-right, same behaviour as main page) */
+.login-theme-toggle {
+  position: fixed;
+  top: calc(14px + env(safe-area-inset-top));
+  right: calc(14px + env(safe-area-inset-right));
+  z-index: 10;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  border: 1px solid var(--border-card);
+  background: var(--card-bg);
+  color: #2b4d3a;
+  cursor: pointer;
+  box-shadow: var(--shadow-card);
+  transition: transform 0.2s ease, background 0.2s ease;
+}
+
+.login-theme-toggle:hover { transform: translateY(-1px); }
+
+html[data-theme="dark"] .login-theme-toggle { color: #b9d6c5; }
+
+.login-theme-toggle .theme-icon {
+  width: 18px;
+  height: 18px;
+  transition: opacity 0.25s ease, transform 0.35s ease;
+}
+
+.login-theme-toggle .theme-icon-moon {
+  position: absolute;
+  opacity: 0;
+  transform: rotate(-70deg) scale(0.6);
+}
+
+html[data-theme="dark"] .login-theme-toggle .theme-icon-sun {
+  opacity: 0;
+  transform: rotate(70deg) scale(0.6);
+}
+
+html[data-theme="dark"] .login-theme-toggle .theme-icon-moon {
+  opacity: 1;
+  transform: rotate(0) scale(1);
+}
+
 body {
   font-family: var(--font-main);
   background-color: var(--mint-bg);
@@ -565,3 +638,43 @@ body {
   opacity: 1;
   transform: translateX(-50%) translateY(0);
 }
+
+/* --------------------------------------------------------------------------
+   Dark mode overrides for hardcoded light surfaces
+   -------------------------------------------------------------------------- */
+html[data-theme="dark"] .login-title { color: #eaf5ee; }
+html[data-theme="dark"] .title-sprout { color: #34d399; }
+html[data-theme="dark"] .login-subtitle { color: #9db3a6; }
+html[data-theme="dark"] .form-label { color: #c4d8cb; }
+html[data-theme="dark"] .forgot-link { color: #4ade80; }
+html[data-theme="dark"] .input-container { background: #18211b; }
+html[data-theme="dark"] .input-container:focus-within {
+  background: #141c17;
+  border-color: #34d399;
+  box-shadow: 0 0 0 4px rgba(52, 211, 153, 0.15);
+}
+html[data-theme="dark"] .input-icon,
+html[data-theme="dark"] .toggle-password-btn { color: #7d9186; }
+html[data-theme="dark"] .toggle-password-btn:hover { color: #4ade80; }
+html[data-theme="dark"] .form-input::placeholder { color: #7d9186; }
+html[data-theme="dark"] .checkbox-container { color: #9db3a6; }
+html[data-theme="dark"] .checkmark { background-color: #18211b; border-color: #2b3a31; }
+html[data-theme="dark"] .quick-login-section { border-top-color: #24322a; }
+html[data-theme="dark"] .divider-text { color: #7d9186; }
+html[data-theme="dark"] .preset-btn {
+  background: #18211b;
+  border-color: #2b3a31;
+  color: #c4d8cb;
+}
+html[data-theme="dark"] .preset-btn:hover {
+  background: #1d2721;
+  border-color: #34d399;
+}
+html[data-theme="dark"] .preset-icon svg { color: #34d399; }
+html[data-theme="dark"] .register-hint { color: #9db3a6; }
+html[data-theme="dark"] .register-link { color: #4ade80; }
+html[data-theme="dark"] .guest-link { color: #7d9186; }
+html[data-theme="dark"] .guest-link:hover { color: #4ade80; }
+html[data-theme="dark"] .slogan-handwritten { color: #9db3a6; }
+html[data-theme="dark"] .slogan-handwritten em { color: #d3e8da; }
+html[data-theme="dark"] .bg-decorations { opacity: 0.55; }

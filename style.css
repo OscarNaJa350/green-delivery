@@ -1040,30 +1040,28 @@ body {
   border: 1px solid #dfede5;
   background: #f4f7f5;
   min-height: 185px;
-  cursor: zoom-in;
-  touch-action: pan-y;
+  cursor: grab;
+  touch-action: pan-x pan-y;
 }
 
-/* Full-size zoom layer. The map is zoomed by changing the SVG's viewBox, not by
-   scaling this layer, so it always stays exactly the size of the viewport and
-   the map can never expose blank space when zoomed out. */
-.map-zoom-layer {
+/* Full-size map layer (embedded Google Maps iframe) */
+.home-map-leaflet {
   position: absolute;
   inset: 0;
-  overflow: hidden;
 }
 
-.route-map-svg {
+/* Google Maps embed iframe — responsive, fills its map container */
+.gmaps-embed {
+  display: block;
   width: 100%;
   height: 100%;
-  display: block;
+  border: 0;
+  border-radius: inherit;
 }
 
+/* Delivery pin is now a Leaflet div icon (absolutely positioned by Leaflet) */
 .delivery-pin-marker {
-  position: absolute;
-  top: 50%;
-  left: 57%;
-  transform: translate(-50%, -85%);
+  position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -2225,7 +2223,108 @@ body {
   cursor: grabbing;
 }
 
-/* Map markers */
+/* Leaflet map containers (real OpenStreetMap tiles) */
+.full-map-leaflet,
+.home-map-leaflet {
+  width: 100%;
+  height: 100%;
+  background: #e8efe9;
+}
+
+.home-map-leaflet {
+  min-height: 100%;
+}
+
+/* Keep Leaflet's own zoom control hidden; the app uses its own overlays */
+.full-map-leaflet .leaflet-control-attribution {
+  font-size: 0.56rem;
+  background: rgba(255, 255, 255, 0.75);
+}
+
+/* Numbered saved-place pins (div icons) */
+.fm-leaflet-marker {
+  position: relative;
+  cursor: pointer;
+  transition: opacity 0.18s ease, filter 0.18s ease;
+}
+
+.fm-leaflet-marker.off {
+  opacity: 0.4;
+  filter: grayscale(1);
+}
+
+.fm-leaflet-marker .fm-pin {
+  width: 30px;
+  height: 30px;
+  border-radius: 50% 50% 50% 4px;
+  transform: rotate(-45deg);
+  background: var(--pin-color, #e11d48);
+  border: 2.5px solid #ffffff;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.fm-leaflet-marker .fm-pin span {
+  transform: rotate(45deg);
+  font-family: 'Prompt', sans-serif;
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: #ffffff;
+}
+
+.fm-leaflet-marker .fm-pin-label {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  top: 32px;
+  white-space: nowrap;
+  background: var(--pin-color, #e11d48);
+  color: #ffffff;
+  font-family: 'Prompt', sans-serif;
+  font-size: 0.62rem;
+  font-weight: 600;
+  padding: 2px 8px;
+  border-radius: 999px;
+  pointer-events: none;
+}
+
+.fm-leaflet-origin {
+  position: relative;
+}
+
+.fm-origin-dot {
+  display: block;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: #1a73e8;
+  border: 3px solid #ffffff;
+  box-shadow: 0 1px 5px rgba(0, 0, 0, 0.3);
+}
+
+.fm-origin-label {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  top: 20px;
+  white-space: nowrap;
+  font-family: 'Prompt', sans-serif;
+  font-size: 0.62rem;
+  font-weight: 700;
+  color: #1b4d32;
+  background: rgba(255, 255, 255, 0.92);
+  padding: 1px 7px;
+  border-radius: 999px;
+  pointer-events: none;
+}
+
+.fm-leaflet-dest {
+  filter: drop-shadow(0 2px 3px rgba(0, 0, 0, 0.3));
+}
+
+/* Map markers (legacy SVG classes kept harmless) */
 .fm-marker {
   cursor: pointer;
 }
@@ -2312,12 +2411,13 @@ body {
   z-index: 6;
 }
 
-/* Route summary box (Google Maps style) — anchored to the route midpoint */
+/* Route summary box (Google Maps style) — anchored to the route midpoint.
+   JS positions it via left/top in px relative to the map pane. */
 .fm-route-box {
   position: absolute;
   left: 50%;
   top: 50%;
-  transform: translate(-50%, -50%);
+  transform: translate(-50%, -130%);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -2326,9 +2426,8 @@ body {
   border-radius: 8px;
   padding: 7px 14px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.22);
-  z-index: 7;
+  z-index: 1000;  /* above Leaflet panes */
   pointer-events: none;
-  transition: left 0.12s linear, top 0.12s linear;
 }
 
 .fm-route-box[hidden] {
@@ -2797,12 +2896,9 @@ body {
   transform: scale(1.12) translateY(-3px);
 }
 
-/* Moving Live EV Truck on the Map Route */
+/* Moving Live EV Truck on the Map Route (Leaflet div icon) */
 .moving-route-truck {
-  position: absolute;
-  top: 48%;
-  left: 60%;
-  transform: translate(-50%, -50%);
+  position: relative;
   z-index: 5;
   cursor: pointer;
 }
@@ -2839,6 +2935,7 @@ body {
   border: 2px solid #22c55e;
   opacity: 0.8;
   animation: truck-ping 2s cubic-bezier(0, 0, 0.2, 1) infinite;
+  pointer-events: none;
 }
 
 @keyframes truck-ping {
@@ -3655,6 +3752,111 @@ html[data-theme="dark"] .login-title {
   color: var(--heading-color);
 }
 
+/* Carbon Overview Card - dark mode */
+html[data-theme="dark"] .carbon-overview-card {
+  background: linear-gradient(135deg, #0f1a14 0%, #14211a 55%, #101c15 100%);
+  border-color: #24322a;
+}
+
+html[data-theme="dark"] .huge-number {
+  color: #a8f5c8;
+}
+
+html[data-theme="dark"] .metric-unit {
+  color: #7ce3a0;
+}
+
+html[data-theme="dark"] .metric-subtitle {
+  color: #8db39e;
+}
+
+html[data-theme="dark"] .praise-title {
+  color: #b8f5d0;
+}
+
+html[data-theme="dark"] .praise-desc {
+  color: #9db3a6;
+}
+
+html[data-theme="dark"] .overview-trees-bg svg {
+  filter: invert(0.8) hue-rotate(160deg) saturate(0.7) brightness(0.8);
+}
+
+html[data-theme="dark"] .seedling-icon svg {
+  filter: invert(0.8) hue-rotate(160deg) saturate(0.7) brightness(0.8);
+}
+
+/* Personal Info Card - dark mode */
+html[data-theme="dark"] .info-icon-badge {
+  background: #1a2e24;
+  color: #7ce3a0;
+}
+
+html[data-theme="dark"] .info-icon-badge.badge-co2 {
+  background: #16301f;
+  color: #a8f5c8;
+}
+
+html[data-theme="dark"] .info-value {
+  color: #e6f0e9;
+}
+
+/* Category Boxes - dark mode */
+html[data-theme="dark"] .category-box {
+  background: var(--surface-2);
+  border-color: var(--border-card);
+}
+
+html[data-theme="dark"] .category-box:hover {
+  background: var(--surface-3);
+  border-color: var(--border-subtle);
+}
+
+html[data-theme="dark"] .cat-icon-container {
+  background: #1a2e24;
+  color: #7ce3a0;
+}
+
+html[data-theme="dark"] .cat-name {
+  color: var(--text-muted);
+}
+
+html[data-theme="dark"] .cat-num {
+  color: var(--text-main);
+}
+
+/* Buttons - dark mode */
+html[data-theme="dark"] .view-all-pill {
+  background: var(--surface-2);
+  border-color: var(--border-subtle);
+  color: var(--text-main);
+}
+
+html[data-theme="dark"] .view-all-pill:hover {
+  background: var(--surface-3);
+  color: var(--primary-green);
+}
+
+html[data-theme="dark"] .edit-btn {
+  background: var(--surface-2);
+  border-color: var(--border-subtle);
+  color: var(--text-main);
+}
+
+html[data-theme="dark"] .edit-btn:hover {
+  background: var(--surface-3);
+  border-color: var(--primary-green);
+}
+
+html[data-theme="dark"] .btn-detail {
+  background: var(--primary-green);
+  color: #0b120e;
+}
+
+html[data-theme="dark"] .btn-detail:hover {
+  background: var(--primary-green-hover);
+}
+
 html[data-theme="dark"] .stop-detail,
 html[data-theme="dark"] .item-sub,
 html[data-theme="dark"] .saved-place-addr,
@@ -3681,16 +3883,20 @@ html[data-theme="dark"] .search-input::placeholder {
   color: var(--text-light);
 }
 
-/* Map artwork: darken the light SVG base so it does not glare */
+/* Map tiles: darken OSM tiles so they do not glare (route stays blue) */
 html[data-theme="dark"] .full-map-viewport,
-html[data-theme="dark"] .mini-map-preview {
+html[data-theme="dark"] .mini-map-preview,
+html[data-theme="dark"] .route-map-container {
   background: #101713;
   border-color: var(--border-card);
 }
 
-html[data-theme="dark"] .full-map-svg,
-html[data-theme="dark"] .map-render {
-  filter: invert(0.9) hue-rotate(150deg) saturate(0.75) brightness(0.95);
+html[data-theme="dark"] .gmaps-embed {
+  filter: invert(0.92) hue-rotate(160deg) saturate(0.7) brightness(0.95);
+}
+
+html[data-theme="dark"] .leaflet-container {
+  background: #101713;
 }
 
 html[data-theme="dark"] .fm-route-box {

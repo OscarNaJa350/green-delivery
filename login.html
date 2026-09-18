@@ -14,8 +14,29 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Prompt:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Caveat:wght@600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="login.css">
+  <script>
+    // Sync theme with index.html (same key) before first paint to avoid flash
+    (function () {
+      try {
+        var t = localStorage.getItem('flukeblind-theme');
+        if (!t && window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) t = 'dark';
+        document.documentElement.setAttribute('data-theme', t === 'dark' ? 'dark' : 'light');
+      } catch (e) { document.documentElement.setAttribute('data-theme', 'light'); }
+    })();
+  </script>
 </head>
 <body>
+
+  <!-- Theme toggle (synced with main page via localStorage 'flukeblind-theme') -->
+  <button class="login-theme-toggle" id="btn-login-theme" title="เปลี่ยนธีม สว่าง/มืด" aria-label="เปลี่ยนธีม" aria-pressed="false">
+    <svg class="theme-icon theme-icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+      <circle cx="12" cy="12" r="4.2" />
+      <path d="M12 2.5v2.2M12 19.3v2.2M2.5 12h2.2M19.3 12h2.2M5.2 5.2l1.6 1.6M17.2 17.2l1.6 1.6M18.8 5.2l-1.6 1.6M6.8 17.2l-1.6 1.6" />
+    </svg>
+    <svg class="theme-icon theme-icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M20 14.5A8.5 8.5 0 1 1 9.5 4a6.8 6.8 0 0 0 10.5 10.5Z" />
+    </svg>
+  </button>
 
   <!-- Natural Background Elements & Illustrations -->
   <div class="bg-decorations" aria-hidden="true">
@@ -209,6 +230,33 @@
   <div id="loginToast" class="login-toast" role="alert"></div>
 
   <script>
+    // Theme toggle — synced with index.html via localStorage key 'flukeblind-theme'
+    (function () {
+      var KEY = 'flukeblind-theme';
+      var btn = document.getElementById('btn-login-theme');
+      function apply(t) {
+        var dark = t === 'dark';
+        document.documentElement.setAttribute('data-theme', dark ? 'dark' : 'light');
+        if (btn) {
+          btn.setAttribute('aria-pressed', String(dark));
+          btn.title = dark ? 'เปลี่ยนเป็นธีมสว่าง' : 'เปลี่ยนเป็นธีมมืด';
+        }
+        var meta = document.querySelector('meta[name="theme-color"]');
+        if (meta) meta.setAttribute('content', dark ? '#0b120e' : '#ebf5ee');
+      }
+      try {
+        var saved = localStorage.getItem(KEY);
+        if (saved) apply(saved);
+        else if (btn) btn.setAttribute('aria-pressed', String(document.documentElement.getAttribute('data-theme') === 'dark'));
+      } catch (e) { /* ignore */ }
+      if (btn) btn.addEventListener('click', function () {
+        var next = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+        apply(next);
+        try { localStorage.setItem(KEY, next); } catch (e) { /* ignore */ }
+        showToast(next === 'dark' ? 'เปลี่ยนเป็นธีมมืดแล้ว' : 'เปลี่ยนเป็นธีมสว่างแล้ว');
+      });
+    })();
+
     function togglePasswordVisibility() {
       const passwordInput = document.getElementById('password');
       const eyeIcon = document.getElementById('eyeIcon');
