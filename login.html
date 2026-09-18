@@ -240,6 +240,7 @@
   <div id="loginToast" class="login-toast" role="alert"></div>
 
   <script src="i18n.js"></script>
+  <script src="sfx.js"></script>
   <script>
     // Theme toggle — synced with index.html via localStorage key 'flukeblind-theme'
     (function () {
@@ -311,6 +312,7 @@
       showToast(L === 'en' ? 'Verifying login…' : 'กำลังตรวจสอบข้อมูลเข้าสู่ระบบ...');
 
       setTimeout(() => {
+        try { window.SFX && window.SFX.success(); } catch (e) {}
         showToast(L === 'en' ? `Welcome ${username}! Going home…` : `ยินดีต้อนรับคุณ ${username}! กำลังพาไปหน้าหลัก...`);
         setTimeout(() => {
           window.location.href = 'index.html';

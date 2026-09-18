@@ -42,6 +42,7 @@ document.addEventListener('DOMContentLoaded', () => {
   navTabs.forEach(tab => {
     tab.addEventListener('click', (e) => {
       e.preventDefault();
+      try { window.SFX && window.SFX.tab(); } catch (err) {}
       const targetId = tab.getAttribute('data-tab') || tab.getAttribute('href').replace('#', '');
       switchTab(targetId);
     });
@@ -50,6 +51,7 @@ document.addEventListener('DOMContentLoaded', () => {
   // Activity buttons (i18n via delegation; replaces inline alert())
   document.querySelectorAll('[data-act]').forEach(btn => {
     btn.addEventListener('click', () => {
+      try { window.SFX && (btn.getAttribute('data-act') === 'register' ? window.SFX.badge() : window.SFX.coin()); } catch (e) {}
       showToast(t(btn.getAttribute('data-act') === 'register' ? 'act.reg.done' : 'act.done'));
     });
   });
@@ -305,6 +307,7 @@ document.addEventListener('DOMContentLoaded', () => {
   // 6. Toast Notification Helper
   let toastTimeout;
   function showToast(message) {
+    try { window.SFX && window.SFX.toast(); } catch (e) {}
     let toast = document.getElementById('app-toast');
     if (!toast) {
       toast = document.createElement('div');
@@ -1081,6 +1084,7 @@ document.addEventListener('DOMContentLoaded', () => {
       if (progressFill) progressFill.style.width = '100%';
 
       showToast(t('route.done3'));
+      try { window.SFX && window.SFX.levelup(); } catch (e) {}
     }
   };
 
