@@ -414,6 +414,96 @@ body {
   transform: scale(1.03);
 }
 
+/* Search autocomplete dropdown */
+.search-results {
+  position: absolute;
+  top: calc(100% + 8px);
+  left: 0;
+  right: 0;
+  background: var(--surface-1, #ffffff);
+  border: 1px solid var(--border-card, #e5efe9);
+  border-radius: 16px;
+  box-shadow: 0 12px 32px rgba(18, 54, 38, 0.14);
+  overflow: hidden;
+  z-index: 50;
+}
+
+.search-results[hidden] {
+  display: none;
+}
+
+.search-result-item {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 14px;
+  background: none;
+  border: none;
+  border-bottom: 1px solid var(--border-card, #eef5f0);
+  font-family: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.search-result-item:last-child {
+  border-bottom: none;
+}
+
+.search-result-item:hover,
+.search-result-item.active {
+  background: var(--accent-light, #e4f5ec);
+}
+
+.search-result-icon {
+  width: 30px;
+  height: 30px;
+  border-radius: 10px;
+  background: var(--accent-light, #e4f5ec);
+  color: var(--accent-green, #2d6a4f);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.search-result-icon svg {
+  width: 16px;
+  height: 16px;
+}
+
+.search-result-texts {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  flex: 1;
+}
+
+.search-result-name {
+  font-size: 0.84rem;
+  font-weight: 600;
+  color: var(--text-main);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.search-result-addr {
+  font-size: 0.72rem;
+  color: var(--text-muted);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.search-result-empty,
+.search-result-loading {
+  padding: 12px 14px;
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  text-align: center;
+}
+
 /* --------------------------------------------------------------------------
    6. General Card Styling (Airy, Comfortable Paddings)
    -------------------------------------------------------------------------- */
@@ -3918,6 +4008,235 @@ html[data-theme="dark"] .bg-decorations {
 
 html[data-theme="dark"] .slogan-handwritten {
   color: #8fc4a6;
+}
+
+html[data-theme="dark"] .slogan-handwritten em {
+  color: #d3f2e0;
+}
+
+/* ---- Statistics view: category breakdown + summary ---- */
+html[data-theme="dark"] .progress-item .prog-info {
+  color: var(--text-main);
+}
+
+html[data-theme="dark"] .prog-bar {
+  background: #24332a;
+}
+
+html[data-theme="dark"] .stat-num {
+  color: var(--heading-color);
+}
+
+html[data-theme="dark"] .stat-badge.green {
+  background: #14301f;
+  color: #6ee7a0;
+}
+
+html[data-theme="dark"] .act-icon {
+  background: #1a2e24;
+}
+
+html[data-theme="dark"] .activity-card-row {
+  background: var(--surface-2);
+  border-color: var(--border-card);
+}
+
+html[data-theme="dark"] .act-icon svg {
+  color: #7ce3a0;
+}
+
+html[data-theme="dark"] .act-info h4 {
+  color: var(--text-main);
+}
+
+html[data-theme="dark"] .act-info p {
+  color: var(--text-muted);
+}
+
+html[data-theme="dark"] .act-btn {
+  background: var(--primary-green);
+  color: #0b120e;
+}
+
+/* ---- Notifications ---- */
+html[data-theme="dark"] .notif-item.unread {
+  background: #16211a;
+  border-color: #2f6b45;
+}
+
+html[data-theme="dark"] .notif-badge-icon {
+  background: #1a2e24;
+}
+
+html[data-theme="dark"] .notif-badge-icon svg {
+  color: #7ce3a0;
+}
+
+html[data-theme="dark"] .notif-content h4 {
+  color: var(--text-main);
+}
+
+html[data-theme="dark"] .notif-content p {
+  color: var(--text-muted);
+}
+
+html[data-theme="dark"] .notif-time {
+  color: var(--text-light);
+}
+
+/* ---- Profile ---- */
+html[data-theme="dark"] .profile-avatar-large {
+  background: #1a2e24;
+  color: #7ce3a0;
+}
+
+html[data-theme="dark"] .profile-name {
+  color: var(--heading-color);
+}
+
+html[data-theme="dark"] .profile-role {
+  color: var(--text-muted);
+}
+
+html[data-theme="dark"] .profile-badge-pill {
+  background: #16301f;
+  color: #6ee7a0;
+}
+
+html[data-theme="dark"] .profile-menu-item {
+  color: var(--text-main);
+}
+
+html[data-theme="dark"] .profile-menu-item:hover {
+  background: var(--surface-3);
+}
+
+html[data-theme="dark"] .profile-menu-label svg {
+  color: #7ce3a0;
+}
+
+html[data-theme="dark"] .profile-menu-item.danger {
+  color: #f87171;
+}
+
+html[data-theme="dark"] .profile-menu-item.danger .profile-menu-label svg {
+  color: #f87171;
+}
+
+/* ---- Subpage + misc headings/icons ---- */
+html[data-theme="dark"] .back-home-btn {
+  background: var(--surface-2);
+  border-color: var(--border-subtle);
+  color: var(--text-main);
+}
+
+html[data-theme="dark"] .subpage-title-icon,
+html[data-theme="dark"] .arrow-icon,
+html[data-theme="dark"] .header-icon-user,
+html[data-theme="dark"] .route-icon svg {
+  color: #7ce3a0;
+}
+
+html[data-theme="dark"] .cat-rate,
+html[data-theme="dark"] .cat-sub {
+  color: var(--text-muted);
+}
+
+html[data-theme="dark"] .cat-chevron,
+html[data-theme="dark"] .item-chevron {
+  color: var(--text-light);
+}
+
+/* ---- Pills, badges, map labels ---- */
+html[data-theme="dark"] .view-map-pill {
+  background: #16301f;
+  border-color: #2f6b45;
+  color: #6ee7a0;
+}
+
+html[data-theme="dark"] .location-icon-wrapper,
+html[data-theme="dark"] .item-icon-bg {
+  background: #1a2e24;
+  color: #7ce3a0;
+}
+
+html[data-theme="dark"] .pin-label {
+  color: var(--text-main);
+}
+
+html[data-theme="dark"] .expand-map-btn {
+  background: var(--surface-2);
+  border-color: var(--border-subtle);
+  color: var(--text-muted);
+}
+
+html[data-theme="dark"] .vehicle-badge-overlay {
+  background: rgba(20, 28, 23, 0.96);
+  border-color: var(--border-card);
+  color: var(--text-main);
+}
+
+html[data-theme="dark"] .vehicle-badge-overlay .truck-icon {
+  color: #7ce3a0;
+}
+
+/* ---- Modals, routes, vehicles ---- */
+html[data-theme="dark"] .v-route-preview {
+  background: var(--surface-2);
+  border-color: var(--border-card);
+  color: var(--text-main);
+}
+
+html[data-theme="dark"] .v-metrics-row {
+  background: var(--surface-2);
+}
+
+html[data-theme="dark"] .kpi-sub {
+  color: var(--text-muted);
+}
+
+html[data-theme="dark"] .kpi-sub.green {
+  color: #6ee7a0;
+}
+
+html[data-theme="dark"] .vehicle-kpi-card.highlight {
+  background: #16301f;
+  border-color: #2f6b45;
+}
+
+html[data-theme="dark"] .v-filter-btn.active {
+  color: #0b120e;
+}
+
+html[data-theme="dark"] .stop-detail {
+  color: var(--text-muted);
+}
+
+html[data-theme="dark"] .popup-eta {
+  color: #6ee7a0;
+}
+
+html[data-theme="dark"] .popup-action-btn.secondary {
+  background: var(--surface-3);
+  color: var(--text-main);
+}
+
+html[data-theme="dark"] .stop-badge.pending {
+  color: var(--text-muted);
+}
+
+html[data-theme="dark"] .vehicle-form-close {
+  background: var(--surface-3);
+  color: var(--text-muted);
+}
+
+html[data-theme="dark"] .vehicle-form-close:hover {
+  background: #26332b;
+  color: var(--text-main);
+}
+
+html[data-theme="dark"] .fm-points-empty {
+  color: var(--text-muted);
 }
 
 

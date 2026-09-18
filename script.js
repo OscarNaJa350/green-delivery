@@ -114,16 +114,147 @@ document.addEventListener('DOMContentLoaded', () => {
     miniMapPreview.addEventListener('click', () => openMapModal());
   }
 
-  // 5. Search Bar Functionality
+  // 5. Search Bar Functionality — local places + Nominatim (OpenStreetMap, no key)
   const searchInput = document.querySelector('.search-input');
   const searchSubmit = document.querySelector('.search-submit-btn');
-  function handleSearch() {
-    const val = searchInput?.value.trim();
-    if (val) {
-      showToast(`ค้นหาสถานที่: "${val}"`);
-    } else {
-      showToast('กรุณากรอกชื่อสถานที่ที่ต้องการค้นหา');
+  const searchResultsEl = document.getElementById('search-results');
+  let searchDebounce = null;
+  let searchAbort = null;
+  let searchItems = [];
+
+  function localSearchResults(q) {
+    const query = q.trim().toLowerCase();
+    if (!query) return [];
+    const pool = [
+      { name: MAP_ORIGIN.name, addr: 'จุดเริ่มต้น / ตำแหน่งปัจจุบัน', lat: MAP_ORIGIN.lat, lng: MAP_ORIGIN.lng, local: true },
+      ...(typeof savedPlacesData !== 'undefined' ? savedPlacesData : []).map(p => ({
+        name: p.name, addr: p.addr, lat: p.lat, lng: p.lng, local: true
+      }))
+    ];
+    return pool.filter(p =>
+      p.name.toLowerCase().includes(query) || (p.addr || '').toLowerCase().includes(query)
+    ).slice(0, 5);
+  }
+
+  function escapeHtml(s) {
+    return String(s ?? '').replace(/[&<>"']/g, c => ({
+      '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+    }[c]));
+  }
+
+  function renderSearchResults(items, state) {
+    if (!searchResultsEl) return;
+    searchItems = items;
+    if (state === 'loading') {
+      searchResultsEl.hidden = false;
+      searchResultsEl.innerHTML = '<div class="search-result-loading">กำลังค้นหา…</div>';
+      searchInput?.setAttribute('aria-expanded', 'true');
+      return;
     }
+    if (!items.length) {
+      if (state === 'empty') {
+        searchResultsEl.hidden = false;
+        searchResultsEl.innerHTML = '<div class="search-result-empty">ไม่พบสถานที่ ลองคำอื่น เช่น “ตลาดไท” หรือ “Bangkok”</div>';
+        searchInput?.setAttribute('aria-expanded', 'true');
+      } else {
+        searchResultsEl.hidden = true;
+        searchResultsEl.innerHTML = '';
+        searchInput?.setAttribute('aria-expanded', 'false');
+      }
+      return;
+    }
+    searchResultsEl.hidden = false;
+    searchInput?.setAttribute('aria-expanded', 'true');
+    searchResultsEl.innerHTML = items.map((r, i) => `
+      <button type="button" class="search-result-item" role="option" data-idx="${i}">
+        <span class="search-result-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21C16 16.5 19 13 19 9A7 7 0 1 0 5 9C5 13 8 16.5 12 21Z"/><circle cx="12" cy="9" r="2.5"/></svg>
+        </span>
+        <span class="search-result-texts">
+          <span class="search-result-name">${escapeHtml(r.name)}</span>
+          <span class="search-result-addr">${escapeHtml(r.addr || '')}</span>
+        </span>
+      </button>`).join('');
+  }
+
+  async function fetchNominatim(q, signal) {
+    const url = `https://nominatim.openstreetmap.org/search?format=jsonv2&limit=5&countrycodes=th&accept-language=th,en&q=${encodeURIComponent(q)}`;
+    const res = await fetch(url, { signal, headers: { 'Accept': 'application/json' } });
+    if (!res.ok) throw new Error('search failed');
+    const data = await res.json();
+    return (Array.isArray(data) ? data : []).map(d => {
+      const parts = String(d.display_name || '').split(',').map(s => s.trim()).filter(Boolean);
+      return {
+        name: parts[0] || d.display_name || q,
+        addr: parts.slice(1, 3).join(', ') || d.display_name || '',
+        lat: parseFloat(d.lat),
+        lng: parseFloat(d.lon)
+      };
+    }).filter(r => Number.isFinite(r.lat) && Number.isFinite(r.lng));
+  }
+
+  async function runSearch(q, { showDropdown = true } = {}) {
+    const query = (q || '').trim();
+    if (!query) {
+      renderSearchResults([], 'idle');
+      return [];
+    }
+    const local = localSearchResults(query);
+    if (showDropdown) renderSearchResults(local, local.length ? 'ok' : 'loading');
+    try {
+      if (searchAbort) searchAbort.abort();
+      searchAbort = new AbortController();
+      const remote = await fetchNominatim(query, searchAbort.signal);
+      const seen = new Set(local.map(r => `${r.lat.toFixed(4)},${r.lng.toFixed(4)}`));
+      const merged = [...local];
+      for (const r of remote) {
+        const key = `${r.lat.toFixed(4)},${r.lng.toFixed(4)}`;
+        if (!seen.has(key)) { seen.add(key); merged.push(r); }
+        if (merged.length >= 6) break;
+      }
+      if (showDropdown) renderSearchResults(merged, merged.length ? 'ok' : 'empty');
+      return merged;
+    } catch (err) {
+      if (err && err.name === 'AbortError') return local;
+      if (showDropdown) renderSearchResults(local, local.length ? 'ok' : 'empty');
+      return local;
+    }
+  }
+
+  function focusSearchResult(r) {
+    if (!r) return;
+    // Update home mini-map + full map, show info + open full map modal
+    setMapIframe(homeMapEl, r.lat, r.lng, 15);
+    if (typeof showFmMap === 'function') showFmMap({ lat: r.lat, lng: r.lng });
+    const nameEl = document.getElementById('fmi-name');
+    const addrEl = document.getElementById('fmi-addr');
+    const etaEl = document.getElementById('fmi-eta');
+    if (nameEl) nameEl.textContent = r.name;
+    if (addrEl) addrEl.textContent = r.addr || `${r.lat.toFixed(5)}, ${r.lng.toFixed(5)}`;
+    if (etaEl) {
+      const km = haversineKm(MAP_ORIGIN, { lat: r.lat, lng: r.lng }) * 1.25;
+      etaEl.textContent = `${km < 1 ? `${Math.round(km * 1000)} ม.` : `${km.toFixed(1)} กม.`} จากจุดเริ่มต้น`;
+    }
+    if (typeof openMapModal === 'function') openMapModal();
+    // Re-apply after modal render overwrites the strip
+    if (nameEl) nameEl.textContent = r.name;
+    if (addrEl) addrEl.textContent = r.addr || `${r.lat.toFixed(5)}, ${r.lng.toFixed(5)}`;
+    if (etaEl) {
+      const km = haversineKm(MAP_ORIGIN, { lat: r.lat, lng: r.lng }) * 1.25;
+      etaEl.textContent = `${km < 1 ? `${Math.round(km * 1000)} ม.` : `${km.toFixed(1)} กม.`} จากจุดเริ่มต้น`;
+    }
+    if (typeof showFmMap === 'function') showFmMap({ lat: r.lat, lng: r.lng });
+    showToast(`พบ "${r.name}" — แสดงบนแผนที่แล้ว`);
+  }
+
+  async function handleSearch() {
+    const val = searchInput?.value.trim();
+    if (!val) {
+      showToast('กรุณากรอกชื่อสถานที่ที่ต้องการค้นหา');
+      return;
+    }
+    const results = await runSearch(val, { showDropdown: true });
+    if (results.length) focusSearchResult(results[0]);
   }
 
   if (searchSubmit) {
@@ -132,6 +263,33 @@ document.addEventListener('DOMContentLoaded', () => {
   if (searchInput) {
     searchInput.addEventListener('keydown', (e) => {
       if (e.key === 'Enter') handleSearch();
+      if (e.key === 'Escape' && searchResultsEl) {
+        searchResultsEl.hidden = true;
+        searchInput.setAttribute('aria-expanded', 'false');
+      }
+    });
+    searchInput.addEventListener('input', () => {
+      clearTimeout(searchDebounce);
+      const q = searchInput.value.trim();
+      if (q.length < 2) { renderSearchResults([], 'idle'); return; }
+      searchDebounce = setTimeout(() => runSearch(q), 350);
+    });
+  }
+  if (searchResultsEl) {
+    searchResultsEl.addEventListener('click', (e) => {
+      const btn = e.target.closest('.search-result-item');
+      if (!btn) return;
+      const item = searchItems[Number(btn.dataset.idx)];
+      searchResultsEl.hidden = true;
+      searchInput?.setAttribute('aria-expanded', 'false');
+      if (item && searchInput) searchInput.value = item.name;
+      focusSearchResult(item);
+    });
+    document.addEventListener('click', (e) => {
+      if (!e.target.closest('.search-section')) {
+        searchResultsEl.hidden = true;
+        searchInput?.setAttribute('aria-expanded', 'false');
+      }
     });
   }
 
