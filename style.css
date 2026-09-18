@@ -345,6 +345,16 @@ body {
   transform: translateY(-1px);
 }
 
+.lang-toggle-btn {
+  font-family: inherit;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  width: auto;
+  min-width: 36px;
+  padding: 0 8px;
+}
+
 /* --------------------------------------------------------------------------
    5. Search Box Section
    -------------------------------------------------------------------------- */

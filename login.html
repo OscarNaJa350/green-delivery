@@ -15,7 +15,14 @@
   <link href="https://fonts.googleapis.com/css2?family=Prompt:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Caveat:wght@600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="login.css">
   <script>
-    // Sync theme with index.html (same key) before first paint to avoid flash
+    // Sync theme + lang with index.html before first paint to avoid flash
+    (function () {
+      try {
+        var l = localStorage.getItem('flukeblind-lang') ||
+          ((navigator.language || 'th').toLowerCase().indexOf('en') === 0 ? 'en' : 'th');
+        document.documentElement.setAttribute('lang', l === 'en' ? 'en' : 'th');
+      } catch (e) {}
+    })();
     (function () {
       try {
         var t = localStorage.getItem('flukeblind-theme');
@@ -27,7 +34,8 @@
 </head>
 <body>
 
-  <!-- Theme toggle (synced with main page via localStorage 'flukeblind-theme') -->
+  <!-- Theme + lang toggles -->
+  <button class="login-theme-toggle lang-toggle-btn" id="btn-login-lang" aria-label="Switch language" style="right:64px;">EN</button>
   <button class="login-theme-toggle" id="btn-login-theme" title="เปลี่ยนธีม สว่าง/มืด" aria-label="เปลี่ยนธีม" aria-pressed="false">
     <svg class="theme-icon theme-icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
       <circle cx="12" cy="12" r="4.2" />
@@ -114,8 +122,8 @@
       <div class="brand-logo" title="Logo">
         <img src="assets/logo.svg" alt="Green School Warehouse" class="brand-icon">
       </div>
-      <h1 class="login-title">เข้าสู่ระบบ <svg class="title-sprout" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 20h10"/><path d="M12 20V11"/><path d="M12 11C12 7 9 5 5 5c0 4 3 6 7 6z"/><path d="M12 13c0-3 2.5-5 6-5 0 3-2.5 5-6 5z"/></svg></h1>
-      <p class="login-subtitle">ร่วมกันลดคาร์บอน เพื่อโลกที่ดีกว่า</p>
+      <h1 class="login-title"><span data-i18n="login.title">เข้าสู่ระบบ</span> <svg class="title-sprout" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 20h10"/><path d="M12 20V11"/><path d="M12 11C12 7 9 5 5 5c0 4 3 6 7 6z"/><path d="M12 13c0-3 2.5-5 6-5 0 3-2.5 5-6 5z"/></svg></h1>
+      <p class="login-subtitle" data-i18n="login.sub">ร่วมกันลดคาร์บอน เพื่อโลกที่ดีกว่า</p>
     </header>
 
     <!-- Login Card Form -->
@@ -124,7 +132,7 @@
         
         <!-- Username / Email Input -->
         <div class="form-group">
-          <label for="username" class="form-label">ชื่อผู้ใช้ / รหัสนักเรียน</label>
+          <label for="username" class="form-label" data-i18n="login.user">ชื่อผู้ใช้ / รหัสนักเรียน</label>
           <div class="input-container">
             <span class="input-icon">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -137,6 +145,7 @@
               id="username" 
               name="username" 
               class="form-input" 
+              data-i18n-ph="login.user.ph"
               placeholder="กรอกชื่อผู้ใช้ หรือ ตึก 3" 
               value="ตึก 3" 
               required
@@ -147,8 +156,8 @@
         <!-- Password Input -->
         <div class="form-group">
           <div class="label-row">
-            <label for="password" class="form-label">รหัสผ่าน</label>
-            <a href="#forgot" class="forgot-link" onclick="showToast('กรุณาติดต่อผู้ดูแลระบบโรงเรียนเพื่อรีเซ็ตรหัสผ่าน')">ลืมรหัสผ่าน?</a>
+            <label for="password" class="form-label" data-i18n="login.pass">รหัสผ่าน</label>
+            <a href="#forgot" class="forgot-link" data-i18n="login.forgot" onclick="showToast('กรุณาติดต่อผู้ดูแลระบบโรงเรียนเพื่อรีเซ็ตรหัสผ่าน')">ลืมรหัสผ่าน?</a>
           </div>
           <div class="input-container">
             <span class="input-icon">
@@ -162,6 +171,7 @@
               id="password" 
               name="password" 
               class="form-input" 
+              data-i18n-ph="login.pass.ph"
               placeholder="กรอกรหัสผ่านของคุณ" 
               value="123456" 
               required
@@ -180,13 +190,13 @@
           <label class="checkbox-container">
             <input type="checkbox" id="rememberMe" checked />
             <span class="checkmark"></span>
-            <span class="checkbox-label">จดจำการเข้าสู่ระบบ</span>
+            <span class="checkbox-label" data-i18n="login.remember">จดจำการเข้าสู่ระบบ</span>
           </label>
         </div>
 
         <!-- Submit Button -->
         <button type="submit" id="submitBtn" class="btn-login-submit">
-          <span class="btn-text">เข้าสู่ระบบ</span>
+          <span class="btn-text" data-i18n="login.submit">เข้าสู่ระบบ</span>
           <svg class="btn-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
             <polyline points="9 18 15 12 9 6"></polyline>
           </svg>
@@ -197,7 +207,7 @@
 
       <!-- Quick Mock Presets -->
       <div class="quick-login-section">
-        <span class="divider-text">หรือเข้าสู่ระบบแบบด่วน</span>
+        <span class="divider-text" data-i18n="login.quick">หรือเข้าสู่ระบบแบบด่วน</span>
         <div class="preset-buttons">
           <button type="button" class="preset-btn" onclick="quickLogin('ตึก 3', 'นักเรียน')">
             <span class="preset-icon">
@@ -219,9 +229,9 @@
     <!-- Footer Help & Back link -->
     <footer class="login-footer">
       <p class="register-hint">
-        ยังไม่มีบัญชีใช้งาน? <a href="#register" class="register-link" onclick="showToast('ระบบรับสมัครผ่านโรงเรียนต้นสังกัด')">ติดต่อฝ่ายวิชาการ</a>
+        <span data-i18n="login.noacc">ยังไม่มีบัญชีใช้งาน?</span> <a href="#register" class="register-link" data-i18n="login.contact" onclick="showToast('ระบบรับสมัครผ่านโรงเรียนต้นสังกัด')">ติดต่อฝ่ายวิชาการ</a>
       </p>
-      <a href="index.html" class="guest-link">‹ ข้ามไปหน้าหลักในฐานะผู้เยี่ยมชม</a>
+      <a href="index.html" class="guest-link" data-i18n="login.guest">‹ ข้ามไปหน้าหลักในฐานะผู้เยี่ยมชม</a>
     </footer>
 
   </main>
@@ -229,6 +239,7 @@
   <!-- Notification Toast -->
   <div id="loginToast" class="login-toast" role="alert"></div>
 
+  <script src="i18n.js"></script>
   <script>
     // Theme toggle — synced with index.html via localStorage key 'flukeblind-theme'
     (function () {
@@ -253,8 +264,17 @@
         var next = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
         apply(next);
         try { localStorage.setItem(KEY, next); } catch (e) { /* ignore */ }
-        showToast(next === 'dark' ? 'เปลี่ยนเป็นธีมมืดแล้ว' : 'เปลี่ยนเป็นธีมสว่างแล้ว');
+        var L = window.i18n ? window.i18n.lang : 'th';
+        showToast(next === 'dark' ? (L === 'en' ? 'Switched to dark theme' : 'เปลี่ยนเป็นธีมมืดแล้ว') : (L === 'en' ? 'Switched to light theme' : 'เปลี่ยนเป็นธีมสว่างแล้ว'));
       });
+      var langBtn = document.getElementById('btn-login-lang');
+      if (langBtn && window.i18n) {
+        langBtn.textContent = window.i18n.lang === 'th' ? 'EN' : 'TH';
+        langBtn.addEventListener('click', function () {
+          window.i18n.apply(window.i18n.lang === 'th' ? 'en' : 'th');
+          showToast(window.i18n.lang === 'en' ? 'Switched to English' : 'เปลี่ยนเป็นภาษาไทยแล้ว');
+        });
+      }
     })();
 
     function togglePasswordVisibility() {
@@ -279,18 +299,19 @@
       event.preventDefault();
       const submitBtn = document.getElementById('submitBtn');
       const username = document.getElementById('username').value.trim();
+      const L = window.i18n ? window.i18n.lang : 'th';
 
       if (!username) {
-        showToast('กรุณากรอกชื่อผู้ใช้');
+        showToast(L === 'en' ? 'Please enter username' : 'กรุณากรอกชื่อผู้ใช้');
         return;
       }
 
       // Show loading spinner
       submitBtn.classList.add('loading');
-      showToast('กำลังตรวจสอบข้อมูลเข้าสู่ระบบ...');
+      showToast(L === 'en' ? 'Verifying login…' : 'กำลังตรวจสอบข้อมูลเข้าสู่ระบบ...');
 
       setTimeout(() => {
-        showToast(`ยินดีต้อนรับคุณ ${username}! กำลังพาไปหน้าหลัก...`);
+        showToast(L === 'en' ? `Welcome ${username}! Going home…` : `ยินดีต้อนรับคุณ ${username}! กำลังพาไปหน้าหลัก...`);
         setTimeout(() => {
           window.location.href = 'index.html';
         }, 600);
@@ -300,7 +321,8 @@
     function quickLogin(user, role) {
       document.getElementById('username').value = user;
       document.getElementById('password').value = '123456';
-      showToast(`เข้าสู่ระบบในฐานะ ${user} (${role})`);
+      const L = window.i18n ? window.i18n.lang : 'th';
+      showToast(L === 'en' ? `Logging in as ${user} (${role})` : `เข้าสู่ระบบในฐานะ ${user} (${role})`);
       setTimeout(() => {
         window.location.href = 'index.html';
       }, 500);

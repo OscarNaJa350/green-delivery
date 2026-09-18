@@ -1,5 +1,6 @@
 // Interactive functionality for the Carbon Tracker App
 document.addEventListener('DOMContentLoaded', () => {
+  const t = (k, v) => (window.i18n ? window.i18n.t(k, v) : k);
   // 1. Bottom Navigation Tabs Handling
   const navTabs = document.querySelectorAll('.nav-tab');
   const tabViews = document.querySelectorAll('.tab-view');
@@ -46,6 +47,13 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
+  // Activity buttons (i18n via delegation; replaces inline alert())
+  document.querySelectorAll('[data-act]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      showToast(t(btn.getAttribute('data-act') === 'register' ? 'act.reg.done' : 'act.done'));
+    });
+  });
+
   // 2. Interactive Category Boxes (Click feedback & Toast)
   const categoryBoxes = document.querySelectorAll('.category-box');
   categoryBoxes.forEach(box => {
@@ -53,7 +61,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const catName = box.querySelector('.cat-name')?.textContent || 'หมวดหมู่';
       const catNum = box.querySelector('.cat-num')?.textContent || '0';
       const catRate = box.querySelector('.cat-rate')?.textContent || '';
-      showToast(`หมวดหมู่: ${catName} (${catNum} ${catRate})`);
+      showToast(t('toast.cat', { name: catName, num: catNum, unit: catRate }));
     });
   });
 
@@ -83,7 +91,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const editBtn = document.querySelector('.edit-btn');
   if (editBtn) {
     editBtn.addEventListener('click', () => {
-      showToast('เปิดหน้าต่างแก้ไขข้อมูลส่วนตัว');
+      showToast(t('toast.edit'));
     });
   }
 
@@ -147,14 +155,14 @@ document.addEventListener('DOMContentLoaded', () => {
     searchItems = items;
     if (state === 'loading') {
       searchResultsEl.hidden = false;
-      searchResultsEl.innerHTML = '<div class="search-result-loading">กำลังค้นหา…</div>';
+      searchResultsEl.innerHTML = `<div class="search-result-loading">${t('search.loading')}</div>`;
       searchInput?.setAttribute('aria-expanded', 'true');
       return;
     }
     if (!items.length) {
       if (state === 'empty') {
         searchResultsEl.hidden = false;
-        searchResultsEl.innerHTML = '<div class="search-result-empty">ไม่พบสถานที่ ลองคำอื่น เช่น “ตลาดไท” หรือ “Bangkok”</div>';
+        searchResultsEl.innerHTML = `<div class="search-result-empty">${t('search.empty')}</div>`;
         searchInput?.setAttribute('aria-expanded', 'true');
       } else {
         searchResultsEl.hidden = true;
@@ -178,7 +186,8 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   async function fetchNominatim(q, signal) {
-    const url = `https://nominatim.openstreetmap.org/search?format=jsonv2&limit=5&countrycodes=th&accept-language=th,en&q=${encodeURIComponent(q)}`;
+    const lang = window.i18n ? window.i18n.lang : 'th';
+    const url = `https://nominatim.openstreetmap.org/search?format=jsonv2&limit=5&countrycodes=th&accept-language=${lang},en,th&q=${encodeURIComponent(q)}`;
     const res = await fetch(url, { signal, headers: { 'Accept': 'application/json' } });
     if (!res.ok) throw new Error('search failed');
     const data = await res.json();
@@ -233,7 +242,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (addrEl) addrEl.textContent = r.addr || `${r.lat.toFixed(5)}, ${r.lng.toFixed(5)}`;
     if (etaEl) {
       const km = haversineKm(MAP_ORIGIN, { lat: r.lat, lng: r.lng }) * 1.25;
-      etaEl.textContent = `${km < 1 ? `${Math.round(km * 1000)} ม.` : `${km.toFixed(1)} กม.`} จากจุดเริ่มต้น`;
+      etaEl.textContent = `${km < 1 ? `${Math.round(km * 1000)} ${t('unit.m')}` : `${km.toFixed(1)} ${t('unit.km')}`} ${t('map.from.origin')}`;
     }
     if (typeof openMapModal === 'function') openMapModal();
     // Re-apply after modal render overwrites the strip
@@ -241,16 +250,16 @@ document.addEventListener('DOMContentLoaded', () => {
     if (addrEl) addrEl.textContent = r.addr || `${r.lat.toFixed(5)}, ${r.lng.toFixed(5)}`;
     if (etaEl) {
       const km = haversineKm(MAP_ORIGIN, { lat: r.lat, lng: r.lng }) * 1.25;
-      etaEl.textContent = `${km < 1 ? `${Math.round(km * 1000)} ม.` : `${km.toFixed(1)} กม.`} จากจุดเริ่มต้น`;
+      etaEl.textContent = `${km < 1 ? `${Math.round(km * 1000)} ${t('unit.m')}` : `${km.toFixed(1)} ${t('unit.km')}`} ${t('map.from.origin')}`;
     }
     if (typeof showFmMap === 'function') showFmMap({ lat: r.lat, lng: r.lng });
-    showToast(`พบ "${r.name}" — แสดงบนแผนที่แล้ว`);
+    showToast(t('search.found', { name: r.name }));
   }
 
   async function handleSearch() {
     const val = searchInput?.value.trim();
     if (!val) {
-      showToast('กรุณากรอกชื่อสถานที่ที่ต้องการค้นหา');
+      showToast(t('search.need'));
       return;
     }
     const results = await runSearch(val, { showDropdown: true });
@@ -389,10 +398,10 @@ document.addEventListener('DOMContentLoaded', () => {
     vFilterBtns.forEach(btn => {
       const filter = btn.getAttribute('data-filter');
       const labels = {
-        all: 'ทั้งหมด',
-        ready: 'พร้อมใช้งาน',
-        delivering: 'กำลังจัดส่ง',
-        charging: 'กำลังชาร์จ'
+        all: t('veh.filter.all'),
+        ready: t('veh.filter.ready'),
+        delivering: t('veh.filter.delivering'),
+        charging: t('veh.filter.charging')
       };
       btn.textContent = `${labels[filter] || filter} (${counts[filter] || 0})`;
     });
@@ -402,14 +411,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const kpiSub = document.querySelector('.vehicle-kpi-card .kpi-sub.green');
     if (kpiSub) {
-      kpiSub.innerHTML = `<svg viewBox="0 0 24 24" fill="currentColor" class="status-dot-icon"><circle cx="12" cy="12" r="10"/></svg> ${counts.ready} คันพร้อมใช้งาน`;
+      kpiSub.innerHTML = `<svg viewBox="0 0 24 24" fill="currentColor" class="status-dot-icon"><circle cx="12" cy="12" r="10"/></svg> ${t('veh.ready.n', { n: counts.ready })}`;
     }
 
     // Keep the home-screen badges in sync
     const badgeText = document.querySelector('.vehicle-badge-overlay span');
-    if (badgeText) badgeText.textContent = `ยานพาหนะ ${counts.all} คัน`;
+    if (badgeText) badgeText.textContent = t('veh.badge', { n: counts.all });
     const savedItemCount = document.querySelector('.vehicle-trigger .item-sub');
-    if (savedItemCount) savedItemCount.textContent = `${counts.all} คัน • พร้อมใช้งาน`;
+    if (savedItemCount) savedItemCount.textContent = t('saved.veh.sub', { n: counts.all });
   }
 
   vFilterBtns.forEach(btn => {
@@ -454,10 +463,10 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   const FUEL_LABELS = {
-    diesel: 'ดีเซล',
-    gasoline: 'เบนซิน',
-    electric: 'ไฟฟ้า (EV)',
-    ngv: 'NGV'
+    diesel: t('fuel.diesel'),
+    gasoline: t('fuel.gasoline'),
+    electric: t('fuel.electric'),
+    ngv: t('fuel.ngv')
   };
 
   if (btnSaveVehicle) {
@@ -472,7 +481,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const capacity = parseFloat(document.getElementById('vf-capacity')?.value) || 0;
 
       if (!name) {
-        showToast('กรุณาระบุชื่อรถ');
+        showToast(t('veh.need.name'));
         document.getElementById('vf-name')?.focus();
         return;
       }
@@ -534,7 +543,7 @@ document.addEventListener('DOMContentLoaded', () => {
         card.remove();
         refreshVehicleStats();
         applyVehicleFilter();
-        showToast(`ลบยานพาหนะ "${name}" ออกจากระบบแล้ว`);
+        showToast(t('veh.removed', { name }));
       });
 
       if (vehicleListEl) vehicleListEl.appendChild(card);
@@ -546,7 +555,7 @@ document.addEventListener('DOMContentLoaded', () => {
       document.getElementById('vf-name').value = '';
       document.getElementById('vf-capacity').value = '';
       toggleVehicleForm(false);
-      showToast(`เพิ่มยานพาหนะ "${name}" สำเร็จ!`);
+      showToast(t('veh.added', { name }));
     });
   }
 
@@ -568,7 +577,7 @@ document.addEventListener('DOMContentLoaded', () => {
           savedSection.style.borderColor = '';
           savedSection.style.boxShadow = '';
         }, 1800);
-        showToast('เลื่อนไปยังจุดส่งของและแผนที่แล้ว');
+        showToast(t('toast.pin'));
       }
     });
   }
@@ -576,6 +585,30 @@ document.addEventListener('DOMContentLoaded', () => {
   // 9b. Theme toggle (light / dark) — persisted in localStorage
   const THEME_KEY = 'flukeblind-theme';
   const themeToggleBtn = document.getElementById('btn-theme-toggle');
+  const langToggleBtn = document.getElementById('btn-lang-toggle');
+  if (langToggleBtn) {
+    langToggleBtn.addEventListener('click', () => {
+      window.i18n.apply(window.i18n.lang === 'th' ? 'en' : 'th');
+      refreshVehicleStats();
+      renderMapPoints();
+      updateSavedPlacesCounterUI();
+      showToast(window.i18n.lang === 'en' ? 'Switched to English' : 'เปลี่ยนเป็นภาษาไทยแล้ว');
+    });
+  }
+  window.onLangChange = () => {
+    if (typeof refreshVehicleStats === 'function') refreshVehicleStats();
+    if (typeof renderMapPoints === 'function') renderMapPoints();
+    if (typeof updateSavedPlacesCounterUI === 'function') updateSavedPlacesCounterUI();
+    if (typeof renderCatBreakdown === 'function') renderCatBreakdown();
+    if (typeof renderSavedPlacesList === 'function' && document.getElementById('saved-places-modal')?.classList.contains('active')) renderSavedPlacesList();
+  };
+
+  function renderCatBreakdown() {
+    document.querySelectorAll('#cat-breakdown [data-cat]').forEach((el) => {
+      el.textContent = t(el.getAttribute('data-cat')) + ' (' + el.getAttribute('data-val') + ' ' + t('unit.kg') + ')';
+    });
+  }
+  renderCatBreakdown();
 
   function applyTheme(theme) {
     const isDark = theme === 'dark';
@@ -604,7 +637,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const next = currentTheme() === 'dark' ? 'light' : 'dark';
       applyTheme(next);
       try { localStorage.setItem(THEME_KEY, next); } catch (err) { /* ignore */ }
-      showToast(next === 'dark' ? 'เปลี่ยนเป็นธีมมืดแล้ว' : 'เปลี่ยนเป็นธีมสว่างแล้ว');
+      showToast(next === 'dark' ? t('toast.dark') : t('toast.light'));
     });
   }
 
@@ -858,15 +891,15 @@ document.addEventListener('DOMContentLoaded', () => {
       if (addrEl) addrEl.textContent = selected.addr;
       if (etaEl) {
         const km = haversineKm(MAP_ORIGIN, selected) * 1.25;
-        etaEl.textContent = `${km < 1 ? `${Math.round(km * 1000)} ม.` : `${km.toFixed(1)} กม.`} • ประมาณ ${Math.max(1, Math.round(km / 30 * 60))} นาที`;
+        etaEl.textContent = `${km < 1 ? `${Math.round(km * 1000)} ${t('unit.m')}` : `${km.toFixed(1)} ${t('unit.km')}`} • ${t('map.from.origin')}`;
       }
       if (iconEl) {
         iconEl.style.background = selected.color + '22';
         iconEl.style.color = selected.color;
       }
     } else {
-      if (nameEl) nameEl.textContent = '— ยังไม่เลือกจุด —';
-      if (addrEl) addrEl.textContent = 'เปิดสวิตช์จุดด้านบนเพื่อดูเส้นทาง';
+      if (nameEl) nameEl.textContent = t('map.none');
+      if (addrEl) addrEl.textContent = t('map.none.hint');
       if (etaEl) etaEl.textContent = '—';
       if (iconEl) {
         iconEl.style.background = '';
@@ -920,7 +953,7 @@ document.addEventListener('DOMContentLoaded', () => {
     fmFocusSelected.addEventListener('click', () => {
       const selected = savedPlacesData.find(p => p.id === fmSelectedId && p.enabled);
       showFmMap(selected || null);
-      showToast(selected ? `ซูมไปยัง "${selected.name}"` : 'ยังไม่ได้เลือกจุด — แสดงจุดเริ่มต้น');
+      showToast(selected ? t('toast.zoom.to', { name: selected.name }) : t('toast.zoom.none'));
     });
   }
 
@@ -933,7 +966,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const selected = savedPlacesData.find(p => p.id === fmSelectedId && p.enabled);
       const destination = selected || enabled[enabled.length - 1] || null;
       if (!destination) {
-        showToast('เลือกจุดส่งของก่อนเปิดเส้นทางนำทาง');
+        showToast(t('toast.dir.need'));
         return;
       }
       const waypoints = enabled.filter(p => p.id !== destination.id);
@@ -1012,10 +1045,10 @@ document.addEventListener('DOMContentLoaded', () => {
       if (actions3) actions3.style.display = 'flex';
 
       routeDeliveredCount = 2;
-      if (progressText) progressText.textContent = 'ส่งมอบแล้ว 2 จาก 3 จุด (66%)';
+      if (progressText) progressText.textContent = t('route.p2');
       if (progressFill) progressFill.style.width = '66%';
 
-      showToast('บันทึกส่งมอบ: โรงเรียนสุรศักดิ์มนตรี (ตึก 3) สำเร็จแล้ว!');
+      showToast(t('route.done2'));
     } else if (stopIndex === 3) {
       const stop3Card = document.getElementById('stop-card-3');
       const badge3 = document.getElementById('badge-stop-3');
@@ -1040,14 +1073,14 @@ document.addEventListener('DOMContentLoaded', () => {
       }
 
       if (statusPill) {
-        statusPill.textContent = 'เสร็จสิ้นทุกจุดแล้ว';
+        statusPill.textContent = t('route.all.done');
       }
 
       routeDeliveredCount = 3;
-      if (progressText) progressText.textContent = 'ส่งมอบครบถ้วน 3 จาก 3 จุด (100%)';
+      if (progressText) progressText.textContent = t('route.p3');
       if (progressFill) progressFill.style.width = '100%';
 
-      showToast('ยอดเยี่ยม! จัดส่งครบทั้ง 3 จุดเรียบร้อยแล้ว ลดคาร์บอนรวม 8.6 กก. CO₂');
+      showToast(t('route.done3'));
     }
   };
 
@@ -1071,7 +1104,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const detail = detailInput?.value.trim() || 'พัสดุทั่วไป';
 
       if (!title) {
-        showToast('กรุณาระบุชื่อสถานที่สำหรับจุดส่งใหม่');
+        showToast(t('stop.need.title'));
         return;
       }
 
@@ -1100,7 +1133,7 @@ document.addEventListener('DOMContentLoaded', () => {
         titleInput.value = '';
         detailInput.value = '';
         addStopForm.style.display = 'none';
-        showToast(`เพิ่มจุดส่งใหม่: "${title}" สำเร็จ!`);
+        showToast(t('stop.added', { title }));
       }
     });
   }
@@ -1185,7 +1218,7 @@ document.addEventListener('DOMContentLoaded', () => {
   function updateSavedPlacesCounterUI() {
     const count = savedPlacesData.length;
     if (savedPlacesCounter) {
-      savedPlacesCounter.textContent = `${count} จุด (คลิกเพื่อจัดการ)`;
+      savedPlacesCounter.textContent = t('saved.count', { n: count });
     }
   }
 
@@ -1196,8 +1229,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (savedPlacesData.length === 0) {
       savedPlacesContainer.innerHTML = `
         <div class="saved-places-empty">
-          <p><svg viewBox="0 0 24 24" fill="currentColor" style="width:16px;height:16px;vertical-align:-2px;"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 0 1 0-5 2.5 2.5 0 0 1 0 5z"/></svg> ยังไม่มีสถานที่ที่บันทึกไว้</p>
-          <span style="font-size: 0.74rem; color: #94a3b8;">ใช้ฟอร์มด้านล่างเพื่อบันทึกสถานที่รับ-ส่งของคุณ</span>
+          <p>${t('place.empty')}</p>
         </div>
       `;
       updateSavedPlacesCounterUI();
@@ -1233,7 +1265,7 @@ document.addEventListener('DOMContentLoaded', () => {
     savedPlacesData = savedPlacesData.filter(p => p.id !== id);
     persistSavedPlaces();
     renderSavedPlacesList();
-    showToast('ลบสถานที่ที่บันทึกไว้เรียบร้อยแล้ว');
+    showToast(t('place.deleted'));
   };
 
   if (btnSaveNewPlace) {
@@ -1247,7 +1279,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const cat = catSelect?.value || 'school';
 
       if (!name) {
-        showToast('กรุณาระบุชื่อสถานที่ที่ต้องการบันทึก');
+        showToast(t('place.need.name'));
         return;
       }
 
@@ -1278,7 +1310,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
       nameInput.value = '';
       addrInput.value = '';
-      showToast(`บันทึกสถานที่ "${name}" สำเร็จ! เพิ่มลงแผนที่แล้ว`);
+      showToast(t('place.added', { name }));
     });
   }
 

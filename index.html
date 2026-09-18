@@ -128,6 +128,7 @@
 
         <!-- Action Icons Menu -->
         <nav class="header-actions" aria-label="แถบเมนูด้านบน">
+          <button class="icon-btn lang-toggle-btn" id="btn-lang-toggle" title="TH/EN" aria-label="Switch language">EN</button>
           <!-- 1. Theme toggle (light / dark) -->
           <button class="icon-btn theme-toggle-btn" id="btn-theme-toggle" title="เปลี่ยนธีม สว่าง/มืด" aria-label="เปลี่ยนธีม" aria-pressed="false">
             <!-- Sun (shown in light mode) -->
@@ -182,6 +183,7 @@
             placeholder="ค้นหาสถานที่ เช่น โรงเรียนสุรศักดิ์มนตรี ตึก 3, ตลาดไท"
             aria-label="ค้นหาสถานที่"
             class="search-input"
+            data-i18n-ph="search.ph"
             autocomplete="off"
             role="combobox"
             aria-expanded="false"
@@ -207,14 +209,14 @@
           </div>
           <div class="location-details">
             <div class="location-title-row">
-              <span class="sub-label">ตำแหน่งปัจจุบัน</span>
+              <span class="sub-label" data-i18n="loc.current">ตำแหน่งปัจจุบัน</span>
               <button class="view-map-pill">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="pill-icon">
                   <polygon points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6"></polygon>
                   <line x1="8" y1="2" x2="8" y2="18"></line>
                   <line x1="16" y1="6" x2="16" y2="22"></line>
                 </svg>
-                <span>ดูแผนที่</span>
+                <span data-i18n="loc.viewmap">ดูแผนที่</span>
               </button>
             </div>
             <h2 class="city-name">กรุงเทพมหานคร</h2>
@@ -273,7 +275,7 @@
               <path d="M17 8C8 10 5.9 16.17 3.82 21.34L5.71 22L6.66 19.7C12 19.5 18 16 20 12C20.5 11 21 9 21 7C21 5 19 5 17 8Z"/>
             </svg>
           </span>
-          <h3>ภาพรวมการปล่อยคาร์บอน</h3>
+          <h3 data-i18n="overview.title">ภาพรวมการปล่อยคาร์บอน</h3>
         </div>
 
         <div class="overview-content">
@@ -296,9 +298,9 @@
           <div class="metric-block">
             <div class="metric-value-row">
               <span class="huge-number">0</span>
-              <span class="metric-unit">กก./วัน</span>
+              <span class="metric-unit" data-i18n="overview.unit">กก./วัน</span>
             </div>
-            <span class="metric-subtitle">เทียบกับค่าเฉลี่ย</span>
+            <span class="metric-subtitle" data-i18n="overview.vs">เทียบกับค่าเฉลี่ย</span>
           </div>
 
           <!-- Middle plant icon & praise text -->
@@ -311,15 +313,15 @@
               </svg>
             </div>
             <div class="status-text">
-              <h4 class="praise-title">ยอดเยี่ยม!</h4>
-              <p class="praise-desc">คุณยังไม่ปล่อยคาร์บอน ในวันนี้</p>
+              <h4 class="praise-title" data-i18n="overview.great">ยอดเยี่ยม!</h4>
+              <p class="praise-desc" data-i18n="overview.zero">คุณยังไม่ปล่อยคาร์บอน ในวันนี้</p>
             </div>
           </div>
 
           <!-- Right button -->
           <div class="action-block">
             <button class="btn-detail">
-              <span>ดูรายละเอียด</span>
+              <span data-i18n="overview.detail">ดูรายละเอียด</span>
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" class="chevron-svg">
                 <polyline points="9 18 15 12 9 6"></polyline>
               </svg>
@@ -338,13 +340,13 @@
                 <circle cx="12" cy="7" r="4"></circle>
               </svg>
             </span>
-            <h3>ข้อมูลส่วนตัว</h3>
+            <h3 data-i18n="info.title">ข้อมูลส่วนตัว</h3>
           </div>
           <button class="edit-btn">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="edit-svg">
               <path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"></path>
             </svg>
-            <span>แก้ไข</span>
+            <span data-i18n="info.edit">แก้ไข</span>
           </button>
         </div>
 
@@ -360,7 +362,7 @@
                 </svg>
               </div>
               <div class="info-text">
-                <span class="info-label">ชื่อผู้ใช้ / อาคาร</span>
+                <span class="info-label" data-i18n="info.name">ชื่อผู้ใช้ / อาคาร</span>
                 <strong class="info-value">ตึก 3</strong>
               </div>
             </div>
@@ -374,7 +376,7 @@
                 </svg>
               </div>
               <div class="info-text">
-                <span class="info-label">โรงเรียน/สถานศึกษา</span>
+                <span class="info-label" data-i18n="info.school">โรงเรียน/สถานศึกษา</span>
                 <strong class="info-value">โรงเรียนสุรศักดิ์มนตรี</strong>
               </div>
             </div>
@@ -390,8 +392,8 @@
                 </svg>
               </div>
               <div class="info-text">
-                <span class="info-label">ระดับชั้น</span>
-                <strong class="info-value">มัธยมศึกษาปีที่ 3</strong>
+                <span class="info-label" data-i18n="info.grade">ระดับชั้น</span>
+                <strong class="info-value" data-i18n="info.grade.v">มัธยมศึกษาปีที่ 3</strong>
               </div>
             </div>
           </div>
@@ -406,8 +408,8 @@
                 </svg>
               </div>
               <div class="info-text">
-                <span class="info-label">ประเภทผู้ใช้</span>
-                <strong class="info-value">นักเรียน</strong>
+                <span class="info-label" data-i18n="info.type">ประเภทผู้ใช้</span>
+                <strong class="info-value" data-i18n="info.type.v">นักเรียน</strong>
               </div>
             </div>
 
@@ -419,7 +421,7 @@
                 </svg>
               </div>
               <div class="info-text">
-                <span class="info-label">จังหวัด</span>
+                <span class="info-label" data-i18n="info.prov">จังหวัด</span>
                 <strong class="info-value">กรุงเทพมหานคร</strong>
               </div>
             </div>
@@ -430,8 +432,8 @@
                 <span class="co2-text">CO₂</span>
               </div>
               <div class="info-text">
-                <span class="info-label">เป้าหมาย CO₂</span>
-                <strong class="info-value">ลดการปล่อยคาร์บอน</strong>
+                <span class="info-label" data-i18n="info.co2">เป้าหมาย CO₂</span>
+                <strong class="info-value" data-i18n="info.co2.v">ลดการปล่อยคาร์บอน</strong>
               </div>
             </div>
           </div>
@@ -457,10 +459,10 @@
                 <path d="M17 8C8 10 5.9 16.17 3.82 21.34L5.71 22L6.66 19.7C12 19.5 18 16 20 12C20.5 11 21 9 21 7C21 5 19 5 17 8Z"/>
               </svg>
             </span>
-            <h3>หมวดหมู่การปล่อยคาร์บอน</h3>
+            <h3 data-i18n="cat.title">หมวดหมู่การปล่อยคาร์บอน</h3>
           </div>
           <button class="view-all-pill">
-            <span>ดูทั้งหมด</span>
+            <span data-i18n="cat.all">ดูทั้งหมด</span>
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" class="chevron-svg">
               <polyline points="9 18 15 12 9 6"></polyline>
             </svg>
@@ -480,10 +482,10 @@
               </svg>
             </div>
             <div class="cat-info">
-              <span class="cat-name">การเดินทาง</span>
+              <span class="cat-name" data-i18n="cat.travel">การเดินทาง</span>
               <div class="cat-emission">
                 <strong class="cat-num">0.55</strong>
-                <span class="cat-rate">กก./กม.</span>
+                <span class="cat-rate" data-i18n="cat.unit">กก./กม.</span>
               </div>
               <span class="cat-sub">CO₂</span>
             </div>
@@ -500,10 +502,10 @@
               </svg>
             </div>
             <div class="cat-info">
-              <span class="cat-name">อาหาร</span>
+              <span class="cat-name" data-i18n="cat.food">อาหาร</span>
               <div class="cat-emission">
                 <strong class="cat-num">0.24</strong>
-                <span class="cat-rate">กก./กม.</span>
+                <span class="cat-rate" data-i18n="cat.unit">กก./กม.</span>
               </div>
               <span class="cat-sub">CO₂</span>
             </div>
@@ -518,10 +520,10 @@
               </svg>
             </div>
             <div class="cat-info">
-              <span class="cat-name">การใช้พลังงาน</span>
+              <span class="cat-name" data-i18n="cat.energy">การใช้พลังงาน</span>
               <div class="cat-emission">
                 <strong class="cat-num">0.09</strong>
-                <span class="cat-rate">กก./กม.</span>
+                <span class="cat-rate" data-i18n="cat.unit">กก./กม.</span>
               </div>
               <span class="cat-sub">CO₂</span>
             </div>
@@ -538,10 +540,10 @@
               </svg>
             </div>
             <div class="cat-info">
-              <span class="cat-name">สินค้าและบริการ</span>
+              <span class="cat-name" data-i18n="cat.goods">สินค้าและบริการ</span>
               <div class="cat-emission">
                 <strong class="cat-num">0.15</strong>
-                <span class="cat-rate">กก./กม.</span>
+                <span class="cat-rate" data-i18n="cat.unit">กก./กม.</span>
               </div>
               <span class="cat-sub">CO₂</span>
             </div>
@@ -556,10 +558,10 @@
               </svg>
             </div>
             <div class="cat-info">
-              <span class="cat-name">ที่อยู่อาศัย</span>
+              <span class="cat-name" data-i18n="cat.home">ที่อยู่อาศัย</span>
               <div class="cat-emission">
                 <strong class="cat-num">0</strong>
-                <span class="cat-rate">กก./กม.</span>
+                <span class="cat-rate" data-i18n="cat.unit">กก./กม.</span>
               </div>
               <span class="cat-sub">CO₂</span>
             </div>
@@ -574,10 +576,10 @@
               </svg>
             </div>
             <div class="cat-info">
-              <span class="cat-name">อื่น ๆ</span>
+              <span class="cat-name" data-i18n="cat.other">อื่น ๆ</span>
               <div class="cat-emission">
                 <strong class="cat-num">0.05</strong>
-                <span class="cat-rate">กก./กม.</span>
+                <span class="cat-rate" data-i18n="cat.unit">กก./กม.</span>
               </div>
               <span class="cat-sub">CO₂</span>
             </div>
@@ -637,10 +639,10 @@
                     <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 0 1 0-5 2.5 2.5 0 0 1 0 5z"/>
                   </svg>
                 </span>
-                <h3>จุดส่งของที่บันทึกไว้</h3>
+                <h3 data-i18n="saved.title">จุดส่งของที่บันทึกไว้</h3>
               </div>
               <button class="view-all-pill" id="btn-view-all-routes" title="ดูรายการเส้นทางและจุดส่งทั้งหมด">
-                <span>ดูทั้งหมด</span>
+                <span data-i18n="saved.all">ดูทั้งหมด</span>
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" class="chevron-svg">
                   <polyline points="9 18 15 12 9 6"></polyline>
                 </svg>
@@ -658,7 +660,7 @@
                 </div>
                 <div class="item-text">
                   <h4 class="item-heading">โรงเรียนสุรศักดิ์มนตรี, ตลาดไท</h4>
-                  <p class="item-sub">3 จุด • ล่าสุด 12 ก.ย. 2568</p>
+                  <p class="item-sub" data-i18n="saved.route.sub">3 จุด • ล่าสุด 12 ก.ย. 2568</p>
                 </div>
                 <span class="item-chevron">›</span>
               </div>
@@ -674,8 +676,8 @@
                   </svg>
                 </div>
                 <div class="item-text">
-                  <h4 class="item-heading">ยานพาหนะ</h4>
-                  <p class="item-sub">4 คัน • พร้อมใช้งาน</p>
+                  <h4 class="item-heading" data-i18n="saved.veh">ยานพาหนะ</h4>
+                  <p class="item-sub" data-i18n="saved.veh.sub">4 คัน • พร้อมใช้งาน</p>
                 </div>
                 <span class="item-chevron">›</span>
               </div>
@@ -688,7 +690,7 @@
                   </svg>
                 </div>
                 <div class="item-text">
-                  <h4 class="item-heading">จุดที่บันทึกไว้</h4>
+                  <h4 class="item-heading" data-i18n="saved.places">จุดที่บันทึกไว้</h4>
                   <p class="item-sub" id="saved-places-counter">0 จุด (คลิกเพื่อบันทึก)</p>
                 </div>
                 <span class="item-chevron">›</span>
@@ -702,8 +704,8 @@
     <!-- TAB VIEW 2: STATS (สถิติ) -->
     <div id="view-stats" class="tab-view" style="display:none;">
       <div class="subpage-header">
-        <button class="back-home-btn" onclick="window.switchAppTab('home')">‹ กลับหน้าแรก</button>
-        <h2 class="subpage-title">สถิติการปล่อยคาร์บอน <svg class="subpage-title-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="6" y1="20" x2="6" y2="14"></line></svg></h2>
+        <button class="back-home-btn" data-i18n="back" onclick="window.switchAppTab('home')">‹ กลับหน้าแรก</button>
+        <h2 class="subpage-title"><span data-i18n="stats.title">สถิติการปล่อยคาร์บอน</span> <svg class="subpage-title-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="6" y1="20" x2="6" y2="14"></line></svg></h2>
       </div>
 
       <section class="card">
@@ -711,50 +713,50 @@
           <span class="badge-leaf-circle">
             <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17 8C8 10 5.9 16.17 3.82 21.34L5.71 22L6.66 19.7C12 19.5 18 16 20 12C20.5 11 21 9 21 7C21 5 19 5 17 8Z"/></svg>
           </span>
-          <h3>สรุปการปล่อยคาร์บอนประจำสัปดาห์</h3>
+          <h3 data-i18n="stats.week">สรุปการปล่อยคาร์บอนประจำสัปดาห์</h3>
         </div>
         <div class="stats-summary-grid">
           <div class="stat-box">
-            <span class="stat-label">วันนี้</span>
+            <span class="stat-label" data-i18n="stats.today">วันนี้</span>
             <strong class="stat-num">0 <small>กก.</small></strong>
             <span class="stat-badge green">-100%</span>
           </div>
           <div class="stat-box">
-            <span class="stat-label">สัปดาห์นี้</span>
+            <span class="stat-label" data-i18n="stats.thisweek">สัปดาห์นี้</span>
             <strong class="stat-num">1.2 <small>กก.</small></strong>
             <span class="stat-badge green">-24%</span>
           </div>
           <div class="stat-box">
-            <span class="stat-label">ประหยัดได้</span>
+            <span class="stat-label" data-i18n="stats.saved">ประหยัดได้</span>
             <strong class="stat-num">3.8 <small>กก.</small></strong>
-            <span class="stat-badge green">เป้าหมายผ่าน</span>
+            <span class="stat-badge green" data-i18n="stats.pass">เป้าหมายผ่าน</span>
           </div>
         </div>
       </section>
 
       <section class="card" style="margin-top: 14px;">
         <div class="card-section-title" style="margin-bottom: 14px;">
-          <h3>สัดส่วนการปล่อยคาร์บอนตามหมวดหมู่</h3>
+          <h3 data-i18n="stats.share">สัดส่วนการปล่อยคาร์บอนตามหมวดหมู่</h3>
         </div>
-        <div class="bar-progress-list">
+        <div class="bar-progress-list" id="cat-breakdown">
           <div class="progress-item">
-            <div class="prog-info"><span>การเดินทาง (0.55 กก.)</span><span>52%</span></div>
+            <div class="prog-info"><span data-cat="cat.travel" data-val="0.55">การเดินทาง (0.55 กก.)</span><span>52%</span></div>
             <div class="prog-bar"><div class="prog-fill" style="width: 52%; background: #2d6a4f;"></div></div>
           </div>
           <div class="progress-item">
-            <div class="prog-info"><span>อาหาร (0.24 กก.)</span><span>23%</span></div>
+            <div class="prog-info"><span data-cat="cat.food" data-val="0.24">อาหาร (0.24 กก.)</span><span>23%</span></div>
             <div class="prog-bar"><div class="prog-fill" style="width: 23%; background: #52b788;"></div></div>
           </div>
           <div class="progress-item">
-            <div class="prog-info"><span>สินค้าและบริการ (0.15 กก.)</span><span>14%</span></div>
+            <div class="prog-info"><span data-cat="cat.goods" data-val="0.15">สินค้าและบริการ (0.15 กก.)</span><span>14%</span></div>
             <div class="prog-bar"><div class="prog-fill" style="width: 14%; background: #74c69d;"></div></div>
           </div>
           <div class="progress-item">
-            <div class="prog-info"><span>การใช้พลังงาน (0.09 กก.)</span><span>9%</span></div>
+            <div class="prog-info"><span data-cat="cat.energy" data-val="0.09">การใช้พลังงาน (0.09 กก.)</span><span>9%</span></div>
             <div class="prog-bar"><div class="prog-fill" style="width: 9%; background: #95d5b2;"></div></div>
           </div>
           <div class="progress-item">
-            <div class="prog-info"><span>อื่น ๆ (0.05 กก.)</span><span>2%</span></div>
+            <div class="prog-info"><span data-cat="cat.other" data-val="0.05">อื่น ๆ (0.05 กก.)</span><span>2%</span></div>
             <div class="prog-bar"><div class="prog-fill" style="width: 5%; background: #b7e4c7;"></div></div>
           </div>
         </div>
@@ -764,14 +766,14 @@
     <!-- TAB VIEW 3: ACTIVITIES (กิจกรรมการมีส่วนร่วม) -->
     <div id="view-activities" class="tab-view" style="display:none;">
       <div class="subpage-header">
-        <button class="back-home-btn" onclick="window.switchAppTab('home')">‹ กลับหน้าแรก</button>
-        <h2 class="subpage-title">กิจกรรมการมีส่วนร่วม <svg class="subpage-title-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 20h10"/><path d="M12 20V11"/><path d="M12 11C12 7 9 5 5 5c0 4 3 6 7 6z"/><path d="M12 13c0-3 2.5-5 6-5 0 3-2.5 5-6 5z"/></svg></h2>
+        <button class="back-home-btn" data-i18n="back" onclick="window.switchAppTab('home')">‹ กลับหน้าแรก</button>
+        <h2 class="subpage-title"><span data-i18n="act.title">กิจกรรมการมีส่วนร่วม</span> <svg class="subpage-title-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 20h10"/><path d="M12 20V11"/><path d="M12 11C12 7 9 5 5 5c0 4 3 6 7 6z"/><path d="M12 13c0-3 2.5-5 6-5 0 3-2.5 5-6 5z"/></svg></h2>
       </div>
 
       <section class="card">
         <div class="card-section-title" style="margin-bottom: 12px;">
           <span class="badge-leaf-circle"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M17 8C8 10 5.9 16.17 3.82 21.34L5.71 22L6.66 19.7C12 19.5 18 16 20 12C20.5 11 21 9 21 7C21 5 19 5 17 8Z"/></svg></span>
-          <h3>ภารกิจลดคาร์บอนประจำสัปดาห์</h3>
+          <h3 data-i18n="act.week">ภารกิจลดคาร์บอนประจำสัปดาห์</h3>
         </div>
         <div class="activities-list">
           <div class="activity-card-row">
@@ -779,30 +781,30 @@
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="5" cy="17" r="3"/><circle cx="19" cy="17" r="3"/><path d="M5 17h5l3-7h4"/><path d="M14 6l2 4h4"/></svg>
             </div>
             <div class="act-info">
-              <h4>ปั่นจักรยานหรือเดินไปโรงเรียน</h4>
-              <p>ลดคาร์บอนได้ 0.45 กก./ครั้ง • รับ 50 แต้ม</p>
+              <h4 data-i18n="act.1t">ปั่นจักรยานหรือเดินไปโรงเรียน</h4>
+              <p data-i18n="act.1d">ลดคาร์บอนได้ 0.45 กก./ครั้ง • รับ 50 แต้ม</p>
             </div>
-            <button class="act-btn" onclick="alert('บันทึกกิจกรรมสำเร็จ!')">เข้าร่วม</button>
+            <button class="act-btn" data-act="join" data-i18n="act.join">เข้าร่วม</button>
           </div>
           <div class="activity-card-row">
             <div class="act-icon">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 8h1a4 4 0 1 1 0 8h-1"/><path d="M3 8h14v9a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4V8z"/><line x1="6" y1="2" x2="6" y2="4"/><line x1="10" y1="2" x2="10" y2="4"/><line x1="14" y1="2" x2="14" y2="4"/></svg>
             </div>
             <div class="act-info">
-              <h4>พกแก้วน้ำส่วนตัวมาเอง</h4>
-              <p>ลดขยะพลาสติก 1 ชิ้น • รับ 20 แต้ม</p>
+              <h4 data-i18n="act.2t">พกแก้วน้ำส่วนตัวมาเอง</h4>
+              <p data-i18n="act.2d">ลดขยะพลาสติก 1 ชิ้น • รับ 20 แต้ม</p>
             </div>
-            <button class="act-btn" onclick="alert('บันทึกกิจกรรมสำเร็จ!')">เข้าร่วม</button>
+            <button class="act-btn" data-act="join" data-i18n="act.join">เข้าร่วม</button>
           </div>
           <div class="activity-card-row">
             <div class="act-icon">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22v-7L9 12"/><path d="M12 15l3-3"/><path d="M12 11C12 6 9 4 5 4c0 5 3 7 7 7z"/><path d="M12 11c0-3 2-5 6-5 0 3-2 5-6 5z"/></svg>
             </div>
             <div class="act-info">
-              <h4>ร่วมปลูกต้นไม้ในโรงเรียน</h4>
-              <p>วันศุกร์นี้ ณ สวนเกษตร • รับ 100 แต้ม</p>
+              <h4 data-i18n="act.3t">ร่วมปลูกต้นไม้ในโรงเรียน</h4>
+              <p data-i18n="act.3d">วันศุกร์นี้ ณ สวนเกษตร • รับ 100 แต้ม</p>
             </div>
-            <button class="act-btn" onclick="alert('ลงทะเบียนร่วมกิจกรรมสำเร็จ!')">ลงทะเบียน</button>
+            <button class="act-btn" data-act="register" data-i18n="act.reg">ลงทะเบียน</button>
           </div>
         </div>
       </section>
@@ -811,8 +813,8 @@
     <!-- TAB VIEW 4: NOTIFICATIONS (แจ้งเตือน) -->
     <div id="view-notifications" class="tab-view" style="display:none;">
       <div class="subpage-header">
-        <button class="back-home-btn" onclick="window.switchAppTab('home')">‹ กลับหน้าแรก</button>
-        <h2 class="subpage-title">การแจ้งเตือน <svg class="subpage-title-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg></h2>
+        <button class="back-home-btn" data-i18n="back" onclick="window.switchAppTab('home')">‹ กลับหน้าแรก</button>
+        <h2 class="subpage-title"><span data-i18n="notif.title">การแจ้งเตือน</span> <svg class="subpage-title-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg></h2>
       </div>
 
       <section class="card">
@@ -822,9 +824,9 @@
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 20h10"/><path d="M12 20V11"/><path d="M12 11C12 7 9 5 5 5c0 4 3 6 7 6z"/><path d="M12 13c0-3 2.5-5 6-5 0 3-2.5 5-6 5z"/></svg>
             </div>
             <div class="notif-content">
-              <h4>ยอดเยี่ยม! วันนี้คุณยังไม่ปล่อยคาร์บอน</h4>
-              <p>ร่วมกันรักษาสิ่งแวดล้อมเพื่อโลกที่ดีกว่า</p>
-              <span class="notif-time">10 นาทีที่แล้ว</span>
+              <h4 data-i18n="notif.1t">ยอดเยี่ยม! วันนี้คุณยังไม่ปล่อยคาร์บอน</h4>
+              <p data-i18n="notif.1d">ร่วมกันรักษาสิ่งแวดล้อมเพื่อโลกที่ดีกว่า</p>
+              <span class="notif-time" data-i18n="notif.1time">10 นาทีที่แล้ว</span>
             </div>
           </div>
           <div class="notif-item">
@@ -832,9 +834,9 @@
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="6" width="13" height="10" rx="1.5"/><path d="M14 9H18L21 12V16H14V9Z"/><circle cx="5.5" cy="17.5" r="2.2"/><circle cx="17.5" cy="17.5" r="2.2"/></svg>
             </div>
             <div class="notif-content">
-              <h4>บันทึกจุดส่งของสำเร็จ</h4>
-              <p>โรงเรียนสุรศักดิ์มนตรี, ตลาดไท 3 จุด</p>
-              <span class="notif-time">เมื่อวานนี้</span>
+              <h4 data-i18n="notif.2t">บันทึกจุดส่งของสำเร็จ</h4>
+              <p data-i18n="notif.2d">โรงเรียนสุรศักดิ์มนตรี, ตลาดไท 3 จุด</p>
+              <span class="notif-time" data-i18n="notif.2time">เมื่อวานนี้</span>
             </div>
           </div>
           <div class="notif-item">
@@ -842,9 +844,9 @@
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>
             </div>
             <div class="notif-content">
-              <h4>เป้าหมาย CO₂ ประจำสัปดาห์สำเร็จแล้ว 80%</h4>
-              <p>อีกเพียง 20% เพื่อรับเหรียญตรา Eco Champion</p>
-              <span class="notif-time">2 วันที่แล้ว</span>
+              <h4 data-i18n="notif.3t">เป้าหมาย CO₂ ประจำสัปดาห์สำเร็จแล้ว 80%</h4>
+              <p data-i18n="notif.3d">อีกเพียง 20% เพื่อรับเหรียญตรา Eco Champion</p>
+              <span class="notif-time" data-i18n="notif.3time">2 วันที่แล้ว</span>
             </div>
           </div>
         </div>
@@ -854,8 +856,8 @@
     <!-- TAB VIEW 5: PROFILE (โปรไฟล์) -->
     <div id="view-profile" class="tab-view" style="display:none;">
       <div class="subpage-header">
-        <button class="back-home-btn" onclick="window.switchAppTab('home')">‹ กลับหน้าแรก</button>
-        <h2 class="subpage-title">โปรไฟล์ผู้ใช้งาน <svg class="subpage-title-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg></h2>
+        <button class="back-home-btn" data-i18n="back" onclick="window.switchAppTab('home')">‹ กลับหน้าแรก</button>
+        <h2 class="subpage-title"><span data-i18n="profile.title">โปรไฟล์ผู้ใช้งาน</span> <svg class="subpage-title-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg></h2>
       </div>
 
       <section class="card profile-header-card">
@@ -867,25 +869,25 @@
         </div>
         <h3 class="profile-name">ตึก 3</h3>
         <p class="profile-role">นักเรียน • โรงเรียนสุรศักดิ์มนตรี</p>
-        <div class="profile-badge-pill"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="profile-badge-icon"><path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10z"/><path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"/></svg> ผู้พิทักษ์สิ่งแวดล้อม ระดับ 2</div>
+        <div class="profile-badge-pill"><span data-i18n="profile.level">ผู้พิทักษ์สิ่งแวดล้อม ระดับ 2</span></div>
       </section>
 
       <section class="card" style="margin-top: 14px;">
         <div class="profile-menu-list">
           <div class="profile-menu-item" onclick="alert('เปิดแก้ไขข้อมูล')">
-            <span class="profile-menu-label"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 3a2.83 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"/></svg> แก้ไขข้อมูลส่วนตัว</span>
+            <span class="profile-menu-label"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 3a2.83 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"/></svg> <span data-i18n="profile.edit">แก้ไขข้อมูลส่วนตัว</span></span>
             <span>›</span>
           </div>
           <div class="profile-menu-item" onclick="alert('เปิดการตั้งค่าการแจ้งเตือน')">
-            <span class="profile-menu-label"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg> การตั้งค่าการแจ้งเตือน</span>
+            <span class="profile-menu-label"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg> <span data-i18n="profile.notif.set">การตั้งค่าการแจ้งเตือน</span></span>
             <span>›</span>
           </div>
           <div class="profile-menu-item" onclick="alert('เปลี่ยนเป้าหมาย CO₂')">
-            <span class="profile-menu-label"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg> ตั้งค่าเป้าหมายการลดคาร์บอน</span>
+            <span class="profile-menu-label"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg> <span data-i18n="profile.co2.set">ตั้งค่าเป้าหมายการลดคาร์บอน</span></span>
             <span>›</span>
           </div>
           <div class="profile-menu-item danger" onclick="window.location.href='login.html'">
-            <span class="profile-menu-label"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg> ออกจากระบบ</span>
+            <span class="profile-menu-label"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg> <span data-i18n="profile.logout">ออกจากระบบ</span></span>
             <span>›</span>
           </div>
         </div>
@@ -907,7 +909,7 @@
             <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/>
           </svg>
         </div>
-        <span class="nav-label">หน้าแรก</span>
+        <span class="nav-label" data-i18n="nav.home">หน้าแรก</span>
       </a>
 
       <!-- 2. สถิติ -->
@@ -917,7 +919,7 @@
             <path d="M4 19h4V9H4v10zm6 0h4V5h-4v14zm6 0h4v-7h-4v7z"/>
           </svg>
         </div>
-        <span class="nav-label">สถิติ</span>
+        <span class="nav-label" data-i18n="nav.stats">สถิติ</span>
       </a>
 
       <!-- 3. กิจกรรมการมีส่วนร่วม -->
@@ -927,7 +929,7 @@
             <path d="M17 8C8 10 5.9 16.17 3.82 21.34L5.71 22L6.66 19.7C12 19.5 18 16 20 12C20.5 11 21 9 21 7C21 5 19 5 17 8Z"/>
           </svg>
         </div>
-        <span class="nav-label">กิจกรรมการมีส่วนร่วม</span>
+        <span class="nav-label" data-i18n="nav.activities">กิจกรรมการมีส่วนร่วม</span>
       </a>
 
       <!-- 4. แจ้งเตือน -->
@@ -938,7 +940,7 @@
           </svg>
           <span class="notif-badge-dot" aria-label="มีการแจ้งเตือนใหม่"></span>
         </div>
-        <span class="nav-label">แจ้งเตือน</span>
+        <span class="nav-label" data-i18n="nav.notif">แจ้งเตือน</span>
       </a>
 
       <!-- 5. โปรไฟล์ -->
@@ -948,7 +950,7 @@
             <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
           </svg>
         </div>
-        <span class="nav-label">โปรไฟล์</span>
+        <span class="nav-label" data-i18n="nav.profile">โปรไฟล์</span>
       </a>
     </div>
   </nav>
@@ -1569,6 +1571,7 @@
 
   <!-- Script for tab interactivity and feedback -->
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script src="i18n.js"></script>
   <script src="script.js"></script>
 </body>
 </html>
