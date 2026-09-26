@@ -1,6 +1,6 @@
 /* Oscar SFX — WebAudio synth, no assets. Always-on. File:// safe. Loaded before script.js */
 (function () {
-  var ctx = null, ambientNodes = null;
+  var ctx = null;
   function ac() {
     if (!ctx) { try { ctx = new (window.AudioContext || window.webkitAudioContext)(); } catch (e) { return null; } }
     if (ctx && ctx.state === 'suspended') ctx.resume();
@@ -30,25 +30,8 @@
     whoosh: function () { tone(300, 0.2, 'sine', 0.04, 0, 900); },
     pop: function () { tone(500, 0.06, 'sine', 0.06, 0, 900); }
   };
-  function startAmbient() {
-    var c = ac(); if (!c || ambientNodes) return;
-    try {
-      var g = c.createGain(); g.gain.value = 0.015; g.connect(c.destination);
-      // Gentle airy pad: two detuned sines + slow LFO
-      var o1 = c.createOscillator(), o2 = c.createOscillator(), lfo = c.createOscillator(), lg = c.createGain();
-      o1.type = 'sine'; o1.frequency.value = 174; o2.type = 'sine'; o2.frequency.value = 261.6;
-      lfo.type = 'sine'; lfo.frequency.value = 0.08; lg.gain.value = 0.008;
-      lfo.connect(lg); lg.connect(g.gain);
-      // Soft bird-chirp texture every ~7s
-      o1.connect(g); o2.connect(g); o1.start(); o2.start(); lfo.start();
-      ambientNodes = { g: g };
-      setInterval(function () {
-        if (!document.hidden) { tone(2400 + Math.random() * 800, 0.12, 'sine', 0.012, 0, 3200); tone(2800 + Math.random() * 600, 0.1, 'sine', 0.01, 0.15, 2200); }
-      }, 7000);
-    } catch (e) {}
-  }
-  // Unlock audio on first gesture, then start ambient
-  function unlock() { ac(); startAmbient(); document.removeEventListener('pointerdown', unlock); document.removeEventListener('keydown', unlock); }
+  // Unlock audio on first gesture (autoplay policy)
+  function unlock() { ac(); document.removeEventListener('pointerdown', unlock); document.removeEventListener('keydown', unlock); }
   document.addEventListener('pointerdown', unlock);
   document.addEventListener('keydown', unlock);
   // Global click blip (delegated, quiet)
