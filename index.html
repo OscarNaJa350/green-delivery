@@ -968,14 +968,17 @@
               <span class="notif-time" data-i18n="notif.2time">เมื่อวานนี้</span>
             </div>
           </div>
-          <div class="notif-item">
+          <div class="notif-item" id="weekly-goal-notification">
             <div class="notif-badge-icon">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>
             </div>
             <div class="notif-content">
-              <h4 data-i18n="notif.3t">เป้าหมาย CO₂ ประจำสัปดาห์สำเร็จแล้ว 80%</h4>
-              <p data-i18n="notif.3d">อีกเพียง 20% เพื่อรับเหรียญตรา Eco Champion</p>
-              <span class="notif-time" data-i18n="notif.3time">2 วันที่แล้ว</span>
+              <h4 data-i18n="goal.notif.title">ความคืบหน้าเป้าหมายลดคาร์บอนประจำสัปดาห์</h4>
+              <p id="weekly-goal-progress-text">ลดได้ 0.0 จากเป้าหมาย 10 กก. CO₂</p>
+              <div class="goal-progress-track" role="progressbar" aria-label="Weekly carbon goal progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+                <div class="goal-progress-fill" id="weekly-goal-progress-fill" style="width:0%"></div>
+              </div>
+              <span class="notif-time" id="weekly-goal-progress-percent">0%</span>
             </div>
           </div>
         </div>

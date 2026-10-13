@@ -148,7 +148,6 @@
               class="form-input" 
               data-i18n-ph="login.user.ph"
               placeholder="กรอกชื่อผู้ใช้ หรือ ตึก 3" 
-              value="ตึก 3" 
               required
             />
           </div>
@@ -174,7 +173,6 @@
               class="form-input" 
               data-i18n-ph="login.pass.ph"
               placeholder="กรอกรหัสผ่านของคุณ" 
-              value="123456" 
               required
             />
             <button type="button" class="toggle-password-btn" onclick="togglePasswordVisibility()" aria-label="แสดง/ซ่อนรหัสผ่าน">
@@ -214,13 +212,13 @@
             <span class="preset-icon">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 10a4 4 0 0 1 4-4h8a4 4 0 0 1 4 4v7a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2v-7z"/><path d="M8 6V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v1"/><path d="M4 13h16"/><path d="M9 13v3"/><path d="M15 13v3"/></svg>
             </span>
-            <span class="preset-label">นักเรียน (ตึก 3)</span>
+            <span class="preset-label">นักเรียน</span>
           </button>
           <button type="button" class="preset-btn" onclick="quickLogin('อาจารย์สมศักดิ์ (สุรศักดิ์มนตรี)', 'ครู/บุคลากร')">
             <span class="preset-icon">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18"/><path d="M5 21V7l7-4 7 4v14"/><path d="M9 21v-4h6v4"/><path d="M9 10h.01"/><path d="M15 10h.01"/><path d="M9 14h.01"/><path d="M15 14h.01"/></svg>
             </span>
-            <span class="preset-label">ครู / บุคลากร (สุรศักดิ์มนตรี)</span>
+            <span class="preset-label">ครู</span>
           </button>
         </div>
       </div>
@@ -308,6 +306,8 @@
         return;
       }
 
+      saveLoginProfile(username, null);
+
       // Show loading spinner
       submitBtn.classList.add('loading');
       showToast(L === 'en' ? 'Verifying login…' : 'กำลังตรวจสอบข้อมูลเข้าสู่ระบบ...');
@@ -324,12 +324,37 @@
     function quickLogin(user, role) {
       document.getElementById('username').value = user;
       document.getElementById('password').value = '123456';
+      saveLoginProfile(user, role);
       const L = window.i18n ? window.i18n.lang : 'th';
       showToast(L === 'en' ? `Logging in as ${user} (${role})` : `เข้าสู่ระบบในฐานะ ${user} (${role})`);
       setTimeout(() => {
         window.location.href = 'index.html';
       }, 500);
     }
+
+    function saveLoginProfile(user, role) {
+      try { localStorage.removeItem('flukeblind-guest'); } catch (e) {}
+      var key = 'flukeblind-profile';
+      var profile;
+      try { profile = JSON.parse(localStorage.getItem(key)) || {}; } catch (e) { profile = {}; }
+      var isTeacher = role ? /ครู|บุคลากร|teacher|staff/i.test(role) : false;
+      profile.name = user;
+      profile.school = profile.school || 'โรงเรียนสุรศักดิ์มนตรี';
+      profile.province = profile.province || 'กรุงเทพมหานคร';
+      if (role) {
+        profile.type = isTeacher ? 'ครู' : 'นักเรียน';
+        profile.grade = isTeacher ? '—' : 'มัธยมศึกษาปีที่ 3';
+      } else {
+        profile.type = profile.type || 'นักเรียน';
+        profile.grade = profile.grade || 'มัธยมศึกษาปีที่ 3';
+      }
+      profile.goal = profile.goal || 'ลดการปล่อยคาร์บอน';
+      try { localStorage.setItem(key, JSON.stringify(profile)); } catch (e) {}
+    }
+
+    document.querySelector('.guest-link')?.addEventListener('click', function () {
+      try { localStorage.setItem('flukeblind-guest', 'true'); } catch (e) {}
+    });
 
     let toastTimeout;
     function showToast(message) {

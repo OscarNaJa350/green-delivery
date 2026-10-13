@@ -1,6 +1,61 @@
 // Interactive functionality for the Carbon Tracker App
 document.addEventListener('DOMContentLoaded', () => {
   const t = (k, v) => (window.i18n ? window.i18n.t(k, v) : k);
+  const GOALS_KEY = 'flukeblind-carbon-goals';
+  const LEVEL_KEY = 'flukeblind-profile-level';
+  function loadGoals() {
+    try {
+      var saved = JSON.parse(localStorage.getItem(GOALS_KEY));
+      if (saved) return { daily: Number(saved.daily) || 2, weekly: Number(saved.weekly) || 10 };
+    } catch (e) {}
+    return { daily: 2, weekly: 10 };
+  }
+  function loadLevelState() {
+    try {
+      var saved = JSON.parse(localStorage.getItem(LEVEL_KEY));
+      if (saved) return { level: Math.max(2, Number(saved.level) || 2), lastAwardWeek: saved.lastAwardWeek || '' };
+    } catch (e) {}
+    return { level: 2, lastAwardWeek: '' };
+  }
+  var carbonGoals = loadGoals();
+  var levelState = loadLevelState();
+  const GUEST_KEY = 'flukeblind-guest';
+  let isGuest = false;
+  try { isGuest = localStorage.getItem(GUEST_KEY) === 'true'; } catch (e) {}
+  if (isGuest) document.body.setAttribute('data-guest-mode', 'true');
+
+  const guestWriteSelector = [
+    '[data-act][data-mission]', '#act-detail-join', '#vtab-add-btn', '#vtab-save',
+    '#btn-add-vehicle', '#btn-save-vehicle', '[data-vtab-del]', '[data-v-action="delete"]',
+    '[data-remove-vehicle]', '#btn-toggle-add-stop', '#btn-submit-stop',
+    '#btn-save-new-place', '.saved-place-del-btn', '#pf-save', '#goal-save',
+    '[data-notif-toggle]', '[data-goal-preset]', '.fm-switch', '#btn-checkin-stop-2',
+    '#actions-stop-3 button', '[onclick^="checkinStop"]', '[onclick^="deleteSavedPlace"]'
+  ].join(',');
+  function backToLoginToSpecify() {
+    try { localStorage.removeItem(GUEST_KEY); } catch (e) {}
+    window.location.href = 'login.html';
+  }
+  if (isGuest) {
+    document.addEventListener('click', function (e) {
+      if (e.target.closest('[data-profile-go="edit"]')) {
+        e.preventDefault(); e.stopImmediatePropagation();
+        backToLoginToSpecify();
+        return;
+      }
+      var writeControl = e.target.closest(guestWriteSelector);
+      if (writeControl) {
+        e.preventDefault(); e.stopImmediatePropagation();
+        writeControl.classList.add('guest-disabled');
+        showToast(t('guest.readonly'));
+      }
+    }, true);
+    document.querySelectorAll(guestWriteSelector).forEach(function (el) {
+      el.setAttribute('aria-disabled', 'true');
+      el.classList.add('guest-disabled');
+    });
+  }
+
   // 1. Bottom Navigation Tabs Handling
   const navTabs = document.querySelectorAll('.nav-tab');
   const tabViews = document.querySelectorAll('.tab-view');
@@ -216,10 +271,12 @@ document.addEventListener('DOMContentLoaded', () => {
     if (!missions[id]) missions[id] = { count: 0, log: [] };
     missions[id].count += 1; missions[id].log.push(now);
     saveMissions(missions); refreshMissionButtons(); renderActHistory();
+    var levelUp = renderGoalProgress();
     var btn = document.querySelector('[data-act][data-mission="' + id + '"]');
     var isReg = btn && btn.getAttribute('data-act') === 'register';
     try { window.SFX && (isReg ? window.SFX.badge() : window.SFX.coin()); } catch (e) {}
     showToast(t(isReg ? 'act.reg.done' : 'act.done'));
+    if (levelUp) setTimeout(function () { showToast(t('goal.levelup', { n: levelState.level })); }, 1100);
   }
 
   function openActDetail(id) {
@@ -379,6 +436,7 @@ document.addEventListener('DOMContentLoaded', () => {
       if (gi !== -1) out.grade = 'Grade ' + (gi + 7) + ' (M.' + (gi + 1) + ')';
       var ti = TYPES_TH.indexOf(p.type);
       if (ti !== -1) out.type = ['Student','Teacher','Staff','Guest'][ti];
+      if (p.type === 'ครู / บุคลากร') out.type = 'Teacher / Staff';
       var oi = GOALS_TH.indexOf(p.goal);
       if (oi !== -1) out.goal = ['Reduce carbon emissions','Sustainable travel','Reduce plastic waste','Save energy'][oi];
       if (p.name === 'ตึก 2' || p.name === 'ตึก 3' || /^ตึก \d+$/.test(p.name || '')) {
@@ -392,10 +450,27 @@ document.addEventListener('DOMContentLoaded', () => {
   }
   function renderProfile() {
     var lang = window.i18n ? window.i18n.lang : 'th';
+    if (isGuest) {
+      var unspecified = t('guest.unspecified');
+      document.querySelectorAll('[data-profile]').forEach(function (el) { el.textContent = unspecified; });
+      document.querySelectorAll('.profile-name, .profile-role').forEach(function (el) { el.textContent = unspecified; });
+      var editAction = document.querySelector('[data-profile-go="edit"]');
+      if (editAction) {
+        var title = editAction.querySelector('.pm-texts > span');
+        var sub = editAction.querySelector('.pm-texts small');
+        if (title) title.textContent = t('guest.specify');
+        if (sub) sub.textContent = t('guest.specify.sub');
+      }
+      return;
+    }
     var p = localizeProfile(loadProfile(), lang);
     document.querySelectorAll('[data-profile]').forEach(function (el) {
       var k = el.getAttribute('data-profile');
       if (p[k] != null) el.textContent = p[k];
+    });
+    document.querySelectorAll('.profile-name').forEach(function (el) { el.textContent = p.name; });
+    document.querySelectorAll('.profile-role').forEach(function (el) {
+      el.textContent = [p.type, p.school].filter(Boolean).join(' • ');
     });
   }
   function openProfileModal() {
@@ -422,6 +497,20 @@ document.addEventListener('DOMContentLoaded', () => {
       if (o === current) op.selected = true;
       sel.appendChild(op);
     });
+  }
+  function hydrateProfileForm() {
+    var p = loadProfile();
+    var lang = window.i18n ? window.i18n.lang : 'th';
+    var name = document.getElementById('pf-name');
+    var school = document.getElementById('pf-school');
+    var province = document.getElementById('pf-prov');
+    if (name) name.value = p.name;
+    if (school) school.value = p.school;
+    if (province) province.value = p.province;
+    var grades = lang === 'en' ? GRADES_TH.map(function (_, i) { return 'Grade ' + (i + 7) + ' (M.' + (i + 1) + ')'; }) : GRADES_TH;
+    var types = lang === 'en' ? ['Student','Teacher','Staff','Guest'] : TYPES_TH;
+    fillSelect('pf-grade', grades, p.grade);
+    fillSelect('pf-type', types, p.type);
   }
   function closeProfileModal() { var m = document.getElementById('edit-profile-modal'); if (m) { m.classList.remove('active'); m.setAttribute('aria-hidden', 'true'); } }
   document.getElementById('btn-edit-profile')?.addEventListener('click', openProfileModal);
@@ -461,6 +550,7 @@ document.addEventListener('DOMContentLoaded', () => {
   ['pf-name','pf-school','pf-grade','pf-prov','pf-type'].forEach(function (id) {
     document.getElementById(id)?.addEventListener('change', syncProfileFormToCard);
   });
+  hydrateProfileForm();
   renderProfile();
 
   const detailBtn = document.querySelector('.btn-detail');
@@ -981,6 +1071,9 @@ document.addEventListener('DOMContentLoaded', () => {
     if (typeof renderSavedPlacesList === 'function' && document.getElementById('saved-places-modal')?.classList.contains('active')) renderSavedPlacesList();
     if (typeof renderRouteModal === 'function') renderRouteModal();
     if (typeof renderVtabFleet === 'function') renderVtabFleet();
+    if (typeof renderGoalSettings === 'function') renderGoalSettings();
+    if (typeof renderGoalProgress === 'function') renderGoalProgress();
+    if (typeof renderProfileLevel === 'function') renderProfileLevel();
   };
 
   function renderCatBreakdown() {
@@ -1788,12 +1881,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const pfSave2 = document.getElementById('pf-save');
   if (pfSave2) pfSave2.addEventListener('click', () => {
     syncProfileFormToCard();
-    const name = document.getElementById('pf-name')?.value.trim();
-    if (name) {
-      document.querySelectorAll('.profile-name').forEach(el => el.textContent = name);
-      const school = document.getElementById('pf-school')?.value.trim();
-      if (school) document.querySelectorAll('.profile-role').forEach(el => el.textContent = `นักเรียน • ${school}`);
-    }
+    renderProfile();
     showToast(t('toast.profile.save'));
     showProfileSub(null);
   });
@@ -1805,14 +1893,84 @@ document.addEventListener('DOMContentLoaded', () => {
       if (inp) inp.value = b.getAttribute('data-goal-preset');
     });
   });
+
+  function currentWeekKey() {
+    var d = new Date();
+    d.setHours(0, 0, 0, 0);
+    d.setDate(d.getDate() - ((d.getDay() + 6) % 7));
+    return d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0');
+  }
+
+  function getWeeklyCarbonSaved() {
+    var rates = { m1: 0.45, m2: 0.05, m3: 1.2 };
+    var cutoff = Date.now() - 7 * 24 * 60 * 60 * 1000;
+    var total = 0;
+    Object.keys(missions || {}).forEach(function (id) {
+      var rate = rates[id] || 0;
+      (missions[id].log || []).forEach(function (time) {
+        var stamp = new Date(time).getTime();
+        if (stamp >= cutoff && stamp <= Date.now()) total += rate;
+      });
+    });
+    return total;
+  }
+
+  function renderProfileLevel() {
+    var badge = document.querySelector('.profile-badge-pill [data-i18n="profile.level"]');
+    if (badge) badge.textContent = t('profile.level.n', { n: levelState.level });
+  }
+
+  function renderGoalSettings() {
+    var dailyInput = document.getElementById('goal-day');
+    var weeklyInput = document.getElementById('goal-week');
+    var hero = document.getElementById('goal-hero-num');
+    var isEnglish = window.i18n && window.i18n.lang === 'en';
+    if (dailyInput && document.activeElement !== dailyInput) dailyInput.value = carbonGoals.daily;
+    if (weeklyInput && document.activeElement !== weeklyInput) weeklyInput.value = carbonGoals.weekly;
+    if (hero) hero.textContent = carbonGoals.daily.toFixed(1) + (isEnglish ? ' kg/day' : ' กก./วัน');
+  }
+
+  function renderGoalProgress() {
+    var goal = Math.max(0.1, Number(carbonGoals.weekly) || 10);
+    var saved = getWeeklyCarbonSaved();
+    var percent = Math.min(100, Math.floor((saved / goal) * 100));
+    var fill = document.getElementById('weekly-goal-progress-fill');
+    var track = fill && fill.parentElement;
+    var text = document.getElementById('weekly-goal-progress-text');
+    var percentLabel = document.getElementById('weekly-goal-progress-percent');
+    var complete = saved >= goal;
+
+    if (fill) fill.style.width = percent + '%';
+    if (track) track.setAttribute('aria-valuenow', String(percent));
+    if (text) text.textContent = t('goal.notif.progress', { saved: saved.toFixed(1), goal: goal.toFixed(1) });
+    if (percentLabel) percentLabel.textContent = percent + '%' + (complete ? ' • ' + t('goal.notif.complete') : '');
+
+    var levelUp = false;
+    if (complete && !isGuest && levelState.lastAwardWeek !== currentWeekKey()) {
+      levelState.level += 1;
+      levelState.lastAwardWeek = currentWeekKey();
+      try { localStorage.setItem(LEVEL_KEY, JSON.stringify(levelState)); } catch (e) {}
+      levelUp = true;
+    }
+    renderProfileLevel();
+    return levelUp;
+  }
+
   const goalSave = document.getElementById('goal-save');
   if (goalSave) goalSave.addEventListener('click', () => {
-    const v = parseFloat(document.getElementById('goal-day')?.value) || 0;
-    const hero = document.getElementById('goal-hero-num');
-    if (hero) hero.textContent = `${v.toFixed(1)} กก./วัน`;
+    const daily = parseFloat(document.getElementById('goal-day')?.value);
+    const weekly = parseFloat(document.getElementById('goal-week')?.value);
+    if (!(daily > 0) || !(weekly > 0)) { showToast(t('goal.invalid')); return; }
+    carbonGoals = { daily: daily, weekly: weekly };
+    try { localStorage.setItem(GOALS_KEY, JSON.stringify(carbonGoals)); } catch (e) {}
+    renderGoalSettings();
+    const levelUp = renderGoalProgress();
     showToast(t('toast.goal.save'));
+    if (levelUp) setTimeout(function () { showToast(t('goal.levelup', { n: levelState.level })); }, 1100);
     showProfileSub(null);
   });
+  renderGoalSettings();
+  renderGoalProgress();
 
   // Expose switchTab globally for back buttons
   // Scroll-reveal: re-trigger entrance when tab views switch / on scroll
